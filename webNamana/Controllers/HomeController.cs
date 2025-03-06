@@ -18,5 +18,10 @@ namespace webNamana.Controllers
         {
             return View();
         }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
     }
 }
