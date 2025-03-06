@@ -116,6 +116,10 @@
     <None Include="Views\Home\contact.cshtml" />
     <None Include="Views\Home\service.cshtml" />
     <None Include="Views\Home\login.cshtml" />
+    <None Include="Views\Home\signUp.cshtml" />
+    <None Include="Views\Home\productPage.cshtml" />
+    <None Include="Views\Home\product.cshtml" />
+    <None Include="Views\Home\cartPage.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />

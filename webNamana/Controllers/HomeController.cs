@@ -34,5 +34,24 @@ namespace webNamana.Controllers
             return View();
         }
 
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+
+        public ActionResult ProductPage()
+        {
+            return View();
+        }
+
+        public ActionResult Product()
+        {
+            return View();
+        }
+
+        public ActionResult CartPage()
+        {
+            return View();
+        }
     }
 }
