@@ -23,5 +23,16 @@ namespace webNamana.Controllers
         {
             return View();
         }
+
+        public ActionResult Service()
+        {
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
     }
 }

@@ -36,7 +36,7 @@
         <header class="header_section">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
                         <img src="images/logo.png" alt="" />
                         <span>
                             Energym
@@ -45,19 +45,19 @@
                     <div class="contact_nav" id="">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="service.html">
+                                <a class="nav-link" href="@Url.Action("Service", "Home")">
                                     <img src="images/location.png" alt="" />
                                     <span>Location</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="service.html">
+                                <a class="nav-link" href="@Url.Action("Service", "Home")">
                                     <img src="images/call.png" alt="" />
                                     <span>Call : + 01 1234567890</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="service.html">
+                                <a class="nav-link" href="@Url.Action("Service", "Home")">
                                     <img src="images/envelope.png" alt="" />
                                     <span>demo@gmail.com</span>
                                 </a>
@@ -89,7 +89,7 @@
                                         <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Services", "Home")">Services</a>
+                                        <a class="nav-link" href="@Url.Action("Service", "Home")">Services</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
@@ -100,12 +100,12 @@
                                 </ul>
 
                                 <!-- Кнопка поиска -->
-                                <a href="product-page.html" class="search-link ml-5">
+                                <a href="@Url.Action("productPage", "Home")" class="search-link ml-5">
                                     <i class="fas fa-search"></i>
                                 </a>
 
                                 <!-- Кнопка корзины -->
-                                <a href="cart-page.html" class="cart-link ml-lg-4">
+                                <a href="@Url.Action("cartPage", "Home")" class="cart-link ml-lg-4">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
                             </div>
@@ -222,19 +222,19 @@
           </h6>
           <ul>
             <li class=" active">
-              <a class="" href="index.html">Home <span class="sr-only">(current)</span></a>
+              <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="">
-              <a class="" href="about.html">About </a>
+              <a class="" href="@Url.Action("About", "Home")">About </a>
             </li>
             <li class="">
-              <a class="" href="service.html">Services </a>
+              <a class="" href="@Url.Action("Service", "Home")">Services </a>
             </li>
             <li class="">
-              <a class="" href="#contactSection">Contact Us</a>
+              <a class="" href="@Url.Action("Contact", "Home")">Contact Us</a>
             </li>
             <li class="">
-              <a class="" href="#">Login</a>
+              <a class="" href="@Url.Action("Login", "Home")">Login</a>
             </li>
           </ul>
         </div>
