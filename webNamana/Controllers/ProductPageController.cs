@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace webNamana.Controllers
 {
-    public class HomeController : Controller
+    public class ProductPageController : Controller
     {
-        // GET: Home
-        public ActionResult Index()
+        // GET: ProductPage
+        public ActionResult ProductPage()
         {
             return View();
         }

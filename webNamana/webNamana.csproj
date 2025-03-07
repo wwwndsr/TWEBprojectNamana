@@ -112,21 +112,29 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <None Include="Views\Home\index.cshtml" />
-    <None Include="Views\Home\about.cshtml" />
-    <None Include="Views\Home\contact.cshtml" />
-    <None Include="Views\Home\service.cshtml" />
-    <None Include="Views\Home\login.cshtml" />
-    <None Include="Views\Home\signUp.cshtml" />
-    <None Include="Views\Home\productPage.cshtml" />
-    <None Include="Views\Home\product.cshtml" />
-    <None Include="Views\Home\cartPage.cshtml" />
+    <None Include="Views\About\about.cshtml" />
+    <None Include="Views\Contact\contact.cshtml" />
+    <None Include="Views\Service\service.cshtml" />
+    <None Include="Views\Login\login.cshtml" />
+    <None Include="Views\SignUp\signUp.cshtml" />
+    <None Include="Views\ProductPage\productPage.cshtml" />
+    <None Include="Views\Product\product.cshtml" />
+    <None Include="Views\CartPage\cartPage.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\CartPageController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductPageController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

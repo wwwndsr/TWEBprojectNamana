@@ -2,35 +2,150 @@
 <html>
 
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-  <title>Energym</title>
+    <title>Energym</title>
 
-  <!-- slider stylesheet -->
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-    rel="stylesheet" />
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
+          rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
+    <script>
+        $(".email-signup").hide();
+        $("#signup-box-link").click(function () {
+            $(".email-login").fadeOut(100);
+            $(".email-signup").delay(100).fadeIn(100);
+            $("#login-box-link").removeClass("active");
+            $("#signup-box-link").addClass("active");
+        });
+        $("#login-box-link").click(function () {
+            $(".email-login").delay(100).fadeIn(100);;
+            $(".email-signup").fadeOut(100);
+            $("#login-box-link").addClass("active");
+            $("#signup-box-link").removeClass("active");
+        });
+    </script>
+    <style>
+        body {
+            /*            background-color: #1cbb9b;*/
+            background-image: url("images/slider-bg.jpg");
+        }
+
+        .login-box {
+            position: relative;
+            margin: 10px auto;
+            width: 500px;
+            height: 380px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 3px;
+            -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
+            -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
+            box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
+        }
+
+        .lb-header {
+            position: relative;
+            color: #00415d;
+            margin: 5px 5px 10px 5px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            height: 28px;
+        }
+
+            .lb-header a {
+                margin: 0 25px;
+                padding: 0 20px;
+                text-decoration: none;
+                color: #666;
+                font-weight: bold;
+                font-size: 15px;
+                -webkit-transition: all 0.1s linear;
+                -moz-transition: all 0.1s linear;
+                transition: all 0.1s linear;
+            }
+
+            .lb-header .active {
+                color: #f8bc1a;
+                font-size: 18px;
+            }
+
+        .email-login, .email-signup {
+            position: relative;
+            float: left;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .u-form-group {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+            .u-form-group input[type="email"],
+            .u-form-group input[type="password"] {
+                width: calc(50% - 22px);
+                height: 45px;
+                outline: none;
+                border: 1px solid #ddd;
+                padding: 0 10px;
+                border-radius: 2px;
+                color: #333;
+                font-size: 0.8rem;
+                -webkit-transition: all 0.1s linear;
+                -moz-transition: all 0.1s linear;
+                transition: all 0.1s linear;
+            }
+
+            .u-form-group input:focus {
+                border-color: #358efb;
+            }
+
+            .u-form-group button {
+                width: 50%;
+                background-color: #f8bc1a;
+                border: none;
+                outline: none;
+                color: #fff;
+                font-size: 14px;
+                font-weight: normal;
+                padding: 14px 0;
+                border-radius: 2px;
+                text-transform: uppercase;
+            }
+
+        .forgot-password {
+            width: 50%;
+            text-align: left;
+            text-decoration: underline;
+            color: #888;
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
 
-<body class="sub_page">
+<body class="sub_page about_page">
     <div class="hero_area">
         <!-- header section strats -->
         <header class="header_section">
@@ -45,19 +160,19 @@
                     <div class="contact_nav" id="">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/location.png" alt="" />
                                     <span>Location</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/call.png" alt="" />
                                     <span>Call : + 01 1234567890</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/envelope.png" alt="" />
                                     <span>demo@gmail.com</span>
                                 </a>
@@ -86,26 +201,26 @@
                                         <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
                                     </li>
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
+                                        <a class="nav-link" href="@Url.Action("About", "About")">About</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Service", "Home")">Services</a>
+                                        <a class="nav-link" href="@Url.Action("Service", "Service")">Services</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                                        <a class="nav-link" href="@Url.Action("Contact", "Contact")">Contact Us</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+                                        <a class="nav-link" href="@Url.Action("Login", "Login")">Login</a>
                                     </li>
                                 </ul>
 
                                 <!-- Кнопка поиска -->
-                                <a href="@Url.Action("ProductPage", "Home")" class="search-link ml-5">
+                                <a href="@Url.Action("ProductPage", "ProductPage")" class="search-link ml-5">
                                     <i class="fas fa-search"></i>
                                 </a>
 
                                 <!-- Кнопка корзины -->
-                                <a href="@Url.Action("CartPage", "Home")" class="cart-link ml-lg-4">
+                                <a href="@Url.Action("CartPage", "CartPage")" class="cart-link ml-lg-4">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
                             </div>
@@ -133,61 +248,33 @@
         <!-- end slider section -->
     </div>
 
-  <!-- contact section -->
-  <section class="contact_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          <span>
-            Get In Touch
-          </span>
-        </h2>
-      </div>
-      <div class="layout_padding2-top">
-        <div class="row">
-          <div class="col-md-6 ">
-            <form action="">
-              <div class="contact_form-container">
-                <div>
-                  <div>
-                    <input type="text" placeholder="Name" />
-                  </div>
-                  <div>
-                    <input type="email" placeholder="Email" />
-                  </div>
-                  <div>
-                    <input type="text" placeholder="Phone Number" />
-                  </div>
-                  <div class="mt-5">
-                    <input type="text" placeholder="Message" />
-                  </div>
-                  <div class="mt-5">
-                    <button type="submit">
-                      Send
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="col-md-6">
-            <div class="map_container">
-              <div class="map-responsive">
-                <iframe
-                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France"
-                  width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
-                  allowfullscreen></iframe>
-              </div>
-            </div>
-          </div>
+
+    <!-- about section -->
+
+
+    <div class="login-box">
+        <div class="lb-header">
+            <a href="@Url.Action("Login", "Login")"  id="login-box-link">Login</a>
+            <a href="@Url.Action("SignUp", "SignUp")" class="active" id="signup-box-link">Sign Up</a>
         </div>
-      </div>
+        
+        <form class="email-signup">
+            <div class="u-form-group">
+                <input type="email" placeholder="Email" />
+            </div>
+            <div class="u-form-group">
+                <input type="password" placeholder="Password" />
+            </div>
+            <div class="u-form-group">
+                <input type="password" placeholder="Confirm Password" />
+            </div>
+            <div class="u-form-group">
+                <button>Sign Up</button>
+            </div>
+        </form>
     </div>
-  </section>
-  <!-- end contact section -->
-
-
-  <!-- info section -->
+    <!-- end about section -->
+     <!-- info section -->
 
   <section class="info_section layout_padding2-top">
     <div class="container">
@@ -225,16 +312,16 @@
               <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("About", "Home")">About </a>
+              <a class="" href="@Url.Action("About", "About")">About </a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Service", "Home")">Services </a>
+              <a class="" href="@Url.Action("Service", "Service")">Services </a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Contact", "Home")">Contact Us</a>
+              <a class="" href="@Url.Action("Contact", "Contact")">Contact Us</a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Login", "Home")">Login</a>
+              <a class="" href="@Url.Action("Login", "Login")">Login</a>
             </li>
           </ul>
         </div>

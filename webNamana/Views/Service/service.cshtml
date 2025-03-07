@@ -2,150 +2,35 @@
 <html>
 
 <head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
 
-    <title>Energym</title>
+  <title>Energym</title>
 
-    <!-- slider stylesheet -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
 
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-          rel="stylesheet" />
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="css/responsive.css" rel="stylesheet" />
-    <script>
-        $(".email-signup").hide();
-        $("#signup-box-link").click(function () {
-            $(".email-login").fadeOut(100);
-            $(".email-signup").delay(100).fadeIn(100);
-            $("#login-box-link").removeClass("active");
-            $("#signup-box-link").addClass("active");
-        });
-        $("#login-box-link").click(function () {
-            $(".email-login").delay(100).fadeIn(100);;
-            $(".email-signup").fadeOut(100);
-            $("#login-box-link").addClass("active");
-            $("#signup-box-link").removeClass("active");
-        });
-    </script>
-    <style>
-        body {
-            /*            background-color: #1cbb9b;*/
-            background-image: url("images/slider-bg.jpg");
-        }
-
-        .login-box {
-            position: relative;
-            margin: 10px auto;
-            width: 500px;
-            height: 380px;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 3px;
-            -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
-            -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
-            box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
-        }
-
-        .lb-header {
-            position: relative;
-            color: #00415d;
-            margin: 5px 5px 10px 5px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-            height: 28px;
-        }
-
-            .lb-header a {
-                margin: 0 25px;
-                padding: 0 20px;
-                text-decoration: none;
-                color: #666;
-                font-weight: bold;
-                font-size: 15px;
-                -webkit-transition: all 0.1s linear;
-                -moz-transition: all 0.1s linear;
-                transition: all 0.1s linear;
-            }
-
-            .lb-header .active {
-                color: #f8bc1a;
-                font-size: 18px;
-            }
-
-        .email-login, .email-signup {
-            position: relative;
-            float: left;
-            width: 100%;
-            height: auto;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .u-form-group {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-            .u-form-group input[type="email"],
-            .u-form-group input[type="password"] {
-                width: calc(50% - 22px);
-                height: 45px;
-                outline: none;
-                border: 1px solid #ddd;
-                padding: 0 10px;
-                border-radius: 2px;
-                color: #333;
-                font-size: 0.8rem;
-                -webkit-transition: all 0.1s linear;
-                -moz-transition: all 0.1s linear;
-                transition: all 0.1s linear;
-            }
-
-            .u-form-group input:focus {
-                border-color: #358efb;
-            }
-
-            .u-form-group button {
-                width: 50%;
-                background-color: #f8bc1a;
-                border: none;
-                outline: none;
-                color: #fff;
-                font-size: 14px;
-                font-weight: normal;
-                padding: 14px 0;
-                border-radius: 2px;
-                text-transform: uppercase;
-            }
-
-        .forgot-password {
-            width: 50%;
-            text-align: left;
-            text-decoration: underline;
-            color: #888;
-            font-size: 0.75rem;
-        }
-    </style>
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
+    rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
-<body class="sub_page about_page">
+<body class="sub_page">
     <div class="hero_area">
         <!-- header section strats -->
         <header class="header_section">
@@ -160,19 +45,19 @@
                     <div class="contact_nav" id="">
                         <ul class="navbar-nav ">
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/location.png" alt="" />
                                     <span>Location</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/call.png" alt="" />
                                     <span>Call : + 01 1234567890</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Home")">
+                                <a class="nav-link" href="@Url.Action("Service", "Service")">
                                     <img src="images/envelope.png" alt="" />
                                     <span>demo@gmail.com</span>
                                 </a>
@@ -198,30 +83,29 @@
                             <div class="d-flex flex-column flex-lg-row align-items-center">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
+                                        <a class="nav-link" href="@Url.Action("Index", "Home" )">Home <span class="sr-only">(current)</span></a>
                                     </li>
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
+                                        <a class="nav-link" href="@Url.Action("About", "About" )">About</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Service", "Home")">Services</a>
+                                        <a class="nav-link" href="@Url.Action("Service", "Service" )">Services</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                                        <a class="nav-link" href="@Url.Action("Contact", "Contact" )">Contact Us</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+                                        <a class="nav-link" href="@Url.Action("Login", "Login" )">Login</a>
                                     </li>
                                 </ul>
 
                                 <!-- Кнопка поиска -->
-                                <a href="@Url.Action("ProductPage", "Home")" class="search-link ml-5">
+                                <a href="@Url.Action(" ProductPage", "ProductPage" )" class="search-link ml-5">
                                     <i class="fas fa-search"></i>
                                 </a>
 
                                 <!-- Кнопка корзины -->
-                                <a href="@Url.Action("
-                                        ", "Home")" class="cart-link ml-lg-4">
+                                <a href="@Url.Action(" CartPage", "CartPage" )" class="cart-link ml-lg-4">
                                     <i class="fas fa-shopping-cart"></i>
                                 </a>
                             </div>
@@ -245,37 +129,110 @@
                     transform: scale(1.1);
                 }
         </style>
-
         <!-- end slider section -->
     </div>
 
+  <!-- service section -->
 
-    <!-- about section -->
-
-
-    <div class="login-box">
-        <div class="lb-header">
-            <a href="@Url.Action("Login", "Home")"  id="login-box-link">Login</a>
-            <a href="@Url.Action("SignUp", "Home")" class="active" id="signup-box-link">Sign Up</a>
+  <section class="service_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Our Services
+        </h2>
+      </div>
+      <div class="service_container">
+        <div class="box">
+          <img src="images/s-1.jpg" alt="">
+          <h6 class="visible_heading">
+            CROSSFIT TRAINING
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              CROSSFIT TRAINING
+            </h6>
+          </div>
         </div>
-        
-        <form class="email-signup">
-            <div class="u-form-group">
-                <input type="email" placeholder="Email" />
-            </div>
-            <div class="u-form-group">
-                <input type="password" placeholder="Password" />
-            </div>
-            <div class="u-form-group">
-                <input type="password" placeholder="Confirm Password" />
-            </div>
-            <div class="u-form-group">
-                <button>Sign Up</button>
-            </div>
-        </form>
+        <div class="box">
+          <img src="images/s-2.jpg" alt="">
+          <h6 class="visible_heading">
+            FITNESS
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              FITNESS
+            </h6>
+          </div>
+        </div>
+        <div class="box">
+          <img src="images/s-3.jpg" alt="">
+          <h6 class="visible_heading">
+            DYNAMIC STRENGTH TRAINING
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              DYNAMIC STRENGTH TRAINING
+            </h6>
+          </div>
+        </div>
+        <div class="box">
+          <img src="images/s-4.jpg" alt="">
+          <h6 class="visible_heading">
+            HEALTH
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              HEALTH
+            </h6>
+          </div>
+        </div>
+        <div class="box">
+          <img src="images/s-5.jpg" alt="">
+          <h6 class="visible_heading">
+            WORKOUT
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              WORKOUT
+            </h6>
+          </div>
+        </div>
+        <div class="box">
+          <img src="images/s-6.jpg" alt="">
+          <h6 class="visible_heading">
+            STRATEGIES
+          </h6>
+          <div class="link_box">
+            <a href="">
+              <img src="images/link.png" alt="">
+            </a>
+            <h6>
+              STRATEGIES
+            </h6>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- end about section -->
-     <!-- info section -->
+  </section>
+
+  <!-- end service section -->
+
+  <!-- info section -->
 
   <section class="info_section layout_padding2-top">
     <div class="container">
@@ -310,19 +267,19 @@
           </h6>
           <ul>
             <li class=" active">
-              <a class="" href="index.html">Home <span class="sr-only">(current)</span></a>
+              <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("About", "Home")">About </a>
+              <a class="" href="@Url.Action("About", "About")">About </a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Service", "Home")">Services </a>
+              <a class="" href="@Url.Action("Service", "Service")">Services </a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Contact", "Home")">Contact Us</a>
+              <a class="" href="@Url.Action("Contact", "Contact")">Contact Us</a>
             </li>
             <li class="">
-              <a class="" href="@Url.Action("Login", "Home")">Login</a>
+              <a class="" href="@Url.Action("Login", "Login")">Login</a>
             </li>
           </ul>
         </div>
