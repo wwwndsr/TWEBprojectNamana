@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -69,6 +73,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -78,6 +85,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -85,6 +95,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -110,7 +123,59 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\about-img.png" />
+    <Content Include="Content\images\call-white.png" />
+    <Content Include="Content\images\call.png" />
+    <Content Include="Content\images\client.png" />
+    <Content Include="Content\images\envelope.png" />
+    <Content Include="Content\images\facebook-logo-button.png" />
+    <Content Include="Content\images\instagram.png" />
+    <Content Include="Content\images\left-angle.png" />
+    <Content Include="Content\images\left-black-arrow.png" />
+    <Content Include="Content\images\link.png" />
+    <Content Include="Content\images\linkedin.png" />
+    <Content Include="Content\images\location-white.png" />
+    <Content Include="Content\images\location.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\mail-white.png" />
+    <Content Include="Content\images\menu.png" />
+    <Content Include="Content\images\next.png" />
+    <Content Include="Content\images\prev.png" />
+    <Content Include="Content\images\result-img.jpg" />
+    <Content Include="Content\images\right-angle.png" />
+    <Content Include="Content\images\right-black-arrow.png" />
+    <Content Include="Content\images\s-1.jpg" />
+    <Content Include="Content\images\s-2.jpg" />
+    <Content Include="Content\images\s-3.jpg" />
+    <Content Include="Content\images\s-4.jpg" />
+    <Content Include="Content\images\s-5.jpg" />
+    <Content Include="Content\images\s-6.jpg" />
+    <Content Include="Content\images\search-icon-black.png" />
+    <Content Include="Content\images\search-icon.png" />
+    <Content Include="Content\images\slider-bg.jpg" />
+    <Content Include="Content\images\syringe-white.png" />
+    <Content Include="Content\images\twitter-logo-button.png" />
+    <Content Include="Content\images\u-1.png" />
+    <Content Include="Content\images\u-2.png" />
+    <Content Include="Content\images\u-3.png" />
+    <Content Include="Content\images\u-4.png" />
+    <Content Include="Content\themes\bootstrap.css" />
+    <Content Include="Content\themes\responsive.css" />
+    <Content Include="Content\themes\style.css" />
     <Content Include="Global.asax" />
+    <Content Include="Content\themes\style.css.map" />
+    <Content Include="Content\themes\style.scss" />
+    <Content Include="Content\energym-html\FileContentIndex\09e2c2bf-25a8-4c99-b68a-50dc72bb8f1c.vsidx" />
+    <Content Include="Content\energym-html\FileContentIndex\280d2db9-8a08-4f6c-8208-8c4a9d0e74d3.vsidx" />
+    <Content Include="Content\energym-html\FileContentIndex\30c39b98-6a56-4d20-ad4a-99bafc87d110.vsidx" />
+    <Content Include="Content\energym-html\FileContentIndex\376b76eb-4382-464d-b458-80d60108b9f5.vsidx" />
+    <Content Include="Content\energym-html\FileContentIndex\6032c5ee-7738-4a1f-90e6-c7ebf0bed15c.vsidx" />
+    <Content Include="Content\energym-html\v17\.wsuo" />
+    <Content Include="Content\energym-html\v17\DocumentLayout.backup.json" />
+    <Content Include="Content\energym-html\v17\DocumentLayout.json" />
+    <Content Include="Content\ProjectSettings.json" />
+    <Content Include="Content\slnx.sqlite" />
+    <Content Include="Content\VSWorkspaceState.json" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\About\about.cshtml" />
     <None Include="Views\Contact\contact.cshtml" />
@@ -120,11 +185,14 @@
     <None Include="Views\ProductPage\productPage.cshtml" />
     <None Include="Views\Product\product.cshtml" />
     <None Include="Views\CartPage\cartPage.cshtml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\CartPageController.cs" />
