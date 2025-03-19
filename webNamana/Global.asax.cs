@@ -17,7 +17,7 @@ namespace webNamana
         {
             // Code that runs on application startup
            AreaRegistration.RegisterAllAreas();
-           RouteConfig.RegisterRoutes(RouteTable.Routes)
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
