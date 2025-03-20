@@ -15,10 +15,10 @@ namespace webNamana
     {
         void Application_Start(object sender, EventArgs e)
         {
-            AreaRegistration.RegisterAllAreas();
+            // Code that runs on application startup
+           AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-            BundleTable.EnableOptimizations = false;
+           BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }
