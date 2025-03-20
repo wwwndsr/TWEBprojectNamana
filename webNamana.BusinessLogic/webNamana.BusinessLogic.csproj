@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj" />
+    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>
