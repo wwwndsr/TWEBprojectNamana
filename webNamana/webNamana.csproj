@@ -76,6 +76,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -233,6 +239,10 @@
     <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj">
       <Project>{4b902d35-8f75-4407-87aa-89cc100b3b0a}</Project>
       <Name>webNamana.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj">
+      <Project>{75ed136e-3bb9-4a4f-9acb-54a6046d23a7}</Project>
+      <Name>webNamana.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

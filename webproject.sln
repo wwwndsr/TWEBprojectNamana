@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webNamana", "webNamana\webNamana.csproj", "{58517741-848E-448F-ADFF-68F9A1913A5D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{75ED136E-3BB9-4A4F-9ACB-54A6046D23A7} = {75ED136E-3BB9-4A4F-9ACB-54A6046D23A7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webNamana.BusinessLogic", "webNamana.BusinessLogic\webNamana.BusinessLogic.csproj", "{D2BAC070-27F9-48B8-AA9E-E427D959D7C0}"
 EndProject

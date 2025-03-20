@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using webNamana.BusinessLogic.Interfaces;
@@ -9,12 +8,13 @@ namespace webNamana.Controllers
 {
     public class LoginController : Controller
     {
+       /*
         private readonly ISession _session;
         public LoginController()
         {
             var bl = new webNamana.BusinessLogic.BusinessLogic();
             _session = bl.GetSessionBL();
-        }
+        } */
 
         // GET: Login
         public ActionResult Login()
@@ -22,6 +22,7 @@ namespace webNamana.Controllers
             return View();
         }
 
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -49,6 +50,6 @@ namespace webNamana.Controllers
 
             }
          return View();
-        }
+        }*/
     }
 }
