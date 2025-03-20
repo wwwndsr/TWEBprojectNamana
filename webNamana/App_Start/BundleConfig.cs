@@ -27,7 +27,7 @@ namespace webNamana.App_Start
                 .Include("~/Scripts/bootstrap.js"));
 
             // Включение оптимизации (можно отключить для отладки)
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }
