@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using webNamana.Models;
+
+using System.Linq;
 using System.Web.Mvc;
+
 
 
 namespace webNamana.Controllers
 {
     public class LoginController : Controller
-    {
-       /*
-        private readonly ISession _session;
-        public LoginController()
-        {
-            var bl = new webNamana.BusinessLogic.BusinessLogic();
-            _session = bl.GetSessionBL();
-        } */
+    { 
 
         // GET: Login
         public ActionResult Login()
@@ -22,34 +19,22 @@ namespace webNamana.Controllers
             return View();
         }
 
-        /*
         [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult Login(UserLogin login)
+        public ActionResult Index(Login model)
         {
-         if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                ULoginData data = new ULoginData
+                if (model.Email == "test@example.com" && model.Password == "123456")
                 {
-                    Credential = login.Credential,
-                    Password = login.Password,
-                    LoginIp = Request.UserHostAddress,
-                    LoginDateTime = DateTime.Now
-                };
-                var userLogin = _session.UserLogin(data);
-                if (userLogin.Status)
-                {
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Message = "Успешный вход!";
                 }
                 else
                 {
-                     ModelState.AddModelError("", userLogin.StatusMsg);
-                    return View();
+                    ViewBag.Message = "Ошибка: неправильный email или пароль.";
                 }
-
             }
-         return View();
-        }*/
+
+            return View(model);
+        }
     }
 }
