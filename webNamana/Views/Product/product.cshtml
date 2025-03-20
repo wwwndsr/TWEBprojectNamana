@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
-
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "product"; 
+}
 <head>
     <!-- Basic -->
     <meta charset="utf-8" />
@@ -150,7 +153,6 @@
             font-size: 15px;
             line-height: 1.3rem;
         }
-
     </style>
 </head>
 
@@ -260,227 +262,225 @@
 
     <!-- about section -->
 
-        <section id="product-info">
+    <section id="product-info">
 
-            <div class="item-image-parent">
-                <div class="item-list-vertical">
-                    <div class="thumb-box">
-                        <img src="https://i.ibb.co/VJf6fXm/thumb1.jpg" alt="thumbnail" />
-                    </div>
-                    <div class="thumb-box">
-                        <img src="https://i.ibb.co/Jt5zc58/thumb2.jpg" alt="thumbnail" />
-                    </div>
-                    <div class="thumb-box">
-                        <img src="https://i.ibb.co/Yf9LMpy/thumb3.jpg" alt="thumbnail" />
-                    </div>
-                    <div class="thumb-box">
-                        <img src="https://i.ibb.co/60hPGy2/thumb4.jpg" alt="thumbnail" />
-                    </div>
-
+        <div class="item-image-parent">
+            <div class="item-list-vertical">
+                <div class="thumb-box">
+                    <img src="https://i.ibb.co/VJf6fXm/thumb1.jpg" alt="thumbnail" />
                 </div>
-                <div class="item-image-main">
-                    <img src="https://i.ibb.co/xYpFY0T/item1.jpg" alt="default" />
+                <div class="thumb-box">
+                    <img src="https://i.ibb.co/Jt5zc58/thumb2.jpg" alt="thumbnail" />
+                </div>
+                <div class="thumb-box">
+                    <img src="https://i.ibb.co/Yf9LMpy/thumb3.jpg" alt="thumbnail" />
+                </div>
+                <div class="thumb-box">
+                    <img src="https://i.ibb.co/60hPGy2/thumb4.jpg" alt="thumbnail" />
+                </div>
+
+            </div>
+            <div class="item-image-main">
+                <img src="https://i.ibb.co/xYpFY0T/item1.jpg" alt="default" />
+            </div>
+        </div>
+
+        <div class="item-info-parent">
+            <!-- main info -->
+            <div class="main-info">
+                <h4>EYEBOGLER Regular Fit Men's Cotton T-Shirt</h4>
+                <div class="star-rating">
+                    <span>★★★★</span>★
+                </div>
+                <p>Price: <span id="price">₹ 449.00</span></p>
+            </div>
+            <!-- Choose -->
+            <div class="select-items">
+
+                <div class="change-color">
+                    <label><b>Colour:</b> Black</label><br>
+                    <div class="thumb-box">
+                        <img src="https://i.ibb.co/QjkJJk3/select1.jpg" alt="thumbnail" />
+                    </div>
+                    <div class="thumb-box">
+                        <img src="https://i.ibb.co/C297yD0/select2.jpg" alt="thumbnail" />
+                    </div>
+                </div>
+
+                <div class="change-size">
+                    <label><b>Size:</b></label><br>
+                    <select>
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>2XL</option>
+                    </select>
+                </div>
+
+                <div class="description">
+                    <ul>
+                        <li>Care Instructions: Machine Wash</li>
+                        <li>Fit Type: Classic Fit</li>
+                        <li>Color name: Black-White</li>
+                        <li>Material: Cotton</li>
+                        <li>Pattern: Solid</li>
+                    </ul>
                 </div>
             </div>
+            <!-- Description -->
+        </div>
+    </section>
 
-            <div class="item-info-parent">
-                <!-- main info -->
-                <div class="main-info">
-                    <h4>EYEBOGLER Regular Fit Men's Cotton T-Shirt</h4>
-                    <div class="star-rating">
-                        <span>★★★★</span>★
-                    </div>
-                    <p>Price: <span id="price">₹ 449.00</span></p>
-                </div>
-                <!-- Choose -->
-                <div class="select-items">
+    <!-- info section -->
 
-                    <div class="change-color">
-                        <label><b>Colour:</b> Black</label><br>
-                        <div class="thumb-box">
-                            <img src="https://i.ibb.co/QjkJJk3/select1.jpg" alt="thumbnail" />
-                        </div>
-                        <div class="thumb-box">
-                            <img src="https://i.ibb.co/C297yD0/select2.jpg" alt="thumbnail" />
-                        </div>
-                    </div>
-
-                    <div class="change-size">
-                        <label><b>Size:</b></label><br>
-                        <select>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>2XL</option>
-                        </select>
-                    </div>
-
-                    <div class="description">
-                        <ul>
-                            <li>Care Instructions: Machine Wash</li>
-                            <li>Fit Type: Classic Fit</li>
-                            <li>Color name: Black-White</li>
-                            <li>Material: Cotton</li>
-                            <li>Pattern: Solid</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Description -->
-            </div>
-        </section>
-
-      <!-- info section -->
-
-      <section class="info_section layout_padding2-top">
+    <section class="info_section layout_padding2-top">
         <div class="container">
-          <div class="info_form">
-            <h4>
-              Our Newsletter
-            </h4>
-            <form action="">
-              <input type="text" placeholder="Enter your email">
-              <div class="d-flex justify-content-end">
-                <button>
-                  subscribe
-                </button>
-              </div>
-            </form>
-          </div>
+            <div class="info_form">
+                <h4>
+                    Our Newsletter
+                </h4>
+                <form action="">
+                    <input type="text" placeholder="Enter your email">
+                    <div class="d-flex justify-content-end">
+                        <button>
+                            subscribe
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <h6>
-                About Energym
-              </h6>
-              <p>
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation u
-              </p>
-            </div>
-            <div class="col-md-2 offset-md-1">
-              <h6>
-                Menus
-              </h6>
-              <ul>
-                <li class=" active">
-                  <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="">
-                  <a class="" href="@Url.Action("About", "About")">About </a>
-                </li>
-                <li class="">
-                  <a class="" href="@Url.Action("Service", "Service")">Services </a>
-                </li>
-                <li class="">
-                  <a class="" href="@Url.Action("Contact", "Contact")">Contact Us</a>
-                </li>
-                <li class="">
-                  <a class="" href="@Url.Action("Login", "Login")">Login</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-3">
-              <h6>
-                Useful Links
-              </h6>
-              <ul>
-                <li>
-                  <a href="">
-                    Adipiscing
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    Elit, sed
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    do Eiusmod
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    Tempor
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    incididunt
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-3">
-              <h6>
-                Contact Us
-              </h6>
-              <div class="info_link-box">
-                <a href="">
-                  <img src="images/location-white.png" alt="">
-                  <span> No.123, loram ipusm</span>
-                </a>
-                <a href="">
-                  <img src="images/call-white.png" alt="">
-                  <span>+01 12345678901</span>
-                </a>
-                <a href="">
-                  <img src="images/mail-white.png" alt="">
-                  <span> demo123@gmail.com</span>
-                </a>
-              </div>
-              <div class="info_social">
-                <div>
-                  <a href="">
-                    <img src="images/facebook-logo-button.png" alt="">
-                  </a>
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>
+                        About Energym
+                    </h6>
+                    <p>
+                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                        minim veniam, quis nostrud exercitation u
+                    </p>
                 </div>
-                <div>
-                  <a href="">
-                    <img src="images/twitter-logo-button.png" alt="">
-                  </a>
+                <div class="col-md-2 offset-md-1">
+                    <h6>
+                        Menus
+                    </h6>
+                    <ul>
+                        <li class=" active">
+                            <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="">
+                            <a class="" href="@Url.Action("About", "About")">About </a>
+                        </li>
+                        <li class="">
+                            <a class="" href="@Url.Action("Service", "Service")">Services </a>
+                        </li>
+                        <li class="">
+                            <a class="" href="@Url.Action("Contact", "Contact")">Contact Us</a>
+                        </li>
+                        <li class="">
+                            <a class="" href="@Url.Action("Login", "Login")">Login</a>
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                  <a href="">
-                    <img src="images/linkedin.png" alt="">
-                  </a>
+                <div class="col-md-3">
+                    <h6>
+                        Useful Links
+                    </h6>
+                    <ul>
+                        <li>
+                            <a href="">
+                                Adipiscing
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                Elit, sed
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                do Eiusmod
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                Tempor
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                incididunt
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                  <a href="">
-                    <img src="images/instagram.png" alt="">
-                  </a>
+                <div class="col-md-3">
+                    <h6>
+                        Contact Us
+                    </h6>
+                    <div class="info_link-box">
+                        <a href="">
+                            <img src="images/location-white.png" alt="">
+                            <span> No.123, loram ipusm</span>
+                        </a>
+                        <a href="">
+                            <img src="images/call-white.png" alt="">
+                            <span>+01 12345678901</span>
+                        </a>
+                        <a href="">
+                            <img src="images/mail-white.png" alt="">
+                            <span> demo123@gmail.com</span>
+                        </a>
+                    </div>
+                    <div class="info_social">
+                        <div>
+                            <a href="">
+                                <img src="images/facebook-logo-button.png" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="">
+                                <img src="images/twitter-logo-button.png" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="">
+                                <img src="images/linkedin.png" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="">
+                                <img src="images/instagram.png" alt="">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
-    
-      <!-- end info section -->
-    
-    
-      <!-- footer section -->
-      <section class="container-fluid footer_section ">
+    </section>
+
+    <!-- end info section -->
+    <!-- footer section -->
+    <section class="container-fluid footer_section ">
         <p>
-          &copy; 2019 All Rights Reserved. Design by
-          <a href="https://html.design/">Free Html Templates</a>
+            &copy; 2019 All Rights Reserved. Design by
+            <a href="https://html.design/">Free Html Templates</a>
         </p>
-      </section>
-      <!-- footer section -->
-    
-      <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-      <script type="text/javascript" src="js/bootstrap.js"></script>
-    
-      <script>
+    </section>
+    <!-- footer section -->
+
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+    <script>
         function openNav() {
-          document.getElementById("myNav").classList.toggle("menu_width");
-          document
-            .querySelector(".custom_menu-btn")
-            .classList.toggle("menu_btn-style");
+            document.getElementById("myNav").classList.toggle("menu_width");
+            document
+                .querySelector(".custom_menu-btn")
+                .classList.toggle("menu_btn-style");
         }
-      </script>
-    </body>
-    
-    </html>
+    </script>
+</body>
+
+</html>
