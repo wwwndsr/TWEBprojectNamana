@@ -7,20 +7,20 @@ namespace webNamana.Models
 {
     public class Register
     {
-        [Required(ErrorMessage = "Username is required.")]
+        //[Required(ErrorMessage = "Username is required.")]
         public string Username { get; set; } //имя пользователя
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        //[Required(ErrorMessage = "Email is required.")]
+        //[EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; } //электронная почта пользователя
 
-        [Required(ErrorMessage = "Password is required.")]
-        [DataType(DataType.Password)]
+        //[Required(ErrorMessage = "Password is required.")]
+        //[DataType(DataType.Password)]
         public string Password { get; set; } //пароль пользователя
 
-        [Required(ErrorMessage = "Confirm Password is required.")]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+       // [Required(ErrorMessage = "Confirm Password is required.")]
+       // [DataType(DataType.Password)]
+       // [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; } //подтверждение пароля
 
         // Дополнительные поля (необязательно)

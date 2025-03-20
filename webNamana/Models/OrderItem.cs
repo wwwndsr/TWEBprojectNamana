@@ -15,6 +15,6 @@ namespace webNamana.Models
         public Product Product { get; set; } //навигационное свойство для товара
         public int OrderId { get; set; } //внешний ключ для заказа
         public Order Order { get; set; } //навигационное свойство для заказа
-        public decimal TotalPrice = Quantity * Price 
+        //public decimal TotalPrice = Quantity * Price; 
     }
 }
