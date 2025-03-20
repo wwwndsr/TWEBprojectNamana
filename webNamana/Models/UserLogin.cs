@@ -5,10 +5,12 @@ using System.Web;
 
 namespace webNamana.Models
 {
-	public class Class1
+	public class UserLogin
 	{
-		public string Username { get; set; }
-		public List<string> Products { get; set; }
+         public string Username { get; set; }
+         public string Password { get; set; }
+
 
     }
+
 }

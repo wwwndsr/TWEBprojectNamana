@@ -56,7 +56,3 @@ namespace webNamana.App_Start
             }
         }
     }
-
-}
-    }
-}
