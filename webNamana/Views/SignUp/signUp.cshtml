@@ -49,7 +49,7 @@
     <style>
         body {
             /*            background-color: #1cbb9b;*/
-            background-image: url("images/slider-bg.jpg");
+            background-image: url('@Url.Content("~/Content/images/slider-bg.jpg")');
         }
 
         .login-box {
@@ -150,108 +150,7 @@
 
 <body class="sub_page about_page">
     <div class="hero_area">
-        <!-- header section strats -->
-        <header class="header_section">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg custom_nav-container">
-                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                        <img src="images/logo.png" alt="" />
-                        <span>
-                            Energym
-                        </span>
-                    </a>
-                    <div class="contact_nav" id="">
-                        <ul class="navbar-nav ">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Service")">
-                                    <img src="images/location.png" alt="" />
-                                    <span>Location</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Service")">
-                                    <img src="images/call.png" alt="" />
-                                    <span>Call : + 01 1234567890</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Service", "Service")">
-                                    <img src="images/envelope.png" alt="" />
-                                    <span>demo@gmail.com</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-
-        </header>
-        <!-- end header section -->
-        <!-- slider section -->
-        <section class="slider_section position-relative">
-            <div class="container">
-                <div class="custom_nav2">
-                    <nav class="navbar navbar-expand-lg custom_nav-container">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="d-flex flex-column flex-lg-row align-items-center">
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="@Url.Action("About", "About")">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Service", "Service")">Services</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Contact", "Contact")">Contact Us</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("Login", "Login")">Login</a>
-                                    </li>
-                                </ul>
-
-                                <!-- Кнопка поиска -->
-                                <a href="@Url.Action("ProductPage", "ProductPage")" class="search-link ml-5">
-                                    <i class="fas fa-search"></i>
-                                </a>
-
-                                <!-- Кнопка корзины -->
-                                <a href="@Url.Action("CartPage", "CartPage")" class="cart-link ml-lg-4">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </section>
-
-        <!-- Подключение Font Awesome для иконок -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-
-        <style>
-            .cart-link, .search-link {
-                text-decoration: none;
-                color: inherit;
-                transition: transform 0.3s ease;
-            }
-
-                .cart-link:hover, .search-link:hover {
-                    transform: scale(1.1);
-                }
-        </style>
-
-        <!-- end slider section -->
-    </div>
-
-
+       
     <!-- about section -->
 
 
@@ -406,26 +305,6 @@
     </section>
 
     <!-- end info section -->
-    <!-- footer section -->
-    <section class="container-fluid footer_section ">
-        <p>
-            &copy; 2019 All Rights Reserved. Design by
-            <a href="https://html.design/">Free Html Templates</a>
-        </p>
-    </section>
-    <!-- footer section -->
-
-    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-
-    <script>
-        function openNav() {
-            document.getElementById("myNav").classList.toggle("menu_width");
-            document
-                .querySelector(".custom_menu-btn")
-                .classList.toggle("menu_btn-style");
-        }
-    </script>
 </body>
 
 </html>

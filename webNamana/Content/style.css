@@ -64,12 +64,13 @@ body {
 
 /*header section*/
 .hero_area {
-  height: 100vh;
-  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0))), url(../images/hero-bg.jpg);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(../images/hero-bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right bottom;
+    height: 100vh;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(../images/hero-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right bottom;
+    margin: 0; /* Убираем отступы */
+    padding: 0; /* Убираем внутренние отступы */
 }
 
 .sub_page .hero_area {
@@ -218,9 +219,11 @@ a:focus {
 /*end header section*/
 /* slider section */
 .slider_section {
-  height: calc(100% - 80px);
-  background-image: url(../images/slider-bg.jpg);
-  background-size: cover;
+    height: calc(100% - 80px);
+    background-image: url(../images/slider-bg.jpg);
+    background-size: cover;
+    margin: 0; /* Убираем отступы */
+    padding: 0; /* Убираем внутренние отступы */
 }
 
 .slider_section .slider_container {
