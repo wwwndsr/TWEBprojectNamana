@@ -197,6 +197,10 @@
     <None Include="Views\Contact\contact.cshtml" />
     <None Include="Views\Service\service.cshtml" />
     <None Include="Views\Login\login.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Navigation.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_Slider.cshtml" />
     <None Include="Views\SignUp\signUp.cshtml" />
     <None Include="Views\ProductPage\productPage.cshtml" />
     <None Include="Views\Product\product.cshtml" />

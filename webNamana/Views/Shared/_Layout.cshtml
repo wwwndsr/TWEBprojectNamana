@@ -6,9 +6,9 @@
     <title>@ViewBag.Title - Energym</title>
     @Styles.Render("~/bundles/bootstrap/css")
     @Styles.Render("~/bundles/main/css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
-@Scripts.Render("~/bundles/jquery/js")
-@Scripts.Render("~/bundles/bootstrap/js")
 
 <body>
     <div class="hero_area">
@@ -28,5 +28,7 @@
     @Html.Partial("_Navigation")
     <!-- Футер -->
     @Html.Partial("_Footer")
+    @Scripts.Render("~/bundles/jquery/js")
+    @Scripts.Render("~/bundles/bootstrap/js")
 </body>
 </html>
