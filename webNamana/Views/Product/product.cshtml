@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model  webNamana.Models.Product
+
+<!DOCTYPE html>
 <html>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -188,6 +190,18 @@
                     <span>★★★★</span>★
                 </div>
                 <p>Price: <span id="price">₹ 449.00</span></p>
+            </div>
+
+            <div class="add-to-cart">
+                @using (Html.BeginForm("AddToCart", "CartPage", FormMethod.Post))
+                {
+                    @Html.Hidden("id", Model.ProductId)
+                    @Html.Hidden("productName", Model.ProductName)
+                    @Html.Hidden("productImage", Model.ProductImage)
+                    @Html.Hidden("price", Model.Price)
+
+                    <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+                }
             </div>
             <!-- Choose -->
             <div class="select-items">

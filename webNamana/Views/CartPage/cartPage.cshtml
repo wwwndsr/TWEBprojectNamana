@@ -1,8 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+@model List<webNamana.Models.Cart>
+
+<!DOCTYPE html>
 <html>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "cartPage"; 
+    ViewBag.Title = "CartPage"; 
 }
 <head>
     <!-- Basic -->
@@ -23,7 +26,6 @@
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-
     <!-- fonts style -->
     <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
           rel="stylesheet" />
@@ -57,60 +59,63 @@
         <h1>My Cart</h1>
     </div>
 
-    <div class="cart">
-        <ul class="cartWrap">
-            <li class="item">
-                <div class="infoWrap">
-                    <div class="cartSection">
-                        <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="Item Image" class="itemImg" />
-                        <div class="itemDetails">
-                            <p class="itemNumber">#QUE-007544-002</p>
-                            <h3>Item Name 1</h3>
-                            <p>
-                                <button class="qty-btn decrease">-</button>
-                                <input type="text" class="qty" value="3" />
-                                <button class="qty-btn increase">+</button> x $5.00
-                            </p>
-                            <p class="stockStatus">In Stock</p>
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="empty-cart">
+            <h2>Your cart is empty.</h2>
+            <p>Browse our <a href="@Url.Action("ProductPage", "ProductPage")">products</a> to add items to your cart.</p>
+        </div>
+    }
+    else
+    {
+        <div class="cart">
+            <ul class="cartWrap">
+                @foreach (var item in Model)
+                {
+                    <li class="item">
+                        <div class="infoWrap">
+                            <div class="cartSection">
+                                <img src="@item.ProductImage" alt="Item Image" class="itemImg" />
+                                <div class="itemDetails">
+                                    <p class="itemNumber">#@item.ItemId</p>
+                                    <h3>@item.ProductName</h3>
+                                    <p>
+                                        <button class="qty-btn decrease">-</button>
+                                        <input type="text" class="qty" value="@item.Quantity" readonly />
+                                        <button class="qty-btn increase">+</button> x $@item.Price
+                                    </p>
+                                    <p class="stockStatus">
+                                        @if (item.InStock)
+                                        {
+                                            <span>In Stock</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Out of Stock</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="prodTotal cartSection">
+                                <p>$@item.TotalPrice</p>
+                            </div>
+                            <div class="cartSection removeWrap">
+                                @using (Html.BeginForm("RemoveFromCart", "CartPage", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", item.ItemId)
+                                    <button type="submit" class="remove">x</button>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="prodTotal cartSection">
-                        <p>$15.00</p>
-                    </div>
-                    <div class="cartSection removeWrap">
-                        <a href="#" class="remove">x</a>
-                    </div>
-                </div>
-            </li>
-            <li class="item">
-                <div class="infoWrap">
-                    <div class="cartSection">
-                        <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="Item Image" class="itemImg" />
-                        <div class="itemDetails">
-                            <p class="itemNumber">#QUE-007544-003</p>
-                            <h3>Item Name 2</h3>
-                            <p>
-                                <button class="qty-btn decrease">-</button>
-                                <input type="text" class="qty" value="2" />
-                                <button class="qty-btn increase">+</button> x $10.00
-                            </p>
-                            <p class="stockStatus">In Stock</p>
-                        </div>
-                    </div>
-                    <div class="prodTotal cartSection">
-                        <p>$20.00</p>
-                    </div>
-                    <div class="cartSection removeWrap">
-                        <a href="#" class="remove">x</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+                    </li>
+                }
+            </ul>
+        </div>
 
-    <div class="checkoutRow">
-        <a href="payment-page.html" class="btn checkout">Checkout</a>
-    </div>
+        <div class="checkoutRow">
+            <a href="payment-page.html" class="btn checkout">Checkout</a>
+        </div>
+    }
 
     <style>
         body {
@@ -239,7 +244,7 @@
         });
     </script>
 
-  
+
 </body>
 
 </html>
