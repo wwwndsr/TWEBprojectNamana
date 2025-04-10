@@ -10,31 +10,51 @@ using System.Web.Mvc;
 
 namespace webNamana.Controllers
 {
-    public class LoginController : Controller
-    { 
 
-        // GET: Login
-        public ActionResult Login()
+        public class LoginController : Controller
         {
-            return View();
-        }
 
-        [HttpPost]
-        public ActionResult Index(Login model)
-        {
+            // GET: Login
+            public ActionResult Login()
+            {
+                return View();
+            }
+
+            [HttpPost]
+            public ActionResult Login(Login model)
+            {
             if (ModelState.IsValid)
             {
-                if (model.Email == "test@example.com" && model.Password == "123456")
+                // Пример проверки учетных данных (замените на реальную проверку через базу данных)
+                if (AuthenticateUser(model.Email, model.Password))
                 {
-                    ViewBag.Message = "Успешный вход!";
+                    // Сохраняем email пользователя в сессии
+                    Session["UserEmail"] = model.Email;
+
+                    // Перенаправляем на главную страницу
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ViewBag.Message = "Ошибка: неправильный email или пароль.";
+                    // Добавляем сообщение об ошибке
+                    ModelState.AddModelError("", "Неправильный email или пароль.");
                 }
             }
+                return View(model);
+            }
 
-            return View(model);
+        private bool AuthenticateUser(string email, string password)
+        {
+            // Пример проверки (замените на реальную логику проверки через базу данных)
+            return email == "test@example.com" && password == "123456";
+        }
+
+        public ActionResult Logout()
+        {
+            // Очищаем сессию
+            Session.Clear();
+            return RedirectToAction("Login");
         }
     }
-}
+
+ }
