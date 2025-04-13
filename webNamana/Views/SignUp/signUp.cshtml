@@ -1,3 +1,5 @@
+@model webNamana.Models.SignUp
+
 <!DOCTYPE html>
 <html>
 @{
@@ -23,7 +25,6 @@
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-
     <!-- fonts style -->
     <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
           rel="stylesheet" />
@@ -154,27 +155,38 @@
     <!-- about section -->
 
 
-    <div class="login-box">
-        <div class="lb-header">
-            <a href="@Url.Action("Login", "Login")" id="login-box-link">Login</a>
-            <a href="@Url.Action("SignUp", "SignUp")" class="active" id="signup-box-link">Sign Up</a>
-        </div>
+        <div class="login-box">
+            <div class="lb-header">
+                <a href="@Url.Action("Login", "Login")" id="login-box-link">Login</a>
+                <a href="@Url.Action("SignUp", "SignUp")" class="active" id="signup-box-link">Sign Up</a>
+            </div>
 
-        <form class="email-signup">
-            <div class="u-form-group">
-                <input type="email" placeholder="Email" />
-            </div>
-            <div class="u-form-group">
-                <input type="password" placeholder="Password" />
-            </div>
-            <div class="u-form-group">
-                <input type="password" placeholder="Confirm Password" />
-            </div>
-            <div class="u-form-group">
-                <button>Sign Up</button>
-            </div>
-        </form>
-    </div>
+            <form method="post" action="@Url.Action("SignUp", "SignUp")">
+                <div class="u-form-group">
+                    <label for="Name">Name</label>
+                    <input type="text" id="Name" name="Name" value="@Model.Name" class="form-control" placeholder="Name" />
+                </div>
+
+                <div class="u-form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email" value="@Model.Email" class="form-control" placeholder="Email" />
+                </div>
+
+                <div class="u-form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" id="Password" name="Password" value="@Model.Password" class="form-control" placeholder="Password" />
+                </div>
+
+                <div class="u-form-group">
+                    <label for="ConfirmPassword">Confirm Password</label>
+                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                </div>
+
+                <div class="u-form-group">
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
     <!-- end about section -->
     <!-- info section -->
 
@@ -302,8 +314,8 @@
                 </div>
             </div>
         </div>
-    </section>
-
+        </section>
+     </div>
     <!-- end info section -->
 </body>
 
