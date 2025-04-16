@@ -1,0 +1,46 @@
+﻿@model IEnumerable<webNamana.Models.TrainingRegistration>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "All Registrations";
+}
+
+<div class="hero_area">
+    <div class="container">
+        <div class="heading_container">
+            <h2>All Training Registrations</h2>
+        </div>
+        <div class="box">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Training</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.TrainingType</td>
+                            <td>@item.RegistrationDate.ToShortDateString()</td>
+                            <td>@item.TrainingTime</td>
+                            <td>@item.Status</td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.RegistrationId }, new { @class = "btn-1" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

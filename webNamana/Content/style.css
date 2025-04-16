@@ -920,6 +920,98 @@ a:focus {
 .footer_section a {
   color: #ffffff;
 }
+/*registration*/
+body {
+    background-image: url('../Content/images/slider-bg.jpg');
+}
+
+.login-box {
+    position: relative;
+    margin: 10px auto;
+    width: 500px;
+    height: 380px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
+    align-items: center;
+}
+
+.lb-header {
+    position: relative;
+    color: #00415d;
+    margin: 5px 5px 10px 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    height: 28px;
+}
+
+    .lb-header a {
+        margin: 0 25px;
+        padding: 0 20px;
+        text-decoration: none;
+        color: #666;
+        font-weight: bold;
+        font-size: 15px;
+        transition: all 0.1s linear;
+    }
+
+    .lb-header .active {
+        color: #f8bc1a;
+        font-size: 18px;
+    }
+
+.email-login,
+.email-signup {
+    float: left;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.u-form-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+    .u-form-group input[type="email"],
+    .u-form-group input[type="password"] {
+        width: calc(50% - 22px);
+        height: 45px;
+        outline: none;
+        border: 1px solid #ddd;
+        padding: 0 10px;
+        border-radius: 2px;
+        font-size: 0.8rem;
+        transition: all 0.1s linear;
+    }
+
+    .u-form-group input:focus {
+        border-color: #358efb;
+    }
+
+    .u-form-group button {
+        width: 50%;
+        background-color: #f8bc1a;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        padding: 14px 0;
+        border-radius: 2px;
+        text-transform: uppercase;
+    }
+
+.forgot-password {
+    width: 50%;
+    text-align: left;
+    text-decoration: underline;
+    color: #888;
+    font-size: 0.75rem;
+}
+
+
 
 /* end footer section*/
 /*# sourceMappingURL=style.css.map */

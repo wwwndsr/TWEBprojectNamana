@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Success</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<p>We will contact you shortly to confirm your registration. Thank you!</p>
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-1">Return to Home</a>
+

@@ -2,12 +2,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "service";
 }
+
 <body class="sub_page">
     <div class="hero_area">
     </div>
 
     <!-- service section -->
-
     <section class="service_section layout_padding">
         <div class="container">
             <div class="heading_container">
@@ -22,7 +22,7 @@
                         CROSSFIT TRAINING
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("CrossfitTraining", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="CROSSFIT TRAINING">
                         </a>
                         <h6>
@@ -36,7 +36,7 @@
                         FITNESS
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("Fitness", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="FITNESS">
                         </a>
                         <h6>
@@ -50,7 +50,7 @@
                         DYNAMIC STRENGTH TRAINING
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("DynamicStrengthTraining", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="DYNAMIC STRENGTH TRAINING">
                         </a>
                         <h6>
@@ -64,7 +64,7 @@
                         HEALTH
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("Health", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="HEALTH">
                         </a>
                         <h6>
@@ -78,7 +78,7 @@
                         WORKOUT
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("Workout", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="WORKOUT">
                         </a>
                         <h6>
@@ -92,7 +92,7 @@
                         STRATEGIES
                     </h6>
                     <div class="link_box">
-                        <a href="">
+                        <a href="@Url.Action("Strategies", "Service")">
                             <img src="@Url.Content("~/Content/images/link.png")" alt="STRATEGIES">
                         </a>
                         <h6>
@@ -103,6 +103,5 @@
             </div>
         </div>
     </section>
-
     <!-- end service section -->
 </body>

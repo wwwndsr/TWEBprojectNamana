@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Мета-теги и стили -->
+    <!-- Meta tags and styles -->
     <title>@ViewBag.Title - Energym</title>
     @Styles.Render("~/bundles/bootstrap/css")
     @Styles.Render("~/bundles/main/css")
@@ -12,21 +12,21 @@
 
 <body>
     <div>
-        <!-- Хедер -->
+        <!-- Header -->
         @Html.Partial("_Header")
-        <!-- слайдер -->
+        <!-- Slider -->
         @Html.Partial("_Slider")
     </div>
 
-    <!-- Основное содержимое страницы -->
+    <!-- Main page content -->
     <div class="container">
         @RenderBody()
     </div>
 
 
-    <!-- навигация -->
+    <!-- Navigation -->
     @Html.Partial("_Navigation")
-    <!-- Футер -->
+    <!-- Footer -->
     @Html.Partial("_Footer")
     @Scripts.Render("~/bundles/jquery/js")
     @Scripts.Render("~/bundles/bootstrap/js")

@@ -1,0 +1,24 @@
+﻿@model webNamana.Models.TrainingRegistration
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Registration Details";
+}
+
+<div class="hero_area">
+    <div class="container">
+        <div class="heading_container">
+            <h2>Registration Details</h2>
+        </div>
+        <div class="box">
+            <p><strong>Full Name:</strong> @Model.FullName</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+            <p><strong>Training Type:</strong> @Model.TrainingType</p>
+            <p><strong>Date:</strong> @Model.RegistrationDate.ToShortDateString()</p>
+            <p><strong>Time:</strong> @Model.TrainingTime</p>
+            <p><strong>Status:</strong> @Model.Status</p>
+            <p><strong>Notes:</strong> @Model.AdditionalNotes</p>
+            <a href="@Url.Action("Index", "Training")" class="btn-1">Back to List</a>
+        </div>
+    </div>
+</div>
