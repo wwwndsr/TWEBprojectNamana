@@ -3,16 +3,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Success</h2>
+<div class="container mt-5">
+    <div class="card shadow-sm p-4" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="text-center mb-4 text-success">Registration Successful!</h2>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success text-center" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <p class="text-center mb-4">
+            We will contact you shortly to confirm your registration.<br />
+            Thank you for choosing us!
+        </p>
+
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+                Return to Home
+            </a>
+        </div>
     </div>
-}
-
-<p>We will contact you shortly to confirm your registration. Thank you!</p>
-
-<a href="@Url.Action("Index", "Home")" class="btn btn-1">Return to Home</a>
-
+</div>

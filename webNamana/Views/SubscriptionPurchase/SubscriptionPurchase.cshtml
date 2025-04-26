@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Purchase a Subscription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<h2 class="text-center my-4">Choose Your Subscription</h2>
+
+<div id="subscriptionCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+        <!-- 12 months -->
+        <div class="carousel-item active">
+            <div class="d-flex justify-content-center gap-4">
+                <!-- Card 1 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">12 Months</h3>
+                    <p>Full access to the gym<br>From 7:00 AM to 10:00 PM<br>Free group workouts<br>Trainer consultations</p>
+                    <h4 class="text-success mb-3">$349.99</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">6 Months</h3>
+                    <p>Full access to the gym<br>From 8:00 AM to 10:00 PM<br>2 free group workouts per month</p>
+                    <h4 class="text-success mb-3">$199.99</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">3 Months</h3>
+                    <p>Access to the gym<br>From 9:00 AM to 9:00 PM<br>1 free group workout per month</p>
+                    <h4 class="text-success mb-3">$129.99</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1 month -->
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center gap-4">
+                <!-- Card 1 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">1 Month</h3>
+                    <p>Access to the gym<br>From 9:00 AM to 8:00 PM<br>No group workouts</p>
+                    <h4 class="text-success mb-3">$49.99</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">1 Visit</h3>
+                    <p>One-time access to the gym<br>From 9:00 AM to 8:00 PM</p>
+                    <h4 class="text-success mb-3">$10.00</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">Student Membership</h3>
+                    <p>Full access for students<br>From 7:00 AM to 10:00 PM<br>10% off group workouts</p>
+                    <h4 class="text-success mb-3">$99.99</h4>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trainer Services -->
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center gap-4">
+                <!-- Personal Trainer -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">Personal Training</h3>
+                    <p>1-on-1 training sessions<br>Customized workout plans<br>Expert guidance</p>
+                    <h4 class="text-success mb-3">$50 per session</h4>
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+
+                <!-- Group Workouts -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">Group Workouts</h3>
+                    <p>Join our group fitness classes<br>Strength, cardio, yoga & more<br>Friendly and motivating environment</p>
+                    <h4 class="text-success mb-3">$15 per class</h4>
+                    <a href="#" class="btn btn-primary">Join Now</a>
+                </div>
+
+                <!-- Nutrition Consultation -->
+                <div class="card text-center p-4 shadow-lg" style="width: 18rem;">
+                    <h3 class="mb-3">Nutrition Consultation</h3>
+                    <p>Personalized nutrition plan<br>Healthy eating guidance<br>Support for fitness goals</p>
+                    <h4 class="text-success mb-3">$40 per session</h4>
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation buttons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#subscriptionCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#subscriptionCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- Bootstrap scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

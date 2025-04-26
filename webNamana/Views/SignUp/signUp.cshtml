@@ -1,322 +1,84 @@
 @model webNamana.Models.SignUp
-
-<!DOCTYPE html>
-<html>
 @{
+    ViewBag.Title = "Sign Up";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "signUp";
 }
-<head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
 
-    <title>Energym</title>
-
-    <!-- slider stylesheet -->
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-          rel="stylesheet" />
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="css/responsive.css" rel="stylesheet" />
-    <script>
-        $(".email-signup").hide();
-        $("#signup-box-link").click(function () {
-            $(".email-login").fadeOut(100);
-            $(".email-signup").delay(100).fadeIn(100);
-            $("#login-box-link").removeClass("active");
-            $("#signup-box-link").addClass("active");
-        });
-        $("#login-box-link").click(function () {
-            $(".email-login").delay(100).fadeIn(100);;
-            $(".email-signup").fadeOut(100);
-            $("#login-box-link").addClass("active");
-            $("#signup-box-link").removeClass("active");
-        });
-    </script>
+@section Styles {
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            /*            background-color: #1cbb9b;*/
+            font-family: 'Poppins', sans-serif;
             background-image: url('@Url.Content("~/Content/images/slider-bg.jpg")');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
         }
 
-        .login-box {
-            position: relative;
-            margin: 10px auto;
-            width: 500px;
-            height: 380px;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 3px;
-            -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
-            -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
-            box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.33);
+        .sign-up-box {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 80px auto;
         }
 
-        .lb-header {
-            position: relative;
+        .sign-up-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
             color: #00415d;
-            margin: 5px 5px 10px 5px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-            height: 28px;
         }
 
-            .lb-header a {
-                margin: 0 25px;
-                padding: 0 20px;
-                text-decoration: none;
-                color: #666;
-                font-weight: bold;
-                font-size: 15px;
-                -webkit-transition: all 0.1s linear;
-                -moz-transition: all 0.1s linear;
-                transition: all 0.1s linear;
-            }
+        .form-control {
+            border-radius: 5px;
+            border-color: #ddd;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
 
-            .lb-header .active {
-                color: #f8bc1a;
-                font-size: 18px;
-            }
-
-        .email-login, .email-signup {
-            position: relative;
-            float: left;
+        .btn-primary {
+            background-color: #f8bc1a;
+            border: none;
+            padding: 12px;
             width: 100%;
-            height: auto;
-            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-link {
+            margin-top: 15px;
             text-align: center;
-        }
-
-        .u-form-group {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-            .u-form-group input[type="email"],
-            .u-form-group input[type="password"] {
-                width: calc(50% - 22px);
-                height: 45px;
-                outline: none;
-                border: 1px solid #ddd;
-                padding: 0 10px;
-                border-radius: 2px;
-                color: #333;
-                font-size: 0.8rem;
-                -webkit-transition: all 0.1s linear;
-                -moz-transition: all 0.1s linear;
-                transition: all 0.1s linear;
-            }
-
-            .u-form-group input:focus {
-                border-color: #358efb;
-            }
-
-            .u-form-group button {
-                width: 50%;
-                background-color: #f8bc1a;
-                border: none;
-                outline: none;
-                color: #fff;
-                font-size: 14px;
-                font-weight: normal;
-                padding: 14px 0;
-                border-radius: 2px;
-                text-transform: uppercase;
-            }
-
-        .forgot-password {
-            width: 50%;
-            text-align: left;
-            text-decoration: underline;
-            color: #888;
-            font-size: 0.75rem;
+            font-size: 14px;
         }
     </style>
-</head>
+}
 
-<body class="sub_page about_page">
-    <div class="hero_area">
-       
-    <!-- about section -->
-
-
-        <div class="login-box">
-            <div class="lb-header">
-                <a href="@Url.Action("Login", "Login")" id="login-box-link">Login</a>
-                <a href="@Url.Action("SignUp", "SignUp")" class="active" id="signup-box-link">Sign Up</a>
-            </div>
-
-            <form method="post" action="@Url.Action("SignUp", "SignUp")">
-                <div class="u-form-group">
-                    <label for="Name">Name</label>
-                    <input type="text" id="Name" name="Name" value="@Model.Name" class="form-control" placeholder="Name" />
-                </div>
-
-                <div class="u-form-group">
-                    <label for="Email">Email</label>
-                    <input type="email" id="Email" name="Email" value="@Model.Email" class="form-control" placeholder="Email" />
-                </div>
-
-                <div class="u-form-group">
-                    <label for="Password">Password</label>
-                    <input type="password" id="Password" name="Password" value="@Model.Password" class="form-control" placeholder="Password" />
-                </div>
-
-                <div class="u-form-group">
-                    <label for="ConfirmPassword">Confirm Password</label>
-                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
-                </div>
-
-                <div class="u-form-group">
-                    <button type="submit">Sign Up</button>
-                </div>
-            </form>
+<div class="sign-up-box">
+    <h2>Sign Up</h2>
+    <form method="post" action="@Url.Action("SignUp", "SignUp")">
+        <div class="form-group">
+            <input type="text" id="Name" name="Name" class="form-control" placeholder="Name" value="@Model.Name" required />
         </div>
-    <!-- end about section -->
-    <!-- info section -->
 
-    <section class="info_section layout_padding2-top">
-        <div class="container">
-            <div class="info_form">
-                <h4>
-                    Our Newsletter
-                </h4>
-                <form action="">
-                    <input type="text" placeholder="Enter your email">
-                    <div class="d-flex justify-content-end">
-                        <button>
-                            subscribe
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="form-group">
+            <input type="email" id="Email" name="Email" class="form-control" placeholder="Email" value="@Model.Email" required />
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6>
-                        About Energym
-                    </h6>
-                    <p>
-                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation u
-                    </p>
-                </div>
-                <div class="col-md-2 offset-md-1">
-                    <h6>
-                        Menus
-                    </h6>
-                    <ul>
-                        <li class=" active">
-                            <a class="" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="">
-                            <a class="" href="@Url.Action("About", "About")">About </a>
-                        </li>
-                        <li class="">
-                            <a class="" href="@Url.Action("Service", "Service")">Services </a>
-                        </li>
-                        <li class="">
-                            <a class="" href="@Url.Action("Contact", "Contact")">Contact Us</a>
-                        </li>
-                        <li class="">
-                            <a class="" href="@Url.Action("Login", "Login")">Login</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>
-                        Useful Links
-                    </h6>
-                    <ul>
-                        <li>
-                            <a href="">
-                                Adipiscing
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                Elit, sed
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                do Eiusmod
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                Tempor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                incididunt
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>
-                        Contact Us
-                    </h6>
-                    <div class="info_link-box">
-                        <a href="">
-                            <img src="images/location-white.png" alt="">
-                            <span> No.123, loram ipusm</span>
-                        </a>
-                        <a href="">
-                            <img src="images/call-white.png" alt="">
-                            <span>+01 12345678901</span>
-                        </a>
-                        <a href="">
-                            <img src="images/mail-white.png" alt="">
-                            <span> demo123@gmail.com</span>
-                        </a>
-                    </div>
-                    <div class="info_social">
-                        <div>
-                            <a href="">
-                                <img src="images/facebook-logo-button.png" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="">
-                                <img src="images/twitter-logo-button.png" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="">
-                                <img src="images/linkedin.png" alt="">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="">
-                                <img src="images/instagram.png" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </section>
-     </div>
-    <!-- end info section -->
-</body>
 
-</html>
+        <div class="form-group">
+            <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required />
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+        <div class="login-link">
+            <a href="@Url.Action("Login", "Login")">Already have an account? Log in</a>
+        </div>
+    </form>
+</div>
