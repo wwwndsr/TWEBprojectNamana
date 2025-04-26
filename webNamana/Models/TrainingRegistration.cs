@@ -38,5 +38,8 @@ namespace webNamana.Models
 
         public bool IsConfirmed { get; set; }
         public DateTime CreatedAt { get; set; }
+
+
     }
+
 }

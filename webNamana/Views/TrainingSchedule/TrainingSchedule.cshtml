@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "Training Schedule";
+}
+
+<h2>Training Schedule</h2>
+
+<style>
+    body {
+        font-family: "Source Sans Pro", sans-serif;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+        color: #222;
+    }
+
+    .schedule-container {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        max-width: 1400px;
+        margin: 2em auto;
+        gap: 10px;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding-top: 50px;
+        font-size: 14px;
+        align-items: center;
+    }
+
+    .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        border: 1px solid #EAEAEA;
+    }
+
+    .day-column {
+        border-left: 1px solid #EAEAEA;
+        position: relative;
+        padding-top: 50px;
+    }
+
+    .day-header {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        background: #f7f7f7;
+        padding: 10px 5px;
+        border-bottom: 1px solid #EAEAEA;
+        font-weight: bold;
+    }
+
+    .event {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        background-color: #577F92;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        font-size: 14px;
+        text-align: center;
+    }
+
+        .event[data-color="1"] {
+            background-color: #577F92;
+        }
+
+        .event[data-color="2"] {
+            background-color: #443453;
+        }
+
+        .event[data-color="3"] {
+            background-color: #A2B9B2;
+        }
+
+        .event[data-color="4"] {
+            background-color: #f6b067;
+        }
+
+        .event a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+            .event a:hover {
+                text-decoration: underline;
+            }
+
+    @@media (max-width: 800px) {
+        .schedule-container {
+            grid-template-columns: 1fr;
+        }
+
+        .timeline {
+            display: none;
+        }
+
+        .days {
+            grid-template-columns: 1fr;
+        }
+
+        .day-column {
+            min-height: 400px;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
+<div class="schedule-container">
+    <div class="timeline">
+        @for (int hour = 9; hour <= 18; hour++)
+        {
+            <span>@hour:00</span>
+        }
+    </div>
+
+    <div class="days">
+        @foreach (var day in new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" })
+        {
+            <div class="day-column">
+                <div class="day-header">@day</div>
+
+                @if (day == "Monday")
+                {
+                    <div class="event" style="top: 10%;" data-color="1">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Abs Circuit", time = "09:00" })">Abs Circuit</a>
+                    </div>
+                    <div class="event" style="top: 30%;" data-color="2">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Rowing Workout", time = "11:00" })">Rowing Workout</a>
+                    </div>
+                    <div class="event" style="top: 55%;" data-color="3">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Yoga Level 1", time = "14:00" })">Yoga Level 1</a>
+                    </div>
+                }
+                else if (day == "Tuesday")
+                {
+                    <div class="event" style="top: 15%;" data-color="2">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Rowing Workout", time = "10:00" })">Rowing Workout</a>
+                    </div>
+                    <div class="event" style="top: 35%;" data-color="4">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Restorative Yoga", time = "12:00" })">Restorative Yoga</a>
+                    </div>
+                    <div class="event" style="top: 60%;" data-color="1">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Abs Circuit", time = "15:00" })">Abs Circuit</a>
+                    </div>
+                }
+                else if (day == "Wednesday")
+                {
+                    <div class="event" style="top: 20%;" data-color="3">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Pilates", time = "09:30" })">Pilates</a>
+                    </div>
+                    <div class="event" style="top: 45%;" data-color="4">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "HIIT Training", time = "13:00" })">HIIT Training</a>
+                    </div>
+                }
+                else if (day == "Thursday")
+                {
+                    <div class="event" style="top: 15%;" data-color="2">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Crossfit", time = "10:00" })">Crossfit</a>
+                    </div>
+                    <div class="event" style="top: 50%;" data-color="3">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Stretching", time = "14:30" })">Stretching</a>
+                    </div>
+                }
+                else if (day == "Friday")
+                {
+                    <div class="event" style="top: 20%;" data-color="4">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Strength Training", time = "11:00" })">Strength Training</a>
+                    </div>
+                    <div class="event" style="top: 45%;" data-color="1">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Boxing", time = "15:00" })">Boxing</a>
+                    </div>
+                }
+                else if (day == "Saturday")
+                {
+                    <div class="event" style="top: 25%;" data-color="3">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Meditation", time = "10:30" })">Meditation</a>
+                    </div>
+                    <div class="event" style="top: 50%;" data-color="2">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Dance Fitness", time = "13:30" })">Dance Fitness</a>
+                    </div>
+                }
+                else if (day == "Sunday")
+                {
+                    <div class="event" style="top: 30%;" data-color="4">
+                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Restorative Yoga", time = "12:00" })">Restorative Yoga</a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

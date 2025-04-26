@@ -1,58 +1,146 @@
 ﻿@model webNamana.Models.TrainingRegistration
 
 @{
-    ViewBag.Title = "Training Registration";
+    ViewBag.Title = "Register for Training";
 }
 
-<h2>Training Registration</h2>
+<div class="container mt-5">
+    <div class="card shadow-sm p-4" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="text-center mb-4">Register for Training</h2>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("Register", "TrainingRegistration", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.TrainingType)
-    
-    <div class="box">
-        <div class="form-group">
-            @Html.LabelFor(m => m.FullName)
-            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.FullName)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                @Html.TextBox("FullName", Model.FullName, new { @class = "form-control" })
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Email)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                @Html.TextBox("Email", Model.Email, new { @class = "form-control", type = "email" })
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.PhoneNumber)
-            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.PhoneNumber)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                @Html.TextBox("PhoneNumber", Model.PhoneNumber, new { @class = "form-control" })
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.RegistrationDate)
-            @Html.TextBoxFor(m => m.RegistrationDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.RegistrationDate)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Training Type</label>
+                <select name="TrainingType" id="TrainingType" class="form-control">
+                    <option value="">-- Select Training --</option>
+                    @foreach (var training in (List<string>)ViewBag.AvailableTrainings)
+                    {
+                        <option value="@training" @(training == Model.TrainingType ? "selected" : "")>@training</option>
+                    }
+                </select>
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.TrainingTime)
-            @Html.TextBoxFor(m => m.TrainingTime, "{0:hh\\:mm}", new { @type = "time", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.TrainingTime)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Select Training Date & Time</label>
+                <select name="TrainingDateTime" id="TrainingDateTime" class="form-control">
+                    <option value="">-- Select Date & Time --</option>
+                    @foreach (var time in (List<DateTime>)ViewBag.AvailableTimes)
+                    {
+                        var selectedTime = Model.RegistrationDate.Add(Model.TrainingTime);
+                        <option value="@time.ToString("yyyy-MM-ddTHH:mm")" @(time == selectedTime ? "selected" : "")>
+                            @time.ToString("dd.MM.yyyy HH:mm")
+                        </option>
+                    }
+                </select>
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.AdditionalNotes)
-            @Html.TextAreaFor(m => m.AdditionalNotes, new { @class = "form-control", rows = "3" })
-            @Html.ValidationMessageFor(m => m.AdditionalNotes)
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Additional Notes</label>
+                @Html.TextArea("AdditionalNotes", Model.AdditionalNotes, new { @class = "form-control" })
+            </div>
 
-        <button type="submit" class="btn btn-1">Register</button>
+            <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
+        }
     </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        var selectedTraining = '@ViewBag.SelectedTraining';
+        var selectedDateTime = '@ViewBag.SelectedDateTime';
+
+        if (selectedTraining) {
+            $('#TrainingType').val(selectedTraining);
+        }
+
+        if (selectedTraining) {
+            $.ajax({
+                url: '@Url.Action("GetAvailableTimes", "TrainingRegistration")',
+                data: { trainingType: selectedTraining },
+                success: function (times) {
+                    var $timeSelect = $('#TrainingDateTime');
+                    $timeSelect.empty();
+                    $timeSelect.append($('<option>', {
+                        value: '',
+                        text: '-- Select Date & Time --'
+                    }));
+
+                    if (times.length > 0) {
+                        $.each(times, function (index, time) {
+                            var formatted = new Date(time).toLocaleString('ru-RU', {
+                                day: '2-digit', month: '2-digit', year: 'numeric',
+                                hour: '2-digit', minute: '2-digit'
+                            });
+
+                            var option = $('<option>', {
+                                value: time,
+                                text: formatted
+                            });
+
+                            if (selectedDateTime && time.startsWith(selectedDateTime.substring(0, 16))) {
+                                option.prop('selected', true);
+                            }
+
+                            $timeSelect.append(option);
+                        });
+                    }
+                }
+            });
+        }
+
+        $('#TrainingType').change(function () {
+            var selectedTraining = $(this).val();
+            var $timeSelect = $('#TrainingDateTime');
+
+            $timeSelect.empty();
+            $timeSelect.append($('<option>', {
+                value: '',
+                text: '-- Select Date & Time --'
+            }));
+
+            if (selectedTraining) {
+                $.ajax({
+                    url: '@Url.Action("GetAvailableTimes", "TrainingRegistration")',
+                    data: { trainingType: selectedTraining },
+                    success: function (times) {
+                        if (times.length > 0) {
+                            $.each(times, function (index, time) {
+                                var formatted = new Date(time).toLocaleString('ru-RU', {
+                                    day: '2-digit', month: '2-digit', year: 'numeric',
+                                    hour: '2-digit', minute: '2-digit'
+                                });
+
+                                $timeSelect.append($('<option>', {
+                                    value: time,
+                                    text: formatted
+                                }));
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+    </script>
 }
+
