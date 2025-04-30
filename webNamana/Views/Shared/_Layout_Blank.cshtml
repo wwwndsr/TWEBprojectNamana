@@ -1,0 +1,12 @@
+﻿@using System.Web.Optimization
+<body class="blank">
+    <div class="wrapper">
+        <!-- Main view -->
+        <section class="content">
+            @RenderBody()
+        </section>
+        @Scripts.Render("~/bundles/jquery/js")
+        @Scripts.Render("~/bundles/bootstrap/js")
+        @RenderSection("Scripts", required: false)
+    </div>
+</body>
