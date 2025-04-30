@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace webNamana.Domain.Entities.User
 {
-    internal class UDbTable
+    public class UDbTable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -35,6 +35,6 @@ namespace webNamana.Domain.Entities.User
         [StringLength(30)]
         public string LasIp { get; set; }
 
-        public URole Level { get; set; }
+        //public URole Level { get; set; }//
     }
 }
