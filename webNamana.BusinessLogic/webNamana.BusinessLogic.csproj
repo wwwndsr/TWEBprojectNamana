@@ -12,10 +12,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj" />
-    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Migrations\202505031937381_InitialCreate.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>202505031937381_InitialCreate.cs</LastGenOutput>
+		</EmbeddedResource>
+		<Compile Update="Migrations\202505031937381_InitialCreate.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>202505031937381_InitialCreate.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
     <Folder Include="DBModel\Seed\" />
   </ItemGroup>
 

@@ -206,6 +206,7 @@
     <Content Include="Content\style.css.map" />
     <Content Include="Content\style.scss" />
     <Content Include="Views\Details\Details.cshtml" />
+    <Content Include="Views\Admin\AdminPage.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\About\about.cshtml" />
     <None Include="Views\Contact\contact.cshtml" />
@@ -229,12 +230,14 @@
     <Content Include="Views\TrainingRegistration\Success.cshtml" />
     <Content Include="Views\SubscriptionPurchase\SubscriptionPurchase.cshtml" />
     <Content Include="Views\TrainingSchedule\TrainingSchedule.cshtml" />
+    <Content Include="Views\User\UserPage.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartPageController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -246,9 +249,11 @@
     <Compile Include="Controllers\SubscriptionPurchaseController.cs" />
     <Compile Include="Controllers\TrainingRegistrationController.cs" />
     <Compile Include="Controllers\TrainingScheduleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminDashboard.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Training.cs" />
     <Compile Include="Models\Login.cs" />
@@ -257,6 +262,7 @@
     <Compile Include="Models\SignUp.cs" />
     <Compile Include="Models\TrainingRegistration.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserDashboard.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -276,6 +282,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\webNamana.BusinessLogic\webNamana.BusinessLogic.csproj">
+      <Project>{d2bac070-27f9-48b8-aa9e-e427d959d7c0}</Project>
+      <Name>webNamana.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj">
+      <Project>{4b902d35-8f75-4407-87aa-89cc100b3b0a}</Project>
+      <Name>webNamana.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

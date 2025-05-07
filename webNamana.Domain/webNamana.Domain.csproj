@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Enums\" />
   </ItemGroup>
 

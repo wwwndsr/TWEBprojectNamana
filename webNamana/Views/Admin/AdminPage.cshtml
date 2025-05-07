@@ -1,0 +1,63 @@
+﻿@model webNamana.Models.AdminDashboard
+
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Section -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Admin Profile</h3>
+                </div>
+                <div class="card-body text-center">
+                    <!-- Profile picture -->
+                    <img src="@Url.Content("~/Content/Images/placeholder-profile.png")" alt="Profile Picture" class="img-fluid rounded-circle" style="width: 150px; height: 150px;" />
+                    <h4 class="mt-3">@Model.Username</h4>
+                    <p>Admin Role</p>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3>Recent Activity</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        @foreach (var activity in Model.RecentActivity)
+                        {
+                            <li>@activity</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Admin Stats</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Total Users:</strong> @Model.TotalUsers</p>
+                    <p><strong>Total Products:</strong> @Model.TotalProducts</p>
+                    <p><strong>Total Orders:</strong> @Model.TotalOrders</p>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3>Manage Operations</h3>
+                </div>
+                <div class="card-body">
+                    <a href="@Url.Action("ManageUsers", "Admin")" class="btn btn-primary mb-2">Manage Users</a>
+                    <a href="@Url.Action("ManageProducts", "Admin")" class="btn btn-secondary mb-2">Manage Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

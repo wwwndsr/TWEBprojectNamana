@@ -53,6 +53,11 @@
             text-align: center;
             font-size: 14px;
         }
+
+        .text-danger {
+            color: red;
+            font-size: 12px;
+        }
     </style>
 }
 
@@ -60,19 +65,59 @@
     <h2>Sign Up</h2>
     <form method="post" action="@Url.Action("SignUp", "SignUp")">
         <div class="form-group">
-            <input type="text" id="Name" name="Name" class="form-control" placeholder="Name" value="@Model.Name" required />
+            <label for="Username">Username</label>
+            <input type="text" id="Username" name="Username" class="form-control" placeholder="Username" value="@Model.Username" required />
+            @if (ViewData.ModelState["Username"]?.Errors.Count > 0)
+            {
+                <div class="text-danger">
+                    @foreach (var error in ViewData.ModelState["Username"].Errors)
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
         </div>
 
         <div class="form-group">
+            <label for="Email">Email</label>
             <input type="email" id="Email" name="Email" class="form-control" placeholder="Email" value="@Model.Email" required />
+            @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
+            {
+                <div class="text-danger">
+                    @foreach (var error in ViewData.ModelState["Email"].Errors)
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
         </div>
 
         <div class="form-group">
+            <label for="Password">Password</label>
             <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required />
+            @if (ViewData.ModelState["Password"]?.Errors.Count > 0)
+            {
+                <div class="text-danger">
+                    @foreach (var error in ViewData.ModelState["Password"].Errors)
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
         </div>
 
         <div class="form-group">
+            <label for="ConfirmPassword">Confirm Password</label>
             <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required />
+            @if (ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0)
+            {
+                <div class="text-danger">
+                    @foreach (var error in ViewData.ModelState["ConfirmPassword"].Errors)
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
         </div>
 
         <button type="submit" class="btn btn-primary">Sign Up</button>

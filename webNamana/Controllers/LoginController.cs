@@ -1,51 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using webNamana.Models;
-
-using System.Linq;
 using System.Web.Mvc;
-
+using webNamana.Models;
+using webNamana.Domain.Entities.User;
+using webNamana.BusinessLogic.DBModel;
+using System.Security.Cryptography;
+using System.Text;
+using System.Linq;
 
 namespace webNamana.Controllers
 {
-
-        public class LoginController : Controller
+    public class LoginController : Controller
+    {
+        // GET: Login
+        public ActionResult Login()
         {
+            return View();
+        }
 
-            // GET: Login
-            public ActionResult Login()
-            {
-                return View();
-            }
-
-            [HttpPost]
-            public ActionResult Login(Login model)
-            {
+        [HttpPost]
+        public ActionResult Login(Login model)
+        {
             if (ModelState.IsValid)
             {
-                // Пример проверки учетных данных (замените на реальную проверку через базу данных)
-                if (AuthenticateUser(model.Email, model.Password))
+                using (var db = new UserContext())
                 {
-                    // Сохраняем email пользователя в сессии
-                    Session["UserEmail"] = model.Email;
+                    // Хэшируем введенный пароль
+                    var passwordHash = HashPassword(model.Password);
 
-                    // Перенаправляем на главную страницу
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    // Добавляем сообщение об ошибке
-                    ModelState.AddModelError("", "Неправильный email или пароль.");
+                    // Ищем пользователя с таким email и хэшированным паролем
+                    var user = db.Users.FirstOrDefault(u => u.Email == model.Email && u.Password == passwordHash);
+                    if (user != null)
+                    {
+                        // Сохраняем email пользователя в сессии
+                        Session["UserEmail"] = user.Email;
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Неверный email или пароль");
+                    }
                 }
             }
-                return View(model);
-            }
 
-        private bool AuthenticateUser(string email, string password)
+            return View(model);
+        }
+
+        private string HashPassword(string password)
         {
-            // Пример проверки (замените на реальную логику проверки через базу данных)
-            return email == "test@example.com" && password == "123456";
+            using (var sha256 = SHA256.Create())
+            {
+                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashBytes);
+            }
         }
 
         public ActionResult Logout()
@@ -55,5 +61,4 @@ namespace webNamana.Controllers
             return RedirectToAction("Login");
         }
     }
-
- }
+}

@@ -14,7 +14,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("About", "About")">About</a>
                             </li>
                             <li class="nav-item">
@@ -23,9 +23,27 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Contact", "Contact")">Contact Us</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Login", "Login")">Login</a>
-                            </li>
+
+                            @if (Session["UserEmail"] != null)
+                            {
+                                var userRole = Session["UserRole"].ToString();
+                                if (userRole == "Admin")
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("AdminPage", "Admin")">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("UserPage", "User")">
+                                            <i class="fas fa-user-circle"></i> Личный кабинет
+                                        </a>
+                                    </li>
+                                }
+                            }
                         </ul>
 
                         <!-- Кнопка поиска -->
@@ -37,6 +55,19 @@
                         <a href="@Url.Action("CartPage", "CartPage")" class="cart-link ml-lg-4">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
+
+                        <!-- Иконки пользователя и логина справа -->
+                        <div class="d-flex ml-lg-4">
+                            <a href="@Url.Action("UserPage", "User")" class="user-link mr-3">
+                                <i class="fas fa-user-circle user-icon"></i>
+                            </a>
+                            @if (Session["UserEmail"] == null)
+                            {
+                                <a href="@Url.Action("Login", "Login")" class="login-link">
+                                    <i class="fas fa-sign-in-alt login-icon"></i>
+                                </a>
+                            }
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -48,13 +79,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
 <style>
-    .cart-link, .search-link {
+    /* Цвет иконок */
+    .nav-link i, .cart-link i, .search-link i, .user-link i, .login-link i {
+        color: black;
+        transition: color 0.3s ease;
+    }
+
+        /* При наведении на иконки */
+        .nav-link i:hover, .cart-link i:hover, .search-link i:hover, .user-link i:hover, .login-link i:hover {
+            color: white;
+        }
+
+    /* Для кнопки поиска и корзины */
+    .search-link, .cart-link, .user-link, .login-link {
         text-decoration: none;
         color: inherit;
         transition: transform 0.3s ease;
     }
 
-        .cart-link:hover, .search-link:hover {
+        .search-link:hover, .cart-link:hover, .user-link:hover, .login-link:hover {
             transform: scale(1.1);
         }
+
+    /* Уменьшаем размер иконки пользователя */
+    .user-icon {
+        font-size: 25px; /* Уменьшаем размер иконки */
+    }
+
+    /* Иконка логина - уменьшаем размер, чтобы было как с иконкой корзины */
+    .login-icon {
+        font-size: 25px; /* Тот же размер, что и у иконки пользователя */
+    }
+
+    /* Иконки расположены горизонтально, выравнивание по центру */
+    .user-link, .login-link {
+        display: flex;
+        align-items: center; /* Выравнивание иконок по вертикали */
+    }
 </style>
