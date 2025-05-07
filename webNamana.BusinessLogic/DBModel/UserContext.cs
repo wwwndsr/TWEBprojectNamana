@@ -1,4 +1,6 @@
 using System.Data.Entity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,14 +8,14 @@ using webNamana.Domain.Entities.User;
 
 namespace webNamana.BusinessLogic.DBModel
 {
-   public class UserContext : DbContext
+    public class UserContext : DbContext
     {
-        public UserContext() :
-            base("name=webNamana") // connectionstring name define in your web.config
+        public UserContext() : base("name=webNamana")
         {
         }
 
-        public virtual DbSet<UDbTable> Users { get; set; }
+        public DbSet<UDbTable> Users { get; set; }
+
+       
     }
 }
-    
