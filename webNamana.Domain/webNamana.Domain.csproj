@@ -10,11 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 

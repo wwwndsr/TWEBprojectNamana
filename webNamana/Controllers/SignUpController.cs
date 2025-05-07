@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using webNamana.Models;
+using webNamana.Domain.Entities.User;
+using webNamana.BusinessLogic.DBModel;
+using System.Security.Cryptography;
+using System.Text;
+using webNamana.Domain.Enums;
+
 namespace webNamana.Controllers
 {
     public class SignUpController : Controller
@@ -12,8 +14,7 @@ namespace webNamana.Controllers
         // GET: SignUp
         public ActionResult SignUp()
         {
-            var model = new SignUp();
-            return View(model);
+            return View(new SignUp());
         }
 
         // POST: SignUp
@@ -22,12 +23,38 @@ namespace webNamana.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Логика для сохранения пользователя
-                return RedirectToAction("Index", "Home"); // Перенаправление после успешной регистрации
+                using (var db = new UserContext())
+                {
+                    // Хэширование пароля
+                    var passwordHash = HashPassword(model.Password);
+
+                    var user = new UDbTable
+                    {
+                        Username = model.Username,
+                        Email = model.Email,
+                        Password = passwordHash,  // Сохраняем захэшированный пароль
+                        LastLogin = DateTime.Now,
+                        LasIp = Request.UserHostAddress,
+                        Level = URole.User
+                    };
+
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index", "Home");
             }
 
-            // Если форма не прошла валидацию, возвращаем модель обратно в представление
             return View(model);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashBytes);
+            }
         }
     }
 }

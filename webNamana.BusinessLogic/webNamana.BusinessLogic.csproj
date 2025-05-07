@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
@@ -19,4 +19,16 @@
     <Folder Include="DBModel\Seed\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Update="Migrations\202505031937381_InitialCreate.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>202505031937381_InitialCreate.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<Compile Update="Migrations\202505031937381_InitialCreate.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>202505031937381_InitialCreate.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	
 </Project>
