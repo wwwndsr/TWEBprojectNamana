@@ -1,0 +1,223 @@
+@{
+    ViewBag.Title = "Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Order #1001 Details</h3>
+                    <span class="badge badge-warning badge-lg">Processing</span>
+                </div>
+                <div class="card-body">
+                    <!-- Информация о заказе -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Customer Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Name:</strong> Иван Петров</p>
+                                    <p><strong>Email:</strong> ivan@example.com</p>
+                                    <p><strong>Phone:</strong> +373 (79) 123-456</p>
+                                    <p><strong>Address:</strong> Кишинев, ул. Студентческая, д. 10, кв. 25</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Order Summary</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Order Date:</strong> 15.05.2025 14:30</p>
+                                    <p><strong>Payment Method:</strong> Credit Card</p>
+                                    <p><strong>Shipping Method:</strong> Standard Delivery</p>
+                                    <p><strong>Tracking Number:</strong> MD123456789</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Товары в заказе -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Order Items (3)</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th style="width: 50px">#</th>
+                                            <th>Product</th>
+                                            <th class="text-center">Price</th>
+                                            <th class="text-center">Qty</th>
+                                            <th class="text-right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/50" alt="Product" class="img-thumbnail mr-3" style="width: 50px; height: 50px;">
+                                                    <div>
+                                                        <h6 class="mb-0">Беговая дорожка</h6>
+                                                        <small class="text-muted">SKU: PHN-XYZ-10</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">$799.00</td>
+                                            <td class="text-center">1</td>
+                                            <td class="text-right">$799.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/50" alt="Product" class="img-thumbnail mr-3" style="width: 50px; height: 50px;">
+                                                    <div>
+                                                        <h6 class="mb-0">Бутылка Спортивная</h6>
+                                                        <small class="text-muted">SKU: ACC-TREADMILL-01</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">$19.99</td>
+                                            <td class="text-center">2</td>
+                                            <td class="text-right">$39.98</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://via.placeholder.com/50" alt="Product" class="img-thumbnail mr-3" style="width: 50px; height: 50px;">
+                                                    <div>
+                                                        <h6 class="mb-0">Футболка</h6>
+                                                        <small class="text-muted">SKU: ACC-TSHIRT-05</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">$9.99</td>
+                                            <td class="text-center">1</td>
+                                            <td class="text-right">$9.99</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Итоговая сумма -->
+                    <div class="row">
+                        <div class="col-md-5 ml-auto">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Order Total</h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-sm mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-right">Subtotal:</th>
+                                                <td class="text-right">$848.97</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right">Shipping:</th>
+                                                <td class="text-right">$10.00</td>
+                                            </tr>
+                                            <tr class="font-weight-bold">
+                                                <th class="text-right">Total:</th>
+                                                <td class="text-right">$858.97</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- История статусов -->
+                    <div class="card mt-4">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Status History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-badge bg-success"></div>
+                                    <div class="timeline-content">
+                                        <h6>Order Placed</h6>
+                                        <p class="text-muted mb-0">15.05.2025 14:30</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-badge bg-info"></div>
+                                    <div class="timeline-content">
+                                        <h6>Payment Received</h6>
+                                        <p class="text-muted mb-0">15.05.2025 14:32</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-badge bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <h6>Processing</h6>
+                                        <p class="text-muted mb-0">15.05.2025 15:15</p>
+                                        <p>Your order is being prepared for shipment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between">
+                    <a href="@Url.Action("OrdersList", "Admin")" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Orders
+                    </a>
+                    <div>
+                        <button class="btn btn-outline-danger mr-2">
+                            <i class="fas fa-times mr-2"></i>Cancel Order
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-edit mr-2"></i>Update Status
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 20px;
+    }
+
+    .timeline-badge {
+        position: absolute;
+        left: -30px;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .timeline-content {
+        padding-left: 15px;
+    }
+
+    .badge-lg {
+        font-size: 1rem;
+        padding: 0.5em 0.8em;
+    }
+</style>

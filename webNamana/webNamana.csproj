@@ -207,9 +207,12 @@
     <Content Include="Content\style.scss" />
     <Content Include="Views\Details\Details.cshtml" />
     <Content Include="Views\Admin\AdminPage.cshtml" />
+    <Content Include="Views\AddProduct\AddProduct.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\About\about.cshtml" />
     <None Include="Views\Contact\contact.cshtml" />
+    <Content Include="Views\OrdersList\OrdersList.cshtml" />
+    <Content Include="Views\OrderDetails\OrderDetails.cshtml" />
     <None Include="Views\Service\service.cshtml" />
     <None Include="Views\Login\login.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
@@ -230,17 +233,21 @@
     <Content Include="Views\SubscriptionPurchase\SubscriptionPurchase.cshtml" />
     <Content Include="Views\TrainingSchedule\TrainingSchedule.cshtml" />
     <Content Include="Views\User\UserPage.cshtml" />
+    <Content Include="Views\UsersList\UsersList.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AddProductController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartPageController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrderDetails.cs" />
+    <Compile Include="Controllers\OrdersList.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductPageController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
@@ -249,6 +256,7 @@
     <Compile Include="Controllers\TrainingRegistrationController.cs" />
     <Compile Include="Controllers\TrainingScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UsersList.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
