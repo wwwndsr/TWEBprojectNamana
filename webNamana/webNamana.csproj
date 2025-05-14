@@ -47,6 +47,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -207,6 +210,7 @@
     <Content Include="Content\style.scss" />
     <Content Include="Views\Details\Details.cshtml" />
     <Content Include="Views\Admin\AdminPage.cshtml" />
+    <Content Include="Views\EditProfil\EditProfile.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\About\about.cshtml" />
     <None Include="Views\Contact\contact.cshtml" />
@@ -236,6 +240,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartPageController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
@@ -249,11 +254,14 @@
     <Compile Include="Controllers\TrainingRegistrationController.cs" />
     <Compile Include="Controllers\TrainingScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\AdminOnlyAttribute.cs" />
+    <Compile Include="Filters\UserOnlyAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDashboard.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Models\Training.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Order.cs" />
@@ -281,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

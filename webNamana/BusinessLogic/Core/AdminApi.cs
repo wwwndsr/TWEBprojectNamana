@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace webNamana.BusinessLogic.Core
         internal AdminAuthResult GetAllUsersAction()
         {
             var result = new AdminAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var users = db.Users.Select(u => new UserMinimal
@@ -31,14 +31,14 @@ namespace webNamana.BusinessLogic.Core
                 result.StatusMsg = "Users retrieved successfully";
                 result.Users = users;
             }
-
+            
             return result;
         }
 
         internal AdminAuthResult GetUserByIdAction(int userId)
         {
             var result = new AdminAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
@@ -61,14 +61,14 @@ namespace webNamana.BusinessLogic.Core
                     RegisterTime = user.RegisterTime
                 };
             }
-
+            
             return result;
         }
 
         internal AdminAuthResult UpdateUserAction(UDbTable data)
         {
             var result = new AdminAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == data.Id);
@@ -92,14 +92,14 @@ namespace webNamana.BusinessLogic.Core
                 result.Status = true;
                 result.StatusMsg = "User updated successfully";
             }
-
+            
             return result;
         }
 
         internal AdminAuthResult DeleteUserAction(int userId)
         {
             var result = new AdminAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
@@ -115,16 +115,40 @@ namespace webNamana.BusinessLogic.Core
                 result.Status = true;
                 result.StatusMsg = "User deleted successfully";
             }
-
+            
             return result;
         }
 
+        internal AdminAuthResult GetDashboardStatsAction()
+        {
+            var result = new AdminAuthResult();
+            
+            using (var db = new UserContext())
+            {
+                var stats = new AdminDashboardStats
+                {
+                    TotalUsers = db.Users.Count(),
+                    ActiveUsers = db.Users.Count(u => u.LastLogin > DateTime.Now.AddDays(-30)),
+                    NewUsers = db.Users.Count(u => u.RegisterTime > DateTime.Now.AddDays(-30)),
+                    UsersByRole = new Dictionary<URole, int>
+                    {
+                        { URole.User, db.Users.Count(u => u.Level == URole.User) },
+                        { URole.Admin, db.Users.Count(u => u.Level == URole.Admin) }
+                    }
+                };
 
+                result.Status = true;
+                result.StatusMsg = "Dashboard stats retrieved successfully";
+                result.DashboardStats = stats;
+            }
+            
+            return result;
+        }
 
         internal AdminAuthResult ChangeUserRoleAction(int userId, URole newRole)
         {
             var result = new AdminAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
@@ -140,8 +164,8 @@ namespace webNamana.BusinessLogic.Core
                 result.Status = true;
                 result.StatusMsg = "User role updated successfully";
             }
-
+            
             return result;
         }
     }
-}
+} 
