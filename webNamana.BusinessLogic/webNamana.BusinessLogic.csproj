@@ -6,12 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.0" />
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj" />
+    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -29,6 +31,10 @@
 	<ItemGroup>
     <Folder Include="DBModel\Seed\" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="System.Web" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="Migrations\202505031937381_InitialCreate.resx">

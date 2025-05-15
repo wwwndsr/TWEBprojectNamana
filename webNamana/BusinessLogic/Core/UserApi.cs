@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
@@ -13,7 +13,7 @@ namespace webNamana.BusinessLogic.Core
 {
     public class UserApi
     {
-        public UserAuthResult UserRegisterAction(UDbTable data)
+        internal UserAuthResult UserRegisterAction(UDbTable data)
         {
             var result = new UserAuthResult();
             if (data.Password.Length < 8)
@@ -55,11 +55,11 @@ namespace webNamana.BusinessLogic.Core
                 result.StatusKey = "Email";
                 return result;
             }
-
+            
             data.RegisterTime = DateTime.Now;
             data.LastLogin = DateTime.Now;
             data.Password = LoginHelper.HashGen(data.Password);
-
+            
             using (var db = new UserContext())
             {
                 db.Users.Add(data);
@@ -71,12 +71,12 @@ namespace webNamana.BusinessLogic.Core
             return result;
         }
 
-        public UserAuthResult UserLoginAction(UDbTable data)
+        internal UserAuthResult UserLoginAction(UDbTable data)
         {
             UserAuthResult result = new UserAuthResult();
-
+            
             var validate = new EmailAddressAttribute();
-
+            
             if (data.Password.Length < 8 || !validate.IsValid(data.Email))
             {
                 result.Status = false;
@@ -84,7 +84,7 @@ namespace webNamana.BusinessLogic.Core
                 result.StatusKey = "Email";
                 return result;
             }
-
+            
             UDbTable user;
 
             using (var db = new UserContext())
@@ -99,7 +99,7 @@ namespace webNamana.BusinessLogic.Core
                 result.StatusKey = "Email";
                 return result;
             }
-
+            
             if (user.Password != LoginHelper.HashGen(data.Password))
             {
                 result.Status = false;
@@ -107,7 +107,7 @@ namespace webNamana.BusinessLogic.Core
                 result.StatusKey = "Email";
                 return result;
             }
-
+            
             user.LastLogin = DateTime.Now;
             user.LastIp = data.LastIp;
 
@@ -116,13 +116,13 @@ namespace webNamana.BusinessLogic.Core
                 db.Users.AddOrUpdate(user);
                 db.SaveChanges();
             }
-
+            
             result.Status = true;
             result.StatusMsg = "User logged in successfully";
             return result;
         }
 
-        public HttpCookie Cookie(string email)
+        internal HttpCookie Cookie(string email)
         {
             var httpCookie = new HttpCookie("WNCNN")
             {
@@ -135,7 +135,7 @@ namespace webNamana.BusinessLogic.Core
                 if (validate.IsValid(email))
                 {
                     var current = db.Sessions.FirstOrDefault(s => s.Email == email);
-
+                    
                     if (current == null)
                     {
                         current = new Session
@@ -150,7 +150,7 @@ namespace webNamana.BusinessLogic.Core
                         current.CookieString = httpCookie.Value;
                         current.ExpireTime = DateTime.Now.AddDays(1);
                     }
-
+                    
                     db.Sessions.AddOrUpdate(current);
                     db.SaveChanges();
                 }
@@ -162,7 +162,7 @@ namespace webNamana.BusinessLogic.Core
             return httpCookie;
         }
 
-        public bool SignOutAction(string cookie)
+        internal bool SignOutAction(string cookie)
         {
             using (var db = new SessionContext())
             {
@@ -173,30 +173,30 @@ namespace webNamana.BusinessLogic.Core
                 return true;
             }
         }
-
-        public UserMinimal UserCookie(string cookie)
+        
+        internal UserMinimal UserCookie(string cookie)
         {
             Session session;
-
+            
             using (var db = new SessionContext())
             {
                 session = db.Sessions.FirstOrDefault(s => s.CookieString == cookie);
             }
 
             if (session == null) return null;
-
-            if (session.ExpireTime < DateTime.Now)
+            
+            if(session.ExpireTime < DateTime.Now)
             {
                 SignOutAction(cookie);
                 return null;
             }
-
+            
             UDbTable user;
             using (var db = new UserContext())
             {
                 user = db.Users.FirstOrDefault(u => u.Email == session.Email);
             }
-
+            
             if (user == null) return null;
 
             var um = new UserMinimal()
@@ -206,14 +206,14 @@ namespace webNamana.BusinessLogic.Core
                 Email = user.Email,
                 Level = user.Level
             };
-
+            
             return um;
         }
 
-        public UserAuthResult UpdateProfileAction(UDbTable data)
+        internal UserAuthResult UpdateProfileAction(UDbTable data)
         {
             var result = new UserAuthResult();
-
+            
             using (var db = new UserContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == data.Id);
@@ -258,8 +258,8 @@ namespace webNamana.BusinessLogic.Core
                 result.Status = true;
                 result.StatusMsg = "Profile updated successfully";
             }
-
+            
             return result;
         }
     }
-}
+} 
