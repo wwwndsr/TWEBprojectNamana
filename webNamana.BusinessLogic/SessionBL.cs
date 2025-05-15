@@ -4,31 +4,67 @@ using System.Text;
 using System.Threading.Tasks;
 using webNamana.BusinessLogic.Core;
 using webNamana.BusinessLogic.Interfaces;
+using webNamana.Domain.Entities.User;
+using System.Web;
 
 namespace webNamana.BusinessLogic
 {
-    public class SessionBL : UserApi, ISession
+    class SessionBL : UserApi, ISession
     {
-        private bool sessionActive = false;
+        public UserAuthResult UserRegister(UDbTable data)
+        {
+            return UserRegisterAction(data);
+        }
+
+        public UserAuthResult UserLogin(UDbTable data)
+        {
+            return UserLoginAction(data);
+        }
+
+        public HttpCookie GenCookie(string mail)
+        {
+            return Cookie(mail);
+        }
+
+        public UserMinimal GetUserByCookie(string httpCookieValue)
+        {
+            return UserCookie(httpCookieValue);
+        }
+
+        public bool SignOut(string httpCookieValue)
+        {
+            return SignOutAction(httpCookieValue);
+        }
 
         public bool Login(string username, string password)
         {
-            if (ValidateUser(username, password))
+            var user = new UDbTable
             {
-                sessionActive = true;
-                return true;
-            }
-            return false;
+                Username = username,
+                Password = password
+            };
+            var result = UserLoginAction(user);
+            return result.Status;
         }
 
         public void Logout()
         {
-            sessionActive = false;
+            var cookie = HttpContext.Current.Request.Cookies["WNCNN"];
+            if (cookie != null)
+            {
+                SignOut(cookie.Value);
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
         }
 
         public bool IsSessionActive()
         {
-            return sessionActive;
+            var cookie = HttpContext.Current.Request.Cookies["WNCNN"];
+            if (cookie == null) return false;
+            
+            var user = GetUserByCookie(cookie.Value);
+            return user != null;
         }
     }
 }
