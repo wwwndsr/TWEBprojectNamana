@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -36,7 +35,7 @@ namespace webNamana.Web.Controllers
                 return View(model);
             }
 
-            var cookie = _userApi.Cookie(model.Email);
+            var cookie =  _userApi.Cookie(model.Email);
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index", "Home");
