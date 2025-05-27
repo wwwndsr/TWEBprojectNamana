@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using webNamana.BusinessLogic.DBModel;
-using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
+using webNamana.Domain.Enums;
 using webNamana.Helpers;
 
 namespace webNamana.BusinessLogic.Core
 {
     public class UserApi
     {
+        private const string CookieName = "X-KEY";
+
         public UserAuthResult UserRegisterAction(UDbTable data)
         {
             var result = new UserAuthResult();
-            if (data.Password.Length < 8)
+
+            if (data.Password == null || data.Password.Length < 8)
             {
                 result.Status = false;
                 result.StatusMsg = "Password must be at least 8 characters long";
@@ -41,27 +43,24 @@ namespace webNamana.BusinessLogic.Core
                 return result;
             }
 
-            UDbTable user;
-
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Email == data.Email || u.Username == data.Username);
-            }
+                var userExists = db.Users.Any(u => u.Email == data.Email || u.Username == data.Username);
+                if (userExists)
+                {
+                    result.Status = false;
+                    result.StatusMsg = "User with such email or username already exists";
+                    result.StatusKey = "Email";
+                    return result;
+                }
 
-            if (user != null)
-            {
-                result.Status = false;
-                result.StatusMsg = "User already exists";
-                result.StatusKey = "Email";
-                return result;
-            }
+                data.RegisterTime = DateTime.Now;
+                data.LastLogin = DateTime.Now;
+                data.Password = LoginHelper.HashGen(data.Password);
 
-            data.RegisterTime = DateTime.Now;
-            data.LastLogin = DateTime.Now;
-            data.Password = LoginHelper.HashGen(data.Password);
+                // Присваиваем роль User по умолчанию
+                data.Level = URole.User;
 
-            using (var db = new UserContext())
-            {
                 db.Users.Add(data);
                 db.SaveChanges();
             }
@@ -71,13 +70,21 @@ namespace webNamana.BusinessLogic.Core
             return result;
         }
 
+        public UDbTable GetUserById(int id)
+        {
+            using (var db = new UserContext())
+            {
+                return db.Users.FirstOrDefault(u => u.Id == id);
+            }
+        }
+
         public UserAuthResult UserLoginAction(UDbTable data)
         {
-            UserAuthResult result = new UserAuthResult();
+            var result = new UserAuthResult();
 
             var validate = new EmailAddressAttribute();
 
-            if (data.Password.Length < 8 || !validate.IsValid(data.Email))
+            if (data.Password == null || data.Password.Length < 8 || !validate.IsValid(data.Email))
             {
                 result.Status = false;
                 result.StatusMsg = "Email or Password is not valid";
@@ -85,48 +92,47 @@ namespace webNamana.BusinessLogic.Core
                 return result;
             }
 
-            UDbTable user;
-
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Email == data.Email);
-            }
+                var user = db.Users.FirstOrDefault(u => u.Email == data.Email);
 
-            if (user == null)
-            {
-                result.Status = false;
-                result.StatusMsg = "User not found";
-                result.StatusKey = "Email";
-                return result;
-            }
+                if (user == null)
+                {
+                    result.Status = false;
+                    result.StatusMsg = "User not found";
+                    result.StatusKey = "Email";
+                    return result;
+                }
 
-            if (user.Password != LoginHelper.HashGen(data.Password))
-            {
-                result.Status = false;
-                result.StatusMsg = "Email or Password is not valid";
-                result.StatusKey = "Email";
-                return result;
-            }
+                if (user.Password != LoginHelper.HashGen(data.Password))
+                {
+                    result.Status = false;
+                    result.StatusMsg = "Email or Password is not valid";
+                    result.StatusKey = "Email";
+                    return result;
+                }
 
-            user.LastLogin = DateTime.Now;
-            user.LastIp = data.LastIp;
+                user.LastLogin = DateTime.Now;
+                user.LasIp = data.LasIp;
 
-            using (var db = new UserContext())
-            {
                 db.Users.AddOrUpdate(user);
                 db.SaveChanges();
-            }
 
-            result.Status = true;
-            result.StatusMsg = "User logged in successfully";
-            return result;
+                result.Status = true;
+                result.StatusMsg = "User logged in successfully";
+                return result;
+            }
         }
 
         public HttpCookie Cookie(string email)
         {
-            var httpCookie = new HttpCookie("WNCNN")
+            var httpCookie = new HttpCookie(CookieName)
             {
-                Value = CookieGenerator.Create(email)
+                Value = CookieGenerator.Create(email),
+                HttpOnly = true,
+                Secure = HttpContext.Current.Request.IsSecureConnection,
+                Expires = DateTime.Now.AddDays(1),
+                Path = "/"
             };
 
             using (var db = new SessionContext())
@@ -144,14 +150,15 @@ namespace webNamana.BusinessLogic.Core
                             CookieString = httpCookie.Value,
                             ExpireTime = DateTime.Now.AddDays(1)
                         };
+                        db.Sessions.Add(current);
                     }
                     else
                     {
                         current.CookieString = httpCookie.Value;
                         current.ExpireTime = DateTime.Now.AddDays(1);
+                        db.Sessions.AddOrUpdate(current);
                     }
 
-                    db.Sessions.AddOrUpdate(current);
                     db.SaveChanges();
                 }
                 else
@@ -191,23 +198,19 @@ namespace webNamana.BusinessLogic.Core
                 return null;
             }
 
-            UDbTable user;
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Email == session.Email);
+                var user = db.Users.FirstOrDefault(u => u.Email == session.Email);
+                if (user == null) return null;
+
+                return new UserMinimal()
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    Level = user.Level
+                };
             }
-
-            if (user == null) return null;
-
-            var um = new UserMinimal()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                Level = user.Level
-            };
-
-            return um;
         }
 
         public UserAuthResult UpdateProfileAction(UDbTable data)
@@ -234,6 +237,16 @@ namespace webNamana.BusinessLogic.Core
                         result.StatusKey = "Email";
                         return result;
                     }
+
+                    var emailTaken = db.Users.Any(u => u.Email == data.Email && u.Id != data.Id);
+                    if (emailTaken)
+                    {
+                        result.Status = false;
+                        result.StatusMsg = "Email is already taken by another user";
+                        result.StatusKey = "Email";
+                        return result;
+                    }
+
                     user.Email = data.Email;
                 }
 
@@ -255,6 +268,7 @@ namespace webNamana.BusinessLogic.Core
                 }
 
                 db.SaveChanges();
+
                 result.Status = true;
                 result.StatusMsg = "Profile updated successfully";
             }

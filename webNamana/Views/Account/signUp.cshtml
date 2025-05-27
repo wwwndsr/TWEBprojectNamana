@@ -1,14 +1,14 @@
-@model webNamana.Models.SignUp
+@model webNamana.Domain.Entities.User.UDbTable
 @{
     ViewBag.Title = "Sign Up";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
     <style>
-        body {
+    body {
             font-family: 'Poppins', sans-serif;
             background-image: url('@Url.Content("~/Content/images/slider-bg.jpg")');
             background-size: cover;
@@ -63,10 +63,14 @@
 
 <div class="sign-up-box">
     <h2>Sign Up</h2>
-    <form method="post" action="@Url.Action("SignUp", "SignUp")">
+    @using (Html.BeginForm("SignUp", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
         <div class="form-group">
             <label for="Username">Username</label>
-            <input type="text" id="Username" name="Username" class="form-control" placeholder="Username" value="@Model.Username" required />
+            <input type="text" id="Username" name="Username" class="form-control" placeholder="Username" value="@(Model?.Username ?? "")"
+ required />
             @if (ViewData.ModelState["Username"]?.Errors.Count > 0)
             {
                 <div class="text-danger">
@@ -80,7 +84,8 @@
 
         <div class="form-group">
             <label for="Email">Email</label>
-            <input type="email" id="Email" name="Email" class="form-control" placeholder="Email" value="@Model.Email" required />
+            <input type="email" id="Email" name="Email" class="form-control" placeholder="Email" value="@(Model?.Email ?? "")"
+ required />
             @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
             {
                 <div class="text-danger">
@@ -122,8 +127,8 @@
 
         <button type="submit" class="btn btn-primary">Sign Up</button>
 
-        <div class="login-link">
-            <a href="@Url.Action("Login", "Login")">Already have an account? Log in</a>
+        <div class="login-link" style="text-align:center; margin-top:15px;">
+            <a href="@Url.Action("Login", "Account")">Already have an account? Log in</a>
         </div>
-    </form>
+    }
 </div>

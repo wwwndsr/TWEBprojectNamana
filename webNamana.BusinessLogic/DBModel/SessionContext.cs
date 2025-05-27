@@ -10,7 +10,7 @@ namespace webNamana.BusinessLogic.DBModel
 {
     public class SessionContext : DbContext
     {
-        public SessionContext() : base("name=NaMaNa")
+        public SessionContext() : base("name=webNamana")
         {
         }
 

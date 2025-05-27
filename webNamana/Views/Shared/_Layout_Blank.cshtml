@@ -1,12 +1,24 @@
 ﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css") <!-- твой основной bundle, если есть -->
+    @RenderSection("Styles", required: false)
+</head>
 <body class="blank">
     <div class="wrapper">
-        <!-- Main view -->
+        <!-- Main content -->
         <section class="content">
             @RenderBody()
         </section>
-        @Scripts.Render("~/bundles/jquery/js")
-        @Scripts.Render("~/bundles/bootstrap/js")
-        @RenderSection("Scripts", required: false)
     </div>
+
+    @Scripts.Render("~/bundles/jquery/js")
+    @Scripts.Render("~/bundles/bootstrap/js")
+    @RenderSection("Scripts", required: false)
 </body>
+</html>

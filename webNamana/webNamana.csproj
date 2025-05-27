@@ -217,13 +217,13 @@
     <Content Include="Views\OrdersList\OrdersList.cshtml" />
     <Content Include="Views\OrderDetails\OrderDetails.cshtml" />
     <None Include="Views\Service\service.cshtml" />
-    <None Include="Views\Login\login.cshtml" />
+    <None Include="Views\Account\login.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Slider.cshtml" />
     <Content Include="Views\Shared\_Layout_Blank.cshtml" />
-    <None Include="Views\SignUp\signUp.cshtml" />
+    <None Include="Views\Account\signUp.cshtml" />
     <None Include="Views\ProductPage\productPage.cshtml" />
     <None Include="Views\Product\product.cshtml" />
     <None Include="Views\CartPage\cartPage.cshtml" />
@@ -249,17 +249,17 @@
     <Compile Include="Controllers\CartPageController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrderDetails.cs" />
     <Compile Include="Controllers\OrdersList.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductPageController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
-    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SubscriptionPurchaseController.cs" />
     <Compile Include="Controllers\TrainingRegistrationController.cs" />
     <Compile Include="Controllers\TrainingScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filter\AdminOnlyAttribute.cs" />
+    <Compile Include="Filter\UserOnlyAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -293,7 +293,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +303,10 @@
     <ProjectReference Include="..\webNamana.Domain\webNamana.Domain.csproj">
       <Project>{4b902d35-8f75-4407-87aa-89cc100b3b0a}</Project>
       <Name>webNamana.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj">
+      <Project>{75ed136e-3bb9-4a4f-9acb-54a6046d23a7}</Project>
+      <Name>webNamana.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
