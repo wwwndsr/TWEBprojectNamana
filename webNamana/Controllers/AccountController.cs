@@ -5,10 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using webNamana.Domain.Entities.User;
 using webNamana.Helpers;
-using webNamana.BusinessLogic.Services;
+using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
-
-
 
 namespace webNamana.Web.Controllers
 {
@@ -20,7 +18,8 @@ namespace webNamana.Web.Controllers
 
         public AccountController()
         {
-            _user = new UserService();
+            var bl = new BusinessLogic.BusinessLogic();
+            _user = bl.GetUserService();  // инициализация через BusinessLogic
         }
 
         // GET: /Account/Login
@@ -39,7 +38,6 @@ namespace webNamana.Web.Controllers
 
             model.LasIp = Request.UserHostAddress;
 
-            // Валидация пользователя через сервис
             if (!_user.ValidateUserCredentials(model.Username, model.Password))
             {
                 ModelState.AddModelError("", "Неверный логин или пароль.");
@@ -112,7 +110,6 @@ namespace webNamana.Web.Controllers
             if (currentUser == null)
                 return RedirectToAction("Login");
 
-            // Обновление через сервис
             bool updated = _user.UpdateUserProfile(currentUser.Username, model);
             if (!updated)
             {

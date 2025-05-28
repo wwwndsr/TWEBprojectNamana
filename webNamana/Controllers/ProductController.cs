@@ -15,7 +15,7 @@ namespace webNamana.Controllers
             var product = new Product
             {
                 ProductId = id,
-                ProductName = "Меч Арканы",
+                ProductName = "Футболка",
                 Description = "Описание товара",
                 Price = 999.99m,
                 ProductImage = "image.png"

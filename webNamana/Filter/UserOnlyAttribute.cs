@@ -1,30 +1,37 @@
-﻿using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using webNamana.BusinessLogic.DBModel;
+﻿using System.Web.Mvc;
+using webNamana.BusinessLogic;
+using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Enums;
 
 namespace webNamana.Filters
 {
     public class UserOnlyAttribute : ActionFilterAttribute
     {
+        private readonly IUserService _userService;
+
+        public UserOnlyAttribute()
+        {
+            var bl = new BusinessLogic.BusinessLogic();
+            _userService = bl.GetUserService();
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var cookie = HttpContext.Current.Request.Cookies["X-KEY"];
-            if (cookie == null)
+            var cookie = filterContext.HttpContext.Request.Cookies["X-KEY"];
+            if (cookie == null || string.IsNullOrWhiteSpace(cookie.Value))
             {
                 filterContext.Result = new RedirectResult("~/Account/Login");
                 return;
             }
 
             var email = cookie.Value;
-            using (var db = new UserContext())
+            var user = _userService.GetUserByUsername(email);
+
+            // проверяем, что пользователь существует и что его роль user или аdmin (чтобы дать доступ)
+            if (user == null || (user.Level != URole.User && user.Level != URole.Admin))
             {
-                var user = db.Users.FirstOrDefault(u => u.Email == email);
-                if (user == null || user.Level != URole.User)
-                {
-                    filterContext.Result = new RedirectResult("~/Error/AccessDenied");
-                }
+                filterContext.Result = new RedirectResult("~/Error/AccessDenied");
+                return;
             }
 
             base.OnActionExecuting(filterContext);

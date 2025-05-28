@@ -1,12 +1,19 @@
 ﻿using webNamana.BusinessLogic.Interfaces;
 
+using webNamana.BusinessLogic.Services; 
+
 namespace webNamana.BusinessLogic
 {
     public class BusinessLogic
     {
         public ISession GetSessionBL()
         {
-            return new SessionBL();  
-        }          
+            return new SessionBL();
+        }
+
+        public IUserService GetUserService()
+        {
+            return new UserService();
+        }
     }
 }

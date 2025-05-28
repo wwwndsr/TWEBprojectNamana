@@ -58,7 +58,7 @@ namespace webNamana.BusinessLogic.Core
                 data.LastLogin = DateTime.Now;
                 data.Password = LoginHelper.HashGen(data.Password);
 
-                // Присваиваем роль User по умолчанию
+                // роль по умолчанию
                 data.Level = URole.User;
 
                 db.Users.Add(data);
@@ -274,6 +274,88 @@ namespace webNamana.BusinessLogic.Core
             }
 
             return result;
+        }
+
+        public UDbTable GetUserByUsernameAction(string username)
+        {
+            using (var db = new UserContext())
+            {
+                return db.Users.FirstOrDefault(u => u.Username == username);
+            }
+        }
+
+        public bool CreateUserAction(UDbTable newUser)
+        {
+            var result = UserRegisterAction(newUser);
+            return result.Status;
+        }
+
+        public bool UpdateUserProfileAction(string username, UDbTable updatedUser)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null) return false;
+
+                if (!string.IsNullOrEmpty(updatedUser.Email))
+                {
+                    var validate = new EmailAddressAttribute();
+                    if (!validate.IsValid(updatedUser.Email))
+                        return false;
+
+                    var emailTaken = db.Users.Any(u => u.Email == updatedUser.Email && u.Username != username);
+                    if (emailTaken)
+                        return false;
+
+                    user.Email = updatedUser.Email;
+                }
+
+                if (!string.IsNullOrEmpty(updatedUser.Username))
+                {
+                    user.Username = updatedUser.Username;
+                }
+
+                if (!string.IsNullOrEmpty(updatedUser.Password))
+                {
+                    if (updatedUser.Password.Length < 8)
+                        return false;
+                    user.Password = LoginHelper.HashGen(updatedUser.Password);
+                }
+
+                db.Users.AddOrUpdate(user);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        public bool ChangePasswordAction(string username, string currentPassword, string newPassword)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null) return false;
+
+                if (user.Password != LoginHelper.HashGen(currentPassword))
+                    return false;
+
+                if (string.IsNullOrEmpty(newPassword) || newPassword.Length < 8)
+                    return false;
+
+                user.Password = LoginHelper.HashGen(newPassword);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        public bool ValidateUserCredentialsAction(string username, string password)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null) return false;
+
+                return user.Password == LoginHelper.HashGen(password);
+            }
         }
     }
 }
