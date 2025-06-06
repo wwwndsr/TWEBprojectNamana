@@ -19,7 +19,7 @@ namespace webNamana.Web.Controllers
         public AccountController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _user = bl.GetUserService();  // инициализация через BusinessLogic
+            _user = bl.GetUserService();  
         }
 
         // GET: /Account/Login

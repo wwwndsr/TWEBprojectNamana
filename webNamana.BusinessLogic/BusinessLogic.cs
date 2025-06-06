@@ -15,5 +15,11 @@ namespace webNamana.BusinessLogic
         {
             return new UserService();
         }
+
+        public IProductService GetProductService()
+        {
+            return new ProductService();
+        }
+
     }
 }

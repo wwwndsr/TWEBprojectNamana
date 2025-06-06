@@ -47,5 +47,18 @@
 			<DependentUpon>202505031937381_InitialCreate.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Migrations\ProductMigrations\202506061555202_InitialProductMigration.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>202506061555202_InitialProductMigration.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<Compile Update="Migrations\ProductMigrations\202506061555202_InitialProductMigration.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>202506061555202_InitialProductMigration.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
 	
 </Project>
