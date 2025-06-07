@@ -34,7 +34,7 @@ namespace webNamana.Controllers
                         Email = model.Email,
                         Password = passwordHash,  // Сохраняем захэшированный пароль
                         LastLogin = DateTime.Now,
-                        LasIp = Request.UserHostAddress,
+                        LastIp = Request.UserHostAddress,
                         Level = URole.User
                     };
 

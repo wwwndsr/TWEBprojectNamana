@@ -5,161 +5,129 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using webNamana.BusinessLogic.DBModel;
-using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
+using webNamana.Domain.Enums;
 using webNamana.Helpers;
 
 namespace webNamana.BusinessLogic.Core
 {
     public class UserApi
     {
+        private const string CookieName = "X-KEY";
+
         public UserAuthResult UserRegisterAction(UDbTable data)
         {
             var result = new UserAuthResult();
-            if (data.Password.Length < 8)
+
+            if (string.IsNullOrEmpty(data.Password) || data.Password.Length < 8)
             {
-                result.Status = false;
-                result.StatusMsg = "Password must be at least 8 characters long";
-                result.StatusKey = "Password";
-                return result;
+                return new UserAuthResult { Status = false, StatusMsg = "Password must be at least 8 characters long", StatusKey = "Password" };
             }
 
             if (string.IsNullOrEmpty(data.Username))
             {
-                result.Status = false;
-                result.StatusMsg = "Username cannot be empty";
-                result.StatusKey = "Username";
-                return result;
+                return new UserAuthResult { Status = false, StatusMsg = "Username cannot be empty", StatusKey = "Username" };
             }
 
             var validate = new EmailAddressAttribute();
             if (!validate.IsValid(data.Email))
             {
-                result.Status = false;
-                result.StatusMsg = "Email is not valid";
-                result.StatusKey = "Email";
-                return result;
+                return new UserAuthResult { Status = false, StatusMsg = "Email is not valid", StatusKey = "Email" };
             }
-
-            UDbTable user;
 
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Email == data.Email || u.Username == data.Username);
-            }
+                var userExists = db.Users.Any(u => u.Email == data.Email || u.Username == data.Username);
+                if (userExists)
+                {
+                    return new UserAuthResult { Status = false, StatusMsg = "User with such email or username already exists", StatusKey = "Email" };
+                }
 
-            if (user != null)
-            {
-                result.Status = false;
-                result.StatusMsg = "User already exists";
-                result.StatusKey = "Email";
-                return result;
-            }
+                data.RegisterTime = DateTime.Now;
+                data.LastLogin = DateTime.Now;
+                data.Password = LoginHelper.HashGen(data.Password);
+                data.Level = URole.User;
 
-            data.RegisterTime = DateTime.Now;
-            data.LastLogin = DateTime.Now;
-            data.Password = LoginHelper.HashGen(data.Password);
-
-            using (var db = new UserContext())
-            {
                 db.Users.Add(data);
                 db.SaveChanges();
             }
 
-            result.Status = true;
-            result.StatusMsg = "User registered successfully";
-            return result;
+            return new UserAuthResult { Status = true, StatusMsg = "User registered successfully" };
         }
 
         public UserAuthResult UserLoginAction(UDbTable data)
         {
-            UserAuthResult result = new UserAuthResult();
-
+            var result = new UserAuthResult();
             var validate = new EmailAddressAttribute();
 
-            if (data.Password.Length < 8 || !validate.IsValid(data.Email))
+            if (string.IsNullOrEmpty(data.Password) || data.Password.Length < 8 || !validate.IsValid(data.Email))
             {
-                result.Status = false;
-                result.StatusMsg = "Email or Password is not valid";
-                result.StatusKey = "Email";
-                return result;
+                return new UserAuthResult { Status = false, StatusMsg = "Email or Password is not valid", StatusKey = "Email" };
             }
-
-            UDbTable user;
 
             using (var db = new UserContext())
             {
-                user = db.Users.FirstOrDefault(u => u.Email == data.Email);
-            }
+                var user = db.Users.FirstOrDefault(u => u.Email == data.Email);
+                if (user == null)
+                {
+                    return new UserAuthResult { Status = false, StatusMsg = "User not found", StatusKey = "Email" };
+                }
 
-            if (user == null)
-            {
-                result.Status = false;
-                result.StatusMsg = "User not found";
-                result.StatusKey = "Email";
-                return result;
-            }
+                if (user.Password != LoginHelper.HashGen(data.Password))
+                {
+                    return new UserAuthResult { Status = false, StatusMsg = "Email or Password is not valid", StatusKey = "Email" };
+                }
 
-            if (user.Password != LoginHelper.HashGen(data.Password))
-            {
-                result.Status = false;
-                result.StatusMsg = "Email or Password is not valid";
-                result.StatusKey = "Email";
-                return result;
-            }
+                user.LastLogin = DateTime.Now;
+                user.LastIp = data.LastIp;
 
-            user.LastLogin = DateTime.Now;
-            user.LastIp = data.LastIp;
-
-            using (var db = new UserContext())
-            {
                 db.Users.AddOrUpdate(user);
                 db.SaveChanges();
-            }
 
-            result.Status = true;
-            result.StatusMsg = "User logged in successfully";
-            return result;
+                return new UserAuthResult { Status = true, StatusMsg = "User logged in successfully" };
+            }
         }
 
         public HttpCookie Cookie(string email)
         {
-            var httpCookie = new HttpCookie("WNCNN")
+            var cookie = new HttpCookie(CookieName)
             {
-                Value = CookieGenerator.Create(email)
+                Value = CookieGenerator.Create(email),
+                HttpOnly = true,
+                Secure = HttpContext.Current.Request.IsSecureConnection,
+                Expires = DateTime.Now.AddDays(1),
+                Path = "/"
             };
+
+            var validate = new EmailAddressAttribute();
+            if (!validate.IsValid(email))
+            {
+                throw new Exception("Invalid email");
+            }
 
             using (var db = new SessionContext())
             {
-                var validate = new EmailAddressAttribute();
-                if (validate.IsValid(email))
+                var existing = db.Sessions.FirstOrDefault(s => s.Email == email);
+                if (existing == null)
                 {
-                    var current = db.Sessions.FirstOrDefault(s => s.Email == email);
-
-                    if (current == null)
+                    db.Sessions.Add(new Session
                     {
-                        current = new Session
-                        {
-                            Email = email,
-                            CookieString = httpCookie.Value,
-                            ExpireTime = DateTime.Now.AddDays(1)
-                        };
-                    }
-                    else
-                    {
-                        current.CookieString = httpCookie.Value;
-                        current.ExpireTime = DateTime.Now.AddDays(1);
-                    }
-
-                    db.Sessions.AddOrUpdate(current);
-                    db.SaveChanges();
+                        Email = email,
+                        CookieString = cookie.Value,
+                        ExpireTime = DateTime.Now.AddDays(1)
+                    });
                 }
                 else
                 {
-                    throw new Exception("Invalid email");
+                    existing.CookieString = cookie.Value;
+                    existing.ExpireTime = DateTime.Now.AddDays(1);
+                    db.Sessions.AddOrUpdate(existing);
                 }
+
+                db.SaveChanges();
             }
-            return httpCookie;
+
+            return cookie;
         }
 
         public bool SignOutAction(string cookie)
@@ -168,6 +136,7 @@ namespace webNamana.BusinessLogic.Core
             {
                 var session = db.Sessions.FirstOrDefault(s => s.CookieString == cookie);
                 if (session == null) return false;
+
                 db.Sessions.Remove(session);
                 db.SaveChanges();
                 return true;
@@ -176,38 +145,29 @@ namespace webNamana.BusinessLogic.Core
 
         public UserMinimal UserCookie(string cookie)
         {
-            Session session;
-
             using (var db = new SessionContext())
             {
-                session = db.Sessions.FirstOrDefault(s => s.CookieString == cookie);
+                var session = db.Sessions.FirstOrDefault(s => s.CookieString == cookie);
+                if (session == null || session.ExpireTime < DateTime.Now)
+                {
+                    if (session != null) SignOutAction(cookie);
+                    return null;
+                }
+
+                using (var userDb = new UserContext())
+                {
+                    var user = userDb.Users.FirstOrDefault(u => u.Email == session.Email);
+                    if (user == null) return null;
+
+                    return new UserMinimal
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        Email = user.Email,
+                        Level = user.Level
+                    };
+                }
             }
-
-            if (session == null) return null;
-
-            if (session.ExpireTime < DateTime.Now)
-            {
-                SignOutAction(cookie);
-                return null;
-            }
-
-            UDbTable user;
-            using (var db = new UserContext())
-            {
-                user = db.Users.FirstOrDefault(u => u.Email == session.Email);
-            }
-
-            if (user == null) return null;
-
-            var um = new UserMinimal()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                Level = user.Level
-            };
-
-            return um;
         }
 
         public UserAuthResult UpdateProfileAction(UDbTable data)
@@ -219,9 +179,7 @@ namespace webNamana.BusinessLogic.Core
                 var user = db.Users.FirstOrDefault(u => u.Id == data.Id);
                 if (user == null)
                 {
-                    result.Status = false;
-                    result.StatusMsg = "User not found";
-                    return result;
+                    return new UserAuthResult { Status = false, StatusMsg = "User not found" };
                 }
 
                 if (!string.IsNullOrEmpty(data.Email))
@@ -229,11 +187,15 @@ namespace webNamana.BusinessLogic.Core
                     var validate = new EmailAddressAttribute();
                     if (!validate.IsValid(data.Email))
                     {
-                        result.Status = false;
-                        result.StatusMsg = "Email is not valid";
-                        result.StatusKey = "Email";
-                        return result;
+                        return new UserAuthResult { Status = false, StatusMsg = "Email is not valid", StatusKey = "Email" };
                     }
+
+                    var emailTaken = db.Users.Any(u => u.Email == data.Email && u.Id != data.Id);
+                    if (emailTaken)
+                    {
+                        return new UserAuthResult { Status = false, StatusMsg = "Email is already in use", StatusKey = "Email" };
+                    }
+
                     user.Email = data.Email;
                 }
 
@@ -246,20 +208,24 @@ namespace webNamana.BusinessLogic.Core
                 {
                     if (data.Password.Length < 8)
                     {
-                        result.Status = false;
-                        result.StatusMsg = "Password must be at least 8 characters long";
-                        result.StatusKey = "Password";
-                        return result;
+                        return new UserAuthResult { Status = false, StatusMsg = "Password must be at least 8 characters long", StatusKey = "Password" };
                     }
+
                     user.Password = LoginHelper.HashGen(data.Password);
                 }
 
                 db.SaveChanges();
-                result.Status = true;
-                result.StatusMsg = "Profile updated successfully";
             }
 
-            return result;
+            return new UserAuthResult { Status = true, StatusMsg = "Profile updated successfully" };
+        }
+
+        public UDbTable GetUserById(int id)
+        {
+            using (var db = new UserContext())
+            {
+                return db.Users.FirstOrDefault(u => u.Id == id);
+            }
         }
     }
 }

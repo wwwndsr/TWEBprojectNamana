@@ -301,6 +301,10 @@
       <Project>{4b902d35-8f75-4407-87aa-89cc100b3b0a}</Project>
       <Name>webNamana.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\webNamana.Helpers\webNamana.Helpers.csproj">
+      <Project>{75ED136E-3BB9-4A4F-9ACB-54A6046D23A7}</Project>
+      <Name>webNamana.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebShop.Domain.User.Admin;
+using webNamana.Domain.Entities.User;
+using webNamana.Helpers;
 
 namespace webNamana.Filters
 {
@@ -12,11 +13,15 @@ namespace webNamana.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var userRole = "Guest";
-            if (SessionHelper.User is UserInfo userInfo && userInfo.Role != null)
+            if (SessionHelper.User is UserMinimal userInfo)
             {
-                userRole = userInfo.Role;
+                userRole = userInfo.Level.ToString();
             }
-            else filterContext.Result = new RedirectResult("~/Error/AccessDenied");
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Error/AccessDenied");
+                return;
+            }
 
             if (userRole == "Guest")
             {

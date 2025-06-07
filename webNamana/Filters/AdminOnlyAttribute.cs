@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using webNamana.Domain.Entities.User;
+using webNamana.Helpers;
 
 namespace webNamana.Filters
 {
-    namespace webNamana.Filters
+    public class AdminOnlyAttribute : ActionFilterAttribute
     {
-        public class AdminOnlyAttribute : ActionFilterAttribute
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            var userRole = "Guest";
+            if (SessionHelper.User is UserMinimal user)
             {
-                var userRole = "Guest";
-                if (SessionHelper.User is UserInfo userInfo && userInfo.Role != null)
-                {
-                    userRole = userInfo.Role;
-                }
-                else filterContext.Result = new RedirectResult("~/Error/AccessDenied");
-
-                if (userRole != "Admin")
-                {
-                    filterContext.Result = new RedirectResult("~/Error/AccessDenied");
-                }
-
-                base.OnActionExecuting(filterContext);
+                userRole = user.Level.ToString();
             }
+            else
+            {
+                filterContext.Result = new RedirectResult("~/Error/AccessDenied");
+                return;
+            }
+
+            if (userRole != "Admin")
+            {
+                filterContext.Result = new RedirectResult("~/Error/AccessDenied");
+            }
+
+            base.OnActionExecuting(filterContext);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using webNamana.BusinessLogic.Interfaces;
+﻿using System.Collections.Generic;
+using webNamana.BusinessLogic.BLogic;
+using webNamana.BusinessLogic.Interfaces;
 
 namespace webNamana.BusinessLogic
 {
@@ -6,7 +8,16 @@ namespace webNamana.BusinessLogic
     {
         public ISession GetSessionBL()
         {
-            return new SessionBL();  
-        }          
+            return new SessionBL();
+        }
+   
+    public IUserBL GetUserBl()
+        {
+            return new UserBL();
+        }
+        public IAdminBL GetAdminBl()
+        {
+            return new AdminBL();
+        }
     }
 }

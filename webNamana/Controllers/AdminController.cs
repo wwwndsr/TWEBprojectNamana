@@ -1,27 +1,101 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using webNamana.Models;
-namespace webNamana.Controllers
+using webNamana.BusinessLogic.Interfaces;
+using webNamana.Domain.Entities.User;
+using webNamana.Filters;
+
+namespace webNamana.WebApp.Controllers
 {
+    [AdminOnly]
     public class AdminController : Controller
     {
-        public ActionResult AdminPage()
-        {
-            var adminModel = new AdminDashboard
-            {
-                Username = "Admin",
-                TotalUsers = 1200,
-                TotalProducts = 150,
-                TotalOrders = 800,
-                RecentActivity = new List<string>
-                {
-                    "User 'John Doe' registered",
-                    "Product 'Super Widget' added",
-                    "Order #1523 completed"
-                }
-            };
+        private readonly IAdminBL _admin;
 
-            return View(adminModel);
+        public AdminController()
+        {
+            var bl = new BusinessLogic.BusinessLogic();
+            _admin = bl.GetAdminBl();
+        }
+
+        // ========== USERS ==========
+
+        public ActionResult Clients()
+        {
+            try
+            {
+                var result = _admin.GetAllUsers();
+                if (!result.Status)
+                {
+                    TempData["Message"] = result.StatusMsg ?? "Ошибка при получении списка пользователей";
+                    TempData["AlertType"] = "danger";
+                    return View(new List<UserMinimal>());
+                }
+
+                return View(result.Users);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"Ошибка при загрузке пользователей: {ex.Message}";
+                TempData["AlertType"] = "danger";
+                return View(new List<UserMinimal>());
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditUser(int id)
+        {
+            try
+            {
+                var result = _admin.GetUserById(id);
+                if (!result.Status || result.User == null)
+                {
+                    TempData["Message"] = result.StatusMsg ?? "Пользователь не найден";
+                    TempData["AlertType"] = "warning";
+                    return RedirectToAction("Clients");
+                }
+
+                return View(result.User);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"Ошибка при загрузке пользователя: {ex.Message}";
+                TempData["AlertType"] = "danger";
+                return RedirectToAction("Clients");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUser(UserMinimal model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Данные некорректны";
+                TempData["AlertType"] = "warning";
+                return View(model);
+            }
+
+            try
+            {
+                var result = _admin.EditUser(model);
+                if (!result.Status)
+                {
+                    TempData["Message"] = result.StatusMsg ?? "Ошибка при обновлении пользователя";
+                    TempData["AlertType"] = "danger";
+                    return View(model);
+                }
+
+                TempData["Message"] = "Пользователь успешно обновлён";
+                TempData["AlertType"] = "success";
+                return RedirectToAction("Clients");
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"Ошибка: {ex.Message}";
+                TempData["AlertType"] = "danger";
+                return View(model);
+            }
         }
     }
 }
