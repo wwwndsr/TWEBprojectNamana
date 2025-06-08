@@ -37,26 +37,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Migrations\202505031937381_InitialCreate.resx">
+		<EmbeddedResource Update="Migrations\202506081444118_ProductMigration.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>202505031937381_InitialCreate.Designer.cs</LastGenOutput>
+			<LastGenOutput>202506081444118_ProductMigration.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<Compile Update="Migrations\202505031937381_InitialCreate.Designer.cs">
+		<Compile Update="Migrations\202506081444118_ProductMigration.cs">
 			<AutoGen>True</AutoGen>
 			<DesignTime>True</DesignTime>
-			<DependentUpon>202505031937381_InitialCreate.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Migrations\ProductMigrations\202506061555202_InitialProductMigration.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>202506061555202_InitialProductMigration.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Migrations\ProductMigrations\202506061555202_InitialProductMigration.Designer.cs">
-			<AutoGen>True</AutoGen>
-			<DesignTime>True</DesignTime>
-			<DependentUpon>202506061555202_InitialProductMigration.resx</DependentUpon>
+			<DependentUpon>202506081444118_ProductMigration.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
 

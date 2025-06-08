@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
 using System.Data.Entity.Migrations;
-
 using webNamana.BusinessLogic.DBModel;
 using webNamana.Domain.Entities.Product;
 
@@ -15,13 +14,40 @@ namespace webNamana.BusinessLogic.Core
     {
         public bool AddProduct(ProductEntity product)
         {
-            using (var db = new ProductContext())
+            if (product == null)
+                return false;
+
+            try
             {
-                db.Products.Add(product);
-                db.SaveChanges();
-                return true;
+                using (var db = new ProductContext())
+                {
+                    db.Products.Add(product);
+                    int affected = db.SaveChanges(); // возвращает количество затронутых строк
+
+                    return affected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    string logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                    Directory.CreateDirectory(logDir);
+
+                    string logPath = Path.Combine(logDir, "error_log.txt");
+
+                    string errorMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Ошибка при добавлении продукта: {ex.Message}{Environment.NewLine}{ex.StackTrace}{Environment.NewLine}";
+                    File.AppendAllText(logPath, errorMessage);
+                }
+                catch
+                {
+                    // Не мешаем выполнению, если логирование не удалось
+                }
+
+                return false;
             }
         }
+
 
         public bool UpdateProduct(int id, ProductEntity updated)
         {

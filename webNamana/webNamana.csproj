@@ -125,7 +125,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -224,19 +223,19 @@
     <Content Include="Views\Shared\_Slider.cshtml" />
     <Content Include="Views\Shared\_Layout_Blank.cshtml" />
     <None Include="Views\Account\signUp.cshtml" />
-    <None Include="Views\Product\productPage.cshtml" />
-    <None Include="Views\Product\product.cshtml" />
+    <None Include="Views\Product\ProductPage.cshtml" />
+    <None Include="Views\Product\Details.cshtml" />
     <None Include="Views\CartPage\cartPage.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\TrainingRegistration\Register.cshtml" />
-    <Content Include="Views\TrainingRegistration\Success.cshtml" />
+    <Content Include="Views\Training\Register.cshtml" />
     <Content Include="Views\SubscriptionPurchase\SubscriptionPurchase.cshtml" />
-    <Content Include="Views\TrainingSchedule\TrainingSchedule.cshtml" />
+    <Content Include="Views\Training\Schedule.cshtml" />
     <Content Include="Views\User\UserPage.cshtml" />
     <Content Include="Views\UsersList\UsersList.cshtml" />
+    <Content Include="Views\Training\Success.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -253,8 +252,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\SubscriptionPurchaseController.cs" />
-    <Compile Include="Controllers\TrainingRegistrationController.cs" />
-    <Compile Include="Controllers\TrainingScheduleController.cs" />
+    <Compile Include="Controllers\TrainingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filter\AdminOnlyAttribute.cs" />
     <Compile Include="Filter\UserOnlyAttribute.cs" />
@@ -267,7 +265,7 @@
     <Compile Include="Models\Training.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\SignUp.cs" />
     <Compile Include="Models\TrainingRegistration.cs" />
     <Compile Include="Models\User.cs" />

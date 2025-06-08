@@ -1,44 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using webNamana.Models;
-using webNamana.BusinessLogic.DBModel;
+using webNamana.BusinessLogic;
+using webNamana.BusinessLogic.Interfaces;
+using webNamana.Domain.Entities.User;
+using webNamana.Filters;
+using webNamana.Helpers;
 
 namespace webNamana.Controllers
 {
+    [UserOnly]
     public class UserController : Controller
     {
-        // Страница профиля пользователя
-        public ActionResult UserPage()
-        {
-            var userModel = new UserDashboard
-            {
-                Username = "JohnDoe",
-                Email = "johndoe@example.com",
-                CartItems = new List<string> { "Item 1", "Item 2", "Item 3" }
-            };
+        private readonly IUserService _userService;
 
-            return View(userModel);
+        public UserController()
+        {
+            var bl = new BusinessLogic.BusinessLogic();
+            _userService = bl.GetUserService();
         }
 
-        // Страница редактирования профиля
-        public ActionResult EditProfile()
+        public new ActionResult Profile()
         {
-            // Здесь можно передать модель, если она нужна для формы
-            var userModel = new EditProfileViewModel
+            var user = SessionHelper.User;
+
+            var model = new UserMinimal
             {
-                Username = "JohnDoe",
-                Email = "johndoe@example.com"
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
             };
 
-            return View(userModel); // должно быть представление Views/User/EditProfile.cshtml
+            return View(model);
+        }
+
+        public ActionResult EditProfile()
+        {
+            var user = SessionHelper.User;
+
+            var model = new UserMinimal
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(UserMinimal model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Некорректные данные.";
+                return View("Profile", model);
+            }
+
+            var user = _userService.GetUserByUsername(model.Username);
+            if (user == null)
+            {
+                TempData["Message"] = "Пользователь не найден.";
+                return RedirectToAction("Profile");
+            }
+
+            user.Username = model.Username;
+            user.Email = model.Email;
+
+            var updateResult = _userService.UpdateUserProfile(user.Username, user);
+
+            if (updateResult)
+            {
+                SessionHelper.User = new UserMinimal
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email
+                };
+
+                TempData["Message"] = "Данные обновлены.";
+            }
+            else
+            {
+                TempData["Message"] = "Ошибка при обновлении профиля.";
+            }
+
+            return RedirectToAction("Profile");
         }
     }
 }
-
-
-
-
-

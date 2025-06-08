@@ -1,5 +1,5 @@
 ﻿using webNamana.BusinessLogic.Interfaces;
-
+using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Services; 
 
 namespace webNamana.BusinessLogic
@@ -19,6 +19,11 @@ namespace webNamana.BusinessLogic
         public IProductService GetProductService()
         {
             return new ProductService();
+        }
+
+        public IAdminBL GetAdminBL()
+        {
+            return new AdminBL();
         }
 
     }

@@ -118,9 +118,6 @@ namespace webNamana.BusinessLogic.Core
 
             return result;
         }
-
-
-
         internal AdminAuthResult ChangeUserRoleAction(int userId, URole newRole)
         {
             var result = new AdminAuthResult();
@@ -144,4 +141,5 @@ namespace webNamana.BusinessLogic.Core
             return result;
         }
     }
+
 }

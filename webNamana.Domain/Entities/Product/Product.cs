@@ -27,7 +27,7 @@ namespace webNamana.Domain.Entities.Product
         [Range(0.01, 1000000)]
         public decimal Price { get; set; }
 
-        [Required]
+
         [StringLength(255)]
         public string ProductImage { get; set; }
     }

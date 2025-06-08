@@ -1,0 +1,58 @@
+﻿@model webNamana.Models.ProductViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Product Details";
+}
+
+<section id="product-info" style="display:flex; width:95%; margin:0 auto; font-family:sans-serif;">
+    <div class="item-image-parent" style="width:50%; display:flex;">
+        <div class="item-list-vertical" style="width:10%; margin-top:50px;">
+            <!-- Миниатюры пока статичны -->
+            <div class="thumb-box"><img src="https://i.ibb.co/VJf6fXm/thumb1.jpg" alt="thumb1" /></div>
+            <div class="thumb-box"><img src="https://i.ibb.co/Jt5zc58/thumb2.jpg" alt="thumb2" /></div>
+            <div class="thumb-box"><img src="https://i.ibb.co/Yf9LMpy/thumb3.jpg" alt="thumb3" /></div>
+        </div>
+        <div class="item-image-main" style="width:90%;">
+            <img src="@Model.ProductImage" alt="@Model.ProductName" style="width:100%; height:auto;" />
+        </div>
+    </div>
+
+    <div class="item-info-parent" style="width:50%; padding-left:20px;">
+        <div class="main-info">
+            <h4>@Model.ProductName</h4>
+            <div class="star-rating" style="font-size:24px; color:gold;">★★★★☆</div>
+            <p>Price: <span id="price" style="color:red; font-size:21px;">@Model.Price.ToString("C")</span></p>
+        </div>
+
+        <div class="add-to-cart" style="margin-top:20px;">
+            @using (Html.BeginForm("AddToCart", "CartPage", FormMethod.Post))
+            {
+                @Html.Hidden("id", Model.ProductId)
+                @Html.Hidden("productName", Model.ProductName)
+                @Html.Hidden("productImage", Model.ProductImage)
+                @Html.Hidden("price", Model.Price)
+
+                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+            }
+        </div>
+
+        <div class="select-items" style="margin-top:30px;">
+            <div class="change-size">
+                <label><b>Size:</b></label><br />
+                <select class="form-control" style="width:150px;">
+                    <option>S</option>
+                    <option>M</option>
+                    <option>L</option>
+                    <option>XL</option>
+                    <option>2XL</option>
+                </select>
+            </div>
+
+            <div class="description" style="margin-top:20px;">
+                <p><strong>Description:</strong></p>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+    </div>
+</section>

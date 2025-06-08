@@ -5,15 +5,15 @@ using webNamana.Models;
 
 namespace webNamana.Controllers
 {
-    public class TrainingRegistrationController : Controller
+    public class TrainingController : Controller
     {
-        // Доступные тренировки и времена
-        private List<string> availableTrainings = new List<string>
+        // Доступные тренировки и расписание времён
+        private static readonly List<string> availableTrainings = new List<string>
         {
             "Rowing Workout", "Yoga Class", "CrossFit", "Pilates", "HIIT Session"
         };
 
-        private Dictionary<string, List<DateTime>> trainingTimes = new Dictionary<string, List<DateTime>>
+        private static readonly Dictionary<string, List<DateTime>> trainingTimes = new Dictionary<string, List<DateTime>>
         {
             { "Rowing Workout", new List<DateTime> { DateTime.Today.AddHours(10), DateTime.Today.AddHours(12) } },
             { "Yoga Class", new List<DateTime> { DateTime.Today.AddHours(14), DateTime.Today.AddHours(16) } },
@@ -22,7 +22,9 @@ namespace webNamana.Controllers
             { "HIIT Session", new List<DateTime> { DateTime.Today.AddHours(17), DateTime.Today.AddHours(19) } }
         };
 
-        // GET: TrainingRegistration/Register
+        // -------------------- Регистрация --------------------
+
+        // GET: /Training/Register
         public ActionResult Register(string training = "", string time = "")
         {
             var model = new TrainingRegistration
@@ -42,8 +44,8 @@ namespace webNamana.Controllers
                 model.TrainingTime = DateTime.Now.TimeOfDay;
             }
 
-            ViewBag.SelectedTraining = training; 
-            ViewBag.SelectedDateTime = time;      
+            ViewBag.SelectedTraining = training;
+            ViewBag.SelectedDateTime = time;
 
             ViewBag.AvailableTrainings = availableTrainings;
 
@@ -54,8 +56,7 @@ namespace webNamana.Controllers
             return View(model);
         }
 
-
-        // POST: TrainingRegistration/Register
+        // POST: /Training/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(TrainingRegistration model, string TrainingDateTime)
@@ -90,14 +91,12 @@ namespace webNamana.Controllers
             return View(model);
         }
 
-
-        // GET: TrainingRegistration/Success
+        // GET: /Training/Success
         public ActionResult Success()
         {
             return View();
         }
 
-        // метод для получения доступных времен по типу тренировки
         [HttpGet]
         public JsonResult GetAvailableTimes(string trainingType)
         {
@@ -112,6 +111,15 @@ namespace webNamana.Controllers
             }
 
             return Json(times, JsonRequestBehavior.AllowGet);
+        }
+
+        // -------------------- Расписание --------------------
+
+        // GET: /Training/Schedule
+        public ActionResult Schedule()
+        {
+            // Пока просто отображаем страницу без БД
+            return View();
         }
     }
 }
