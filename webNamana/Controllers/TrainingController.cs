@@ -1,35 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using webNamana.BusinessLogic.Interfaces;
+using webNamana.BusinessLogic.Services;
+using webNamana.Domain.Entities.Training;
 using webNamana.Models;
 
-namespace webNamana.Controllers
+namespace webNamana.Web.Controllers
 {
     public class TrainingController : Controller
     {
-        // Доступные тренировки и расписание времён
-        private static readonly List<string> availableTrainings = new List<string>
-        {
-            "Rowing Workout", "Yoga Class", "CrossFit", "Pilates", "HIIT Session"
-        };
+        private readonly ITrainingService _trainingService;
 
-        private static readonly Dictionary<string, List<DateTime>> trainingTimes = new Dictionary<string, List<DateTime>>
+        public TrainingController()
         {
-            { "Rowing Workout", new List<DateTime> { DateTime.Today.AddHours(10), DateTime.Today.AddHours(12) } },
-            { "Yoga Class", new List<DateTime> { DateTime.Today.AddHours(14), DateTime.Today.AddHours(16) } },
-            { "CrossFit", new List<DateTime> { DateTime.Today.AddHours(9), DateTime.Today.AddHours(18) } },
-            { "Pilates", new List<DateTime> { DateTime.Today.AddHours(11), DateTime.Today.AddHours(15) } },
-            { "HIIT Session", new List<DateTime> { DateTime.Today.AddHours(17), DateTime.Today.AddHours(19) } }
-        };
+            var bl = new BusinessLogic.BusinessLogic();  
+            _trainingService = bl.GetTrainingService();  
+        }
 
-        // -------------------- Регистрация --------------------
+
+        // GET: /Training
+        public ActionResult Index()
+        {
+            var trainings = _trainingService.GetAllTrainings();
+            return View(trainings);
+        }
+
+        // GET: /Training/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest, "Training ID is required");
+
+            var training = _trainingService.GetTrainingById(id.Value);
+            if (training == null)
+                return HttpNotFound($"Training with ID {id.Value} not found");
+
+            return View(training);
+        }
+
+        // GET: /Training/Create
+        public ActionResult Create()
+        {
+            return View(new TrainingEntity());
+        }
+
+        // POST: /Training/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(TrainingEntity model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            bool added = _trainingService.AddTraining(model);
+            if (added)
+            {
+                TempData["Message"] = "Training successfully added.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error adding training.");
+                return View(model);
+            }
+        }
+
+        // GET: /Training/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var training = _trainingService.GetTrainingById(id);
+            if (training == null)
+                return HttpNotFound();
+
+            return View(training);
+        }
+
+        // POST: /Training/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, TrainingEntity model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            bool updated = _trainingService.UpdateTraining(id, model);
+            if (!updated)
+            {
+                ModelState.AddModelError("", "Error updating training.");
+                return View(model);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: /Training/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var training = _trainingService.GetTrainingById(id);
+            if (training == null)
+                return HttpNotFound();
+
+            return View(training);
+        }
+
+        // POST: /Training/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            bool deleted = _trainingService.DeleteTraining(id);
+            if (!deleted)
+            {
+                ModelState.AddModelError("", "Error deleting training.");
+                return View(_trainingService.GetTrainingById(id));
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        // --- Регистрация тренировки ---
 
         // GET: /Training/Register
-        public ActionResult Register(string training = "", string time = "")
+        public ActionResult Register(string trainingName = "", string time = "")
         {
             var model = new TrainingRegistration
             {
-                TrainingType = training,
+                TrainingType = trainingName,
                 CreatedAt = DateTime.Now
             };
 
@@ -44,14 +142,12 @@ namespace webNamana.Controllers
                 model.TrainingTime = DateTime.Now.TimeOfDay;
             }
 
-            ViewBag.SelectedTraining = training;
+            // Для ViewBag можно использовать список названий тренировок из базы
+            var trainings = _trainingService.GetAllTrainings();
+            ViewBag.AvailableTrainings = trainings.ConvertAll(t => t.TrainingName);
+
+            ViewBag.SelectedTraining = trainingName;
             ViewBag.SelectedDateTime = time;
-
-            ViewBag.AvailableTrainings = availableTrainings;
-
-            ViewBag.AvailableTimes = !string.IsNullOrEmpty(training) && trainingTimes.ContainsKey(training)
-                ? trainingTimes[training]
-                : new List<DateTime>();
 
             return View(model);
         }
@@ -83,10 +179,8 @@ namespace webNamana.Controllers
                 }
             }
 
-            ViewBag.AvailableTrainings = availableTrainings;
-            ViewBag.AvailableTimes = trainingTimes.ContainsKey(model.TrainingType)
-                ? trainingTimes[model.TrainingType]
-                : new List<DateTime>();
+            var trainings = _trainingService.GetAllTrainings();
+            ViewBag.AvailableTrainings = trainings.ConvertAll(t => t.TrainingName);
 
             return View(model);
         }
@@ -94,31 +188,6 @@ namespace webNamana.Controllers
         // GET: /Training/Success
         public ActionResult Success()
         {
-            return View();
-        }
-
-        [HttpGet]
-        public JsonResult GetAvailableTimes(string trainingType)
-        {
-            var times = new List<string>();
-
-            if (!string.IsNullOrEmpty(trainingType) && trainingTimes.ContainsKey(trainingType))
-            {
-                foreach (var time in trainingTimes[trainingType])
-                {
-                    times.Add(time.ToString("yyyy-MM-ddTHH:mm")); // Формат для input type="datetime-local"
-                }
-            }
-
-            return Json(times, JsonRequestBehavior.AllowGet);
-        }
-
-        // -------------------- Расписание --------------------
-
-        // GET: /Training/Schedule
-        public ActionResult Schedule()
-        {
-            // Пока просто отображаем страницу без БД
             return View();
         }
     }

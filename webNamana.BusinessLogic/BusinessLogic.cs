@@ -26,5 +26,11 @@ namespace webNamana.BusinessLogic
             return new AdminBL();
         }
 
+        public ITrainingService GetTrainingService()
+        {
+            return new TrainingService(); // твоя реализация
+        }
+
+
     }
 }
