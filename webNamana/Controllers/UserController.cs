@@ -1,82 +1,44 @@
-﻿using System.Web.Mvc;
-using webNamana.BusinessLogic.Interfaces;
-using webNamana.Domain.Entities.User;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using webNamana.Models;
-using webNamana.Filters;
-using webNamana.Helpers;
+using webNamana.BusinessLogic.DBModel;
 
 namespace webNamana.Controllers
 {
-    [UserOnly]
     public class UserController : Controller
     {
-        private readonly IUserBL _user;
-
-        public UserController()
+        // Страница профиля пользователя
+        public ActionResult UserPage()
         {
-            var bl = new BusinessLogic.BusinessLogic();
-            _user = bl.GetUserBl();
-        }
-
-        public new ActionResult Profile()
-        {
-            var user = SessionHelper.User;
-
-            var model = new UserMinimal
+            var userModel = new UserDashboard
             {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email
+                Username = "JohnDoe",
+                Email = "johndoe@example.com",
+                CartItems = new List<string> { "Item 1", "Item 2", "Item 3" }
             };
 
-            return View(model);
+            return View(userModel);
         }
 
-        [HttpPost]
-        public ActionResult EditProfile(UserMinimal model)
-        {
-            if (!ModelState.IsValid)
-            {
-                TempData["Message"] = "Некорректные данные.";
-                return View("Profile", model);
-            }
-
-            // Вызов бизнес-логики
-            var result = _user.EditUserProfile(model);
-
-            if (result.Status)
-            {
-                // Обновляем сессию, если нужно
-                SessionHelper.User = new UserMinimal
-                {
-                    Id = model.Id,
-                    Username = model.Username,
-                    Email = model.Email
-                };
-
-                TempData["Message"] = "Данные обновлены.";
-            }
-            else
-            {
-                TempData["Message"] = result.StatusMsg ?? "Ошибка при обновлении данных.";
-            }
-
-            return RedirectToAction("Profile");
-        }
-
-        // Страница редактирования профиля (форма)
+        // Страница редактирования профиля
         public ActionResult EditProfile()
         {
-            var user = SessionHelper.User;
-
-            var model = new UserMinimal
+            // Здесь можно передать модель, если она нужна для формы
+            var userModel = new EditProfileViewModel
             {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email
+                Username = "JohnDoe",
+                Email = "johndoe@example.com"
             };
 
-            return View(model); 
+            return View(userModel); // должно быть представление Views/User/EditProfile.cshtml
         }
     }
 }
+
+
+
+
+

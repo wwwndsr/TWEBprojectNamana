@@ -4,16 +4,16 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using webNamana.Domain.Entities.User;
+using webNamana.Domain.Entities.Product;
 
 namespace webNamana.BusinessLogic.DBModel
 {
-    public class SessionContext : DbContext
+    public class ProductContext : DbContext
     {
-        public SessionContext() : base("name=webNamana")
+        public ProductContext() : base("name=webNamana") 
         {
         }
 
-        public virtual DbSet<Session> Sessions { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
     }
 }

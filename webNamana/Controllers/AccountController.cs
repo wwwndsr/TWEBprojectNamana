@@ -1,72 +1,96 @@
 ﻿using System;
+using System.Data.Entity.Validation;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using webNamana.Domain.Entities.User;
-
+using webNamana.Helpers;
+using webNamana.BusinessLogic;
+using webNamana.BusinessLogic.Interfaces;
 
 namespace webNamana.Web.Controllers
+{
+    public class AccountController : Controller
     {
-        public class AccountController : Controller
+        private const string CookieName = "X-KEY";
+
+        private readonly IUserService _user;
+
+        public AccountController()
         {
-            private readonly BusinessLogic.Core.UserApi _userApi = new BusinessLogic.Core.UserApi();
+            var bl = new BusinessLogic.BusinessLogic();
+            _user = bl.GetUserService();  
+        }
 
-            // GET: /Account/Login
-            public ActionResult Login()
+        // GET: /Account/Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UDbTable model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            model.LasIp = Request.UserHostAddress;
+
+            if (!_user.ValidateUserCredentials(model.Username, model.Password))
             {
-                return View();
+                ModelState.AddModelError("", "Неверный логин или пароль.");
+                return View(model);
             }
 
-            // POST: /Account/Login
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public ActionResult Login(Domain.Entities.User.UDbTable model)
+            var user = _user.GetUserByUsername(model.Username);
+
+            var cookie = new HttpCookie(CookieName, user.Username)
             {
-                if (!ModelState.IsValid)
-                    return View(model);
+                Expires = DateTime.Now.AddDays(7)
+            };
+            Response.Cookies.Add(cookie);
 
-                model.LasIp = Request.UserHostAddress;
+            return RedirectToAction("Index", "Home");
+        }
 
-                var result = _userApi.UserLoginAction(model);
-                if (!result.Status)
-                {
-                    ModelState.AddModelError(result.StatusKey, result.StatusMsg);
-                    return View(model);
-                }
+        // GET: /Account/SignUp
+        public ActionResult SignUp()
+        {
+            return View();
+        }
 
-                var cookie = _userApi.Cookie(model.Email);
-                Response.Cookies.Add(cookie);
+        // POST: /Account/SignUp
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignUp(UDbTable model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
 
-                return RedirectToAction("Index", "Home");
+            model.RegisterTime = DateTime.Now;
+            model.LastLogin = DateTime.Now;
+            model.Password = LoginHelper.HashGen(model.Password);
+
+            bool created = _user.CreateUser(model);
+            if (!created)
+            {
+                ModelState.AddModelError("", "Ошибка при регистрации пользователя.");
+                return View(model);
             }
 
-            // GET: /Account/Register
-            public ActionResult Register()
+            var cookie = new HttpCookie(CookieName, model.Username)
             {
-                return View();
-            }
+                Expires = DateTime.Now.AddDays(7)
+            };
+            Response.Cookies.Add(cookie);
 
-            // POST: /Account/Register
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public ActionResult Register(UDbTable model)
-            {
-                if (!ModelState.IsValid)
-                    return View(model);
+            return RedirectToAction("Index", "Home");
+        }
 
-                var result = _userApi.UserRegisterAction(model);
-                if (!result.Status)
-                {
-                    ModelState.AddModelError(result.StatusKey, result.StatusMsg);
-                    return View(model);
-                }
-
-                var cookie = _userApi.Cookie(model.Email);
-                Response.Cookies.Add(cookie);
-
-                return RedirectToAction("Index", "Home");
-            }
-
-            // GET: /Account/Profile
-            [Authorize]
+        // GET: /Account/Profile
+        [Authorize]
         public ActionResult UserProfile()
         {
             var user = GetCurrentUser();
@@ -78,49 +102,47 @@ namespace webNamana.Web.Controllers
 
         // POST: /Account/Profile
         [HttpPost]
-            [ValidateAntiForgeryToken]
-            [Authorize]
-            public ActionResult EditProfile(UDbTable model)
-            {
-                var currentUser = GetCurrentUser();
-                if (currentUser == null)
-                    return RedirectToAction("Login");
-
-                model.Id = currentUser.Id;
-
-                var result = _userApi.UpdateProfileAction(model);
-                if (!result.Status)
-                {
-                    ModelState.AddModelError(result.StatusKey, result.StatusMsg);
-                    return View(model);
-                }
-
-                ViewBag.SuccessMessage = "Profile updated successfully.";
-                return View(model);
-            }
-
-            // GET: /Account/Logout
-            public ActionResult Logout()
-            {
-                var cookie = Request.Cookies["WNCNN"];
-                if (cookie != null)
-                {
-                    _userApi.SignOutAction(cookie.Value);
-                    cookie.Expires = DateTime.Now.AddDays(-1);
-                    Response.Cookies.Add(cookie);
-                }
-
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult EditProfile(UDbTable model)
+        {
+            var currentUser = GetCurrentUser();
+            if (currentUser == null)
                 return RedirectToAction("Login");
-            }
 
-            private UserMinimal GetCurrentUser()
+            bool updated = _user.UpdateUserProfile(currentUser.Username, model);
+            if (!updated)
             {
-                var cookie = Request.Cookies["WNCNN"];
-                if (cookie == null)
-                    return null;
-
-                return _userApi.UserCookie(cookie.Value);
+                ModelState.AddModelError("", "Ошибка при обновлении профиля.");
+                return View(currentUser);
             }
+
+            ViewBag.SuccessMessage = "Профиль успешно обновлен.";
+            return View(_user.GetUserByUsername(currentUser.Username));
+        }
+
+        // GET: /Account/Logout
+        public ActionResult Logout()
+        {
+            var cookie = Request.Cookies[CookieName];
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                cookie.Path = "/";
+                Response.Cookies.Add(cookie);
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        private UDbTable GetCurrentUser()
+        {
+            var cookie = Request.Cookies[CookieName];
+            if (cookie == null)
+                return null;
+
+            var username = cookie.Value;
+            return _user.GetUserByUsername(username);
         }
     }
-
+}

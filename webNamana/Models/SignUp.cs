@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-
 namespace webNamana.Models
 {
     public class SignUp

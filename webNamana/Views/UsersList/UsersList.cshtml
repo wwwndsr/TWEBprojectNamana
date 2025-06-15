@@ -1,0 +1,304 @@
+@{
+    ViewBag.Title = "Users Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Registered Users (20)</h3>
+                    <div>
+                        <input type="text" class="form-control form-control-sm" placeholder="Search users..." style="width: 200px; display: inline-block;">
+                        <button class="btn btn-sm btn-success ml-2">
+                            <i class="fas fa-plus mr-1"></i> Add User
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 50px">#</th>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Registration</th>
+                                    <th>Orders</th>
+                                    <th>Status</th>
+                                    <th style="width: 120px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- User 1 -->
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.pravatar.cc/40?img=1" class="rounded-circle mr-2" alt="User">
+                                            <div>
+                                                <strong>Иван Петров</strong><br>
+                                                <small class="text-muted">ivan_petrov</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>ivan.petrov@example.com</td>
+                                    <td>+7 (123) 456-7890</td>
+                                    <td>15.01.2023</td>
+                                    <td class="text-center">12</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" title="Block">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- User 2 -->
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.pravatar.cc/40?img=2" class="rounded-circle mr-2" alt="User">
+                                            <div>
+                                                <strong>Анна Сидорова</strong><br>
+                                                <small class="text-muted">anna_s</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>anna.sidorova@example.com</td>
+                                    <td>+7 (123) 456-7891</td>
+                                    <td>20.01.2023</td>
+                                    <td class="text-center">8</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- User 3 -->
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.pravatar.cc/40?img=3" class="rounded-circle mr-2" alt="User">
+                                            <div>
+                                                <strong>Сергей Иванов</strong><br>
+                                                <small class="text-muted">sergio</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>sergey.ivanov@example.com</td>
+                                    <td>+7 (123) 456-7892</td>
+                                    <td>05.02.2023</td>
+                                    <td class="text-center">5</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- User 4 -->
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.pravatar.cc/40?img=4" class="rounded-circle mr-2" alt="User">
+                                            <div>
+                                                <strong>Мария Кузнецова</strong><br>
+                                                <small class="text-muted">maria_k</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>maria.kuznetsova@example.com</td>
+                                    <td>+7 (123) 456-7893</td>
+                                    <td>12.02.2023</td>
+                                    <td class="text-center">3</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- User 5 -->
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://i.pravatar.cc/40?img=5" class="rounded-circle mr-2" alt="User">
+                                            <div>
+                                                <strong>Алексей Смирнов</strong><br>
+                                                <small class="text-muted">alex_sm</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>aleksey.smirnov@example.com</td>
+                                    <td>+7 (123) 456-7894</td>
+                                    <td>18.02.2023</td>
+                                    <td class="text-center">0</td>
+                                    <td><span class="badge badge-secondary">Inactive</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- User 6-20 (сокращенный вариант) -->
+                                <tr>
+                                    <td>6</td>
+                                    <td>Ольга Васнецова</td>
+                                    <td>olga.v@example.com</td>
+                                    <td>+7 (123) 456-7895</td>
+                                    <td>22.02.2023</td>
+                                    <td class="text-center">7</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Дмитрий Попов</td>
+                                    <td>dmitry.p@example.com</td>
+                                    <td>+7 (123) 456-7896</td>
+                                    <td>25.02.2023</td>
+                                    <td class="text-center">4</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Екатерина Соколова</td>
+                                    <td>ekaterina.s@example.com</td>
+                                    <td>+7 (123) 456-7897</td>
+                                    <td>01.03.2023</td>
+                                    <td class="text-center">9</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>Андрей Михайлов</td>
+                                    <td>andrey.m@example.com</td>
+                                    <td>+7 (123) 456-7898</td>
+                                    <td>05.03.2023</td>
+                                    <td class="text-center">2</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>Наталья Новикова</td>
+                                    <td>natalia.n@example.com</td>
+                                    <td>+7 (123) 456-7899</td>
+                                    <td>10.03.2023</td>
+                                    <td class="text-center">6</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Остальные пользователи 11-20 -->
+                                <tr><td>11</td><td>Павел Волков</td><td>pavel.v@example.com</td><td>+7 (123) 456-7800</td><td>12.03.2023</td><td class="text-center">1</td><td><span class="badge badge-secondary">Inactive</span></td><td>...</td></tr>
+                                <tr><td>12</td><td>Юлия Козлова</td><td>yulia.k@example.com</td><td>+7 (123) 456-7801</td><td>15.03.2023</td><td class="text-center">5</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                                <tr><td>13</td><td>Артем Лебедев</td><td>artem.l@example.com</td><td>+7 (123) 456-7802</td><td>18.03.2023</td><td class="text-center">0</td><td><span class="badge badge-secondary">Inactive</span></td><td>...</td></tr>
+                                <tr><td>14</td><td>Виктория Павлова</td><td>viktoria.p@example.com</td><td>+7 (123) 456-7803</td><td>20.03.2023</td><td class="text-center">3</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                                <tr><td>15</td><td>Григорий Семенов</td><td>grigory.s@example.com</td><td>+7 (123) 456-7804</td><td>22.03.2023</td><td class="text-center">7</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                                <tr><td>16</td><td>Лариса Федорова</td><td>larisa.f@example.com</td><td>+7 (123) 456-7805</td><td>25.03.2023</td><td class="text-center">2</td><td><span class="badge badge-warning">Pending</span></td><td>...</td></tr>
+                                <tr><td>17</td><td>Роман Егоров</td><td>roman.e@example.com</td><td>+7 (123) 456-7806</td><td>28.03.2023</td><td class="text-center">4</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                                <tr><td>18</td><td>Светлана Морозова</td><td>svetlana.m@example.com</td><td>+7 (123) 456-7807</td><td>01.04.2023</td><td class="text-center">1</td><td><span class="badge badge-secondary">Inactive</span></td><td>...</td></tr>
+                                <tr><td>19</td><td>Тимур Николаев</td><td>timur.n@example.com</td><td>+7 (123) 456-7808</td><td>05.04.2023</td><td class="text-center">8</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                                <tr><td>20</td><td>Элина Яковлева</td><td>elina.y@example.com</td><td>+7 (123) 456-7809</td><td>10.04.2023</td><td class="text-center">3</td><td><span class="badge badge-success">Active</span></td><td>...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .badge-lg {
+        font-size: 1rem;
+        padding: 0.5em 0.8em;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+</style>
