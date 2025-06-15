@@ -23,7 +23,7 @@ namespace webNamana.Web.Controllers
                 if (!ModelState.IsValid)
                     return View(model);
 
-                model.LastIp = Request.UserHostAddress;
+                model.LasIp = Request.UserHostAddress;
 
                 var result = _userApi.UserLoginAction(model);
                 if (!result.Status)

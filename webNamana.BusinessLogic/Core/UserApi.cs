@@ -79,7 +79,7 @@ namespace webNamana.BusinessLogic.Core
                 }
 
                 user.LastLogin = DateTime.Now;
-                user.LastIp = data.LastIp;
+                user.LasIp = data.LasIp;
 
                 db.Users.AddOrUpdate(user);
                 db.SaveChanges();
