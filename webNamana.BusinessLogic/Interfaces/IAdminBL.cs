@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 
@@ -13,4 +17,3 @@ namespace webNamana.BusinessLogic.Interfaces
         AdminAuthResult ChangeUserRole(int id, URole newRole);
     }
 }
-

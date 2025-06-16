@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Registration Successful";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="container mt-5">
+    <div class="alert alert-success text-center" role="alert">
+        <h2 class="mb-3">✅ Успешная регистрация на тренировку!</h2>
+        <p>@TempData["SuccessMessage"] ?? "Ваша заявка успешно отправлена. Мы ждем вас на тренировке!"</p>
+        <a href="@Url.Action("Register", "Training")" class="btn btn-primary mt-4">Записаться ещё раз</a>
+        <a href="@Url.Action("Schedule", "Training")" class="btn btn-secondary mt-4 ml-2">Посмотреть расписание</a>
+    </div>
+</div>

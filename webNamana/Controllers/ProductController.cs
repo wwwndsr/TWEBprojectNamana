@@ -7,12 +7,18 @@ using webNamana.Domain.Entities.Product;
 using webNamana.Helpers;
 using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
+using webNamana.Models;
+using System.Collections.Generic;
+using System.IO;
+using webNamana.BusinessLogic.DBModel;
+using webNamana.BusinessLogic.Core;
 
 namespace webNamana.Web.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _product;
+        private readonly ProductApi _productApi = new ProductApi();
 
         public ProductController()
         {
@@ -28,59 +34,77 @@ namespace webNamana.Web.Controllers
         }
 
         // GET: /Product/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var product = _product.GetProductById(id);
-            if (product == null)
-                return HttpNotFound();
+            // Проверяем, передан ли параметр id
+            if (!id.HasValue)
+            {
+                // Возвращаем ошибку 400 - неправильный запрос, если id не передан
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest, "Product ID is required");
+            }
 
+            // Получаем продукт из бизнес-логики по id
+            var product = _product.GetProductById(id.Value);
+
+            // Если продукт не найден, возвращаем ошибку 404 - не найдено
+            if (product == null)
+            {
+                return HttpNotFound($"Product with ID {id.Value} not found");
+            }
+
+            // Возвращаем представление с моделью продукта
             return View(product);
         }
 
-        // GET: /Product/Create
+
+        [HttpGet]
         public ActionResult Create()
         {
             return View(new ProductEntity());
         }
 
-        // POST: /Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductEntity model)
+        public ActionResult Create(ProductEntity model, HttpPostedFileBase ProductImageFile)
         {
-            // Получаем загруженный файл
-            var file = Request.Files["ProductImageFile"];
-
-            if (file != null && file.ContentLength > 0)
+            if (ProductImageFile != null && ProductImageFile.ContentLength > 0)
             {
-                // Генерируем уникальное имя файла и сохраняем
-                var fileName = System.IO.Path.GetFileName(file.FileName);
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
+                var fileName = Path.GetFileName(ProductImageFile.FileName);
+                var uniqueFileName = Guid.NewGuid() + "_" + fileName;
                 var path = Server.MapPath("~/Uploads/Products/");
 
-                // Убедимся, что папка существует
-                if (!System.IO.Directory.Exists(path))
-                    System.IO.Directory.CreateDirectory(path);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
-                var fullPath = System.IO.Path.Combine(path, uniqueFileName);
-                file.SaveAs(fullPath);
+                var fullPath = Path.Combine(path, uniqueFileName);
+                ProductImageFile.SaveAs(fullPath);
 
-                // Сохраняем относительный путь в модель (зависит от структуры твоего продукта)
                 model.ProductImage = "/Uploads/Products/" + uniqueFileName;
+            }
+            else
+            {
+                ModelState.AddModelError("ProductImage", "Необходимо выбрать изображение.");
+                return View(model);
             }
 
             if (!ModelState.IsValid)
-                return View(model);
-
-            bool created = _product.AddProduct(model);
-            if (!created)
             {
-                ModelState.AddModelError("", "Ошибка при добавлении продукта.");
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            bool added = _productApi.AddProduct(model);
+            if (added)
+            {
+                TempData["Message"] = "Товар успешно добавлен.";
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Ошибка при добавлении товара.");
+                return View(model);
+            }
         }
+
 
 
         // GET: /Product/Edit/5
@@ -135,5 +159,33 @@ namespace webNamana.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        // GET: /Product/ProductPage
+        public ActionResult ProductPage()
+        {
+            var productEntities = _product.GetAllProducts();
+
+            if (productEntities == null || !productEntities.Any())
+            {
+                // Пока нет товаров — можно вернуть пустую модель или ViewBag сообщение
+                ViewBag.Message = "There is no products";
+                return View(new List<ProductViewModel>());
+            }
+
+            var productViewModels = productEntities.Select(p => new ProductViewModel
+            {
+                ProductId = p.Id,
+                ProductName = p.ProductName,
+                Description = p.Description,
+                Price = p.Price,
+                ProductImage = p.ProductImage
+            }).ToList();
+
+            return View(productViewModels);
+        }
+
+
+
     }
 }

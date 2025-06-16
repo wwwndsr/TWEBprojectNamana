@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using webNamana.Models;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using webNamana.Filters;
+using System;
 
 namespace webNamana.WebApp.Controllers
 {
@@ -15,7 +16,7 @@ namespace webNamana.WebApp.Controllers
         public AdminController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _admin = bl.GetAdminBl();
+            _admin = bl.GetAdminBL();
         }
 
         // ========== USERS ==========

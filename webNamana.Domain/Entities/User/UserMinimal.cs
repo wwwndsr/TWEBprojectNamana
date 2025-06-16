@@ -3,6 +3,7 @@ using webNamana.Domain.Enums;
 
 namespace webNamana.Domain.Entities.User
 {
+    [Serializable]
     public class UserMinimal
     {
         public int Id { get; set; }

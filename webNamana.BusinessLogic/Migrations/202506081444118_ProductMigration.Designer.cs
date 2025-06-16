@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace webNamana.BusinessLogic.Migrations.ProductMigrations {
+namespace webNamana.BusinessLogic.Migrations {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace webNamana.BusinessLogic.Migrations.ProductMigrations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class _202506061555202_InitialProductMigration {
+    internal class _202506081444118_ProductMigration {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal _202506061555202_InitialProductMigration() {
+        internal _202506081444118_ProductMigration() {
         }
         
         /// <summary>
@@ -39,8 +39,7 @@ namespace webNamana.BusinessLogic.Migrations.ProductMigrations {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("webNamana.BusinessLogic.Migrations.ProductMigrations.202506061555202_InitialProdu" +
-                            "ctMigration", typeof(_202506061555202_InitialProductMigration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("webNamana.BusinessLogic.Migrations.202506081444118_ProductMigration", typeof(_202506081444118_ProductMigration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -72,6 +71,15 @@ namespace webNamana.BusinessLogic.Migrations.ProductMigrations {
         
         /// <summary>
         ///   Looks up a localized string similar to H4sIAAAAAAAEAM1Y227jNhB9L9B/EPScFR0HAbaBvIvETgqjcWKssvtOS2OHKEWpJJXa39aHflJ/oUPdRcvXvWDhF4ucOXPhzOFI//3zr/9xHXPnDaRiiRi5l97AdUCEScTEauRmevnuvfvxw6+/+PdRvHa+VHJXRg41hRq5r1qnN4So8BViqryYhTJRyVJ7YRITGiVkOBj8Ri4vCSCEi1iO43/KhGYx5A/4OE5ECKnOKJ8lEXBVruNOkKM6TzQGldIQRu7fsMAnKqh3lykmQKnHZMVCb3KX67rOLWcU3QqAL12HCpFoqtHpm88KAi0TsQpSXKD8ZZMCyi0pV1AGc9OIHxvXYGjiIo1iBRVmSifxiYCXV2WiiK1+VrrdOpGYyntMud6YqPN0jty5TKIs1MW669gWb8ZcGul2yicowISXqzBQXgnhdaAuHFvhoq4cLDDzu3DGGdeZhJGATEvKL5x5tuAs/AM2L8mfIEYi47ztPgaAe50FXEK7KUi9+QTL [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H4sIAAAAAAAEAM1Y227bOBB9X2D/QdBzKjoOAnQDuUViJwtj48So0r7T0tghliK1JJW1v60P+0n7CzvU/eJ7t0XhF4ucOXPhzOFI/379x/+4jrnzBkozKUbupTdwHRChjJhYjdzULN+9dz9++PUX/z6K186XUu7KyqGm0CP31ZjkhhAdvkJMtRezUEktl8YLZUxoJMlwMPiNXF4SQAgXsRzH/5QKw2LIHvBxLEUIiUkpn8kIuC7WcSfIUJ0nGoNOaAgj929Y4BMV1LtLNROg9aNcsdCb3GW6rnPLGUW3AuBL16FCSEMNOn3zWUNglBSrIMEFyl82CaDcknINRTA3tfixcQ2GNi5SK5ZQYaqNjE8EvLwqEkW66mel260Siam8x5SbjY06S+fInSsZpaHJ112na/FmzJWVbqZ8ggJMeJkKA+0VEF4L6sLpKlxUlYMFZn8XzjjlJlUwEpAaRfmFM08XnIV/wOZF/gliJFLOm+5jALjXWsAltJuAMptPsCyC [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Target {
             get {
