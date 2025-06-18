@@ -18,7 +18,11 @@ namespace webNamana.BusinessLogic
         {
             return base.GetUserByIdAction(id);
         }
-
+        public AdminAuthResult GetUserByUsername(string username)
+        {
+            return base.GetUserByUsernameAction(username);
+        }
+        
         public AdminAuthResult EditUser(UserMinimal user)
         {
             // Подготовим объект UDbTable для обновления

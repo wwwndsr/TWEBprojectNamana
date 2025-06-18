@@ -3,10 +3,12 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using webNamana.Domain.Entities.User;
-using webNamana.Helpers;
 using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
+using webNamana.BusinessLogic.Services;
+using webNamana.Domain.Entities.User;
+using webNamana.Domain.Enums;
+using webNamana.Helpers;
 
 namespace webNamana.Web.Controllers
 {
@@ -19,7 +21,7 @@ namespace webNamana.Web.Controllers
         public AccountController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _user = bl.GetUserService();  
+            _user = bl.GetUserService();
         }
 
         // GET: /Account/Login
@@ -90,15 +92,7 @@ namespace webNamana.Web.Controllers
         }
 
         // GET: /Account/Profile
-        [Authorize]
-        public ActionResult UserProfile()
-        {
-            var user = GetCurrentUser();
-            if (user == null)
-                return RedirectToAction("Login");
 
-            return View(user);
-        }
 
         // POST: /Account/Profile
         [HttpPost]
@@ -143,6 +137,24 @@ namespace webNamana.Web.Controllers
 
             var username = cookie.Value;
             return _user.GetUserByUsername(username);
+        }
+        public ActionResult GoToProfile()
+        {
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null)
+                return RedirectToAction("Login", "Account");
+
+            var username = cookie.Value;
+
+            var user = _user.GetUserByUsername(username); // user — это UDbTable
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            if (user.Level == URole.Admin)
+                return RedirectToAction("AdminPage", "Admin");
+            else
+                return RedirectToAction("UserPage", "User");
         }
     }
 }

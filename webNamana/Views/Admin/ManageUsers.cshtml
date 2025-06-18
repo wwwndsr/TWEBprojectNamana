@@ -1,0 +1,34 @@
+﻿@model IEnumerable<webNamana.Domain.Entities.User.UserMinimal>
+
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h2>Управление пользователями</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Level</td>
+                <td>
+                    <a href="@Url.Action("EditUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-warning">Редактировать</a>
+                    <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-danger">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

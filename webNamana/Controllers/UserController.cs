@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using webNamana.Filters;
 using webNamana.Helpers;
+using webNamana.Models;
+
 
 namespace webNamana.Controllers
 {
@@ -19,19 +23,31 @@ namespace webNamana.Controllers
             _userService = bl.GetUserService();
         }
 
-        public new ActionResult Profile()
+        //[Authorize]
+        public ActionResult UserPage()
         {
-            var user = SessionHelper.User;
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null)
+                return RedirectToAction("Login", "Account");
+
+            var username = cookie.Value;
+            var user = _userService.GetUserByUsername(username);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
 
             var model = new UserMinimal
             {
                 Id = user.Id,
                 Username = user.Username,
-                Email = user.Email
+                Email = user.Email,
+                Level = user.Level,
+                LastLogin = user.LastLogin,
+                RegisterTime = user.RegisterTime
             };
 
-            return View(model);
+            return View("UserPage", model);
         }
+
 
         public ActionResult EditProfile()
         {
@@ -85,6 +101,41 @@ namespace webNamana.Controllers
             }
 
             return RedirectToAction("Profile");
+        }
+        [HttpPost]
+         public ActionResult UploadAvatar(HttpPostedFileBase avatar)
+        {
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null || avatar == null || avatar.ContentLength == 0)
+            {
+                TempData["Message"] = "Не удалось загрузить изображение.";
+                TempData["AlertType"] = "danger";
+                return RedirectToAction("UserPage");
+            }
+
+            string username = cookie.Value;
+            string fileName = username + ".png"; 
+            string path = Server.MapPath("~/Content/Avatars/");
+
+            // Убедись, что папка существует
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fullPath = Path.Combine(path, fileName);
+
+            try
+            {
+                avatar.SaveAs(fullPath);
+                TempData["Message"] = "Аватар успешно обновлён.";
+                TempData["AlertType"] = "success";
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = "Ошибка при сохранении файла: " + ex.Message;
+                TempData["AlertType"] = "danger";
+            }
+
+            return RedirectToAction("UserPage");
         }
     }
 }

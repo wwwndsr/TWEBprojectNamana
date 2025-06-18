@@ -43,5 +43,9 @@ namespace webNamana.BusinessLogic.BLogic
         {
             return base.ChangeUserRoleAction(id, newRole);
         }
+        public AdminAuthResult GetUserByUsername(string username)
+        {
+            return base.GetUserByUsernameAction(username); // если такой метод есть в AdminApi
+        }
     }
 }

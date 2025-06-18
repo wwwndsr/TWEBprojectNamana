@@ -23,28 +23,8 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Contact", "Contact")">Contact Us</a>
                             </li>
-
-                            @if (Session["UserEmail"] != null)
-                            {
-                                var userRole = Session["UserRole"].ToString();
-                                if (userRole == "Admin")
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("AdminPage", "Admin")">
-                                            <i class="fas fa-tachometer-alt"></i>
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("UserPage", "User")">
-                                            <i class="fas fa-user-circle"></i> Личный кабинет
-                                        </a>
-                                    </li>
-                                }
-                            }
                         </ul>
+
 
                         <!-- Кнопка поиска -->
                         <a href="@Url.Action("ProductPage", "ProductPage")" class="search-link ml-5">

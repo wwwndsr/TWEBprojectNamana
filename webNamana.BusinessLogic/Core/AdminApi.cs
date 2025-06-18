@@ -64,6 +64,36 @@ namespace webNamana.BusinessLogic.Core
 
             return result;
         }
+        internal AdminAuthResult GetUserByUsernameAction(string username)
+        {
+            var result = new AdminAuthResult();
+
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null)
+                {
+                    result.Status = false;
+                    result.StatusMsg = "User not found";
+                    return result;
+                }
+
+                result.Status = true;
+                result.StatusMsg = "User retrieved successfully";
+                result.User = new UserMinimal
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    Level = user.Level,
+                    LastLogin = user.LastLogin,
+                    RegisterTime = user.RegisterTime
+                };
+            }
+
+            return result;
+        }
+
 
         internal AdminAuthResult UpdateUserAction(UDbTable data)
         {

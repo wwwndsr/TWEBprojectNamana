@@ -1,0 +1,36 @@
+﻿@model webNamana.Models.EditProfileViewModel
+
+@{
+    ViewBag.Title = "Редактировать пользователя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2>Редактировать профиль пользователя</h2>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-@TempData["AlertType"]">
+            @TempData["Message"]
+        </div>
+    }
+
+    <form method="post" action="@Url.Action("EditUser", "Admin")">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="form-group">
+            <label for="Username">Имя пользователя</label>
+            <input id="Username" name="Username" type="text" class="form-control" value="@Model.Username" />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input id="Email" name="Email" type="email" class="form-control" value="@Model.Email" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="@Url.Action("Clients", "Admin")" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
