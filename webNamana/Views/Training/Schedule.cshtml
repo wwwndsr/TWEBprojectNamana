@@ -1,8 +1,22 @@
-﻿@{
+﻿@model List<webNamana.Domain.Entities.Training.TrainingEntity>
+
+@{
     ViewBag.Title = "Training Schedule";
+
+    DayOfWeek[] daysOfWeek = new DayOfWeek[]
+    {
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday
+            };
 }
 
 <h2>Training Schedule</h2>
+
 
 <style>
     body {
@@ -123,76 +137,23 @@
     </div>
 
     <div class="days">
-        @foreach (var day in new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" })
+        @foreach (DayOfWeek day in daysOfWeek)
         {
             <div class="day-column">
                 <div class="day-header">@day</div>
 
-                @if (day == "Monday")
+                @foreach (var training in Model)
                 {
-                    <div class="event" style="top: 10%;" data-color="1">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Abs Circuit", time = "09:00" })">Abs Circuit</a>
-                    </div>
-                    <div class="event" style="top: 30%;" data-color="2">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Rowing Workout", time = "11:00" })">Rowing Workout</a>
-                    </div>
-                    <div class="event" style="top: 55%;" data-color="3">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Yoga Level 1", time = "14:00" })">Yoga Level 1</a>
-                    </div>
-                }
-                else if (day == "Tuesday")
-                {
-                    <div class="event" style="top: 15%;" data-color="2">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Rowing Workout", time = "10:00" })">Rowing Workout</a>
-                    </div>
-                    <div class="event" style="top: 35%;" data-color="4">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Restorative Yoga", time = "12:00" })">Restorative Yoga</a>
-                    </div>
-                    <div class="event" style="top: 60%;" data-color="1">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Abs Circuit", time = "15:00" })">Abs Circuit</a>
-                    </div>
-                }
-                else if (day == "Wednesday")
-                {
-                    <div class="event" style="top: 20%;" data-color="3">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Pilates", time = "09:30" })">Pilates</a>
-                    </div>
-                    <div class="event" style="top: 45%;" data-color="4">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "HIIT Training", time = "13:00" })">HIIT Training</a>
-                    </div>
-                }
-                else if (day == "Thursday")
-                {
-                    <div class="event" style="top: 15%;" data-color="2">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Crossfit", time = "10:00" })">Crossfit</a>
-                    </div>
-                    <div class="event" style="top: 50%;" data-color="3">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Stretching", time = "14:30" })">Stretching</a>
-                    </div>
-                }
-                else if (day == "Friday")
-                {
-                    <div class="event" style="top: 20%;" data-color="4">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Strength Training", time = "11:00" })">Strength Training</a>
-                    </div>
-                    <div class="event" style="top: 45%;" data-color="1">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Boxing", time = "15:00" })">Boxing</a>
-                    </div>
-                }
-                else if (day == "Saturday")
-                {
-                    <div class="event" style="top: 25%;" data-color="3">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Meditation", time = "10:30" })">Meditation</a>
-                    </div>
-                    <div class="event" style="top: 50%;" data-color="2">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Dance Fitness", time = "13:30" })">Dance Fitness</a>
-                    </div>
-                }
-                else if (day == "Sunday")
-                {
-                    <div class="event" style="top: 30%;" data-color="4">
-                        <a href="@Url.Action("Register", "TrainingRegistration", new { training = "Restorative Yoga", time = "12:00" })">Restorative Yoga</a>
-                    </div>
+                    if (training.DayOfWeek == day)
+                    {
+                        int topPercent = (training.StartTime.Hours - 9) * 10 + (training.StartTime.Minutes * 10 / 60);
+                       <div class="event" style="top:@(topPercent)%" data-color="1">
+
+                            <a href="@Url.Action("Register", "TrainingRegistration", new { training = training.TrainingName, time = training.StartTime.ToString(@"hh\:mm") })">
+                                @training.TrainingName
+                            </a>
+                        </div>
+                    }
                 }
             </div>
         }

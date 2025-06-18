@@ -49,9 +49,8 @@ namespace webNamana.BusinessLogic.Core
                 if (existing == null) return false;
 
                 existing.TrainingName = updated.TrainingName;
-                existing.Description = updated.Description;
-                existing.DurationMinutes = updated.DurationMinutes;
-                existing.DifficultyLevel = updated.DifficultyLevel;
+                existing.DayOfWeek = updated.DayOfWeek;
+                existing.StartTime = updated.StartTime;
 
                 db.Trainings.AddOrUpdate(existing);
                 db.SaveChanges();

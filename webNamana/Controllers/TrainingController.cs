@@ -190,5 +190,13 @@ namespace webNamana.Web.Controllers
         {
             return View();
         }
+
+        // GET: /Training/Schedule
+        public ActionResult Schedule()
+        {
+            var trainings = _trainingService.GetAllTrainings();
+            return View(trainings);
+        }
+
     }
 }

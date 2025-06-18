@@ -20,14 +20,9 @@ namespace webNamana.Domain.Entities.Training
         public string TrainingName { get; set; }
 
         [Required]
-        [StringLength(500)]
-        public string Description { get; set; }
+        public DayOfWeek DayOfWeek { get; set; } // Новый столбец: день недели
 
         [Required]
-        public int DurationMinutes { get; set; }  // длительность тренировки
-
-        [Required]
-        [StringLength(50)]
-        public string DifficultyLevel { get; set; } // например, "Beginner", "Intermediate", "Advanced"
+        public TimeSpan StartTime { get; set; } // Новый столбец: время начала тренировки
     }
 }
