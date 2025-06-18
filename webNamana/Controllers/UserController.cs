@@ -35,14 +35,12 @@ namespace webNamana.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            var model = new UserMinimal
+            var model = new UserDashboard
             {
-                Id = user.Id,
                 Username = user.Username,
                 Email = user.Email,
                 Level = user.Level,
-                LastLogin = user.LastLogin,
-                RegisterTime = user.RegisterTime
+
             };
 
             return View("UserPage", model);

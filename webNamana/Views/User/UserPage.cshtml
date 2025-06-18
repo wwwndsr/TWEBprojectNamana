@@ -38,22 +38,8 @@
 
            
 
-            <!-- Cart -->
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h3>Your Cart</h3>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        @foreach (var item in Model.CartItems)
-                        {
-                            <li>@item</li>
-                        }
-                    </ul>
-                    <a href="@Url.Action("Cart", "User")" class="btn btn-outline-secondary btn-sm mt-2">View Cart</a>
-                </div>
-            </div>
-        </div>
+           
+
 
         <!-- Actions Section -->
         <div class="col-md-8">

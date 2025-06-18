@@ -8,7 +8,8 @@ using webNamana.Domain.Enums;
 using webNamana.Filters;
 using webNamana.Models;
 
-namespace webNamana.WebApp.Controllers
+
+namespace webNamana.Controllers
 {
     [AdminOnly]
     public class AdminController : Controller
@@ -33,7 +34,7 @@ namespace webNamana.WebApp.Controllers
 
             var user = result.User;
 
-            var model = new UserMinimal
+            var model = new UDbTable
             {
                 Id = user.Id,
                 Username = user.Username,
