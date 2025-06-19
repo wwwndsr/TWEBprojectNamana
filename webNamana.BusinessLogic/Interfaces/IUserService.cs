@@ -11,6 +11,9 @@ namespace webNamana.BusinessLogic.Interfaces
         bool ValidateUserCredentials(string username, string password);
         bool CreateUser(UDbTable newUser);
         UDbTable GetUserByEmail(string email);
+        bool ValidateUserCredentialsByEmail(string email, string password);
+        void UpdateUserLoginData(string email, string ip);
+
 
     }
 }

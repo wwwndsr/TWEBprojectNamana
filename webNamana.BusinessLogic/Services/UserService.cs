@@ -41,6 +41,17 @@ namespace webNamana.BusinessLogic.Services
         {
             return CreateUserAction(newUser);
         }
+
+        public bool ValidateUserCredentialsByEmail(string email, string password)
+        {
+            return ValidateUserCredentialsByEmail(email, password);
+        }
+
+        public void UpdateUserLoginData(string email, string ip)
+        {
+            UpdateUserLoginData(email, ip);
+        }
+
     }
 }
 
