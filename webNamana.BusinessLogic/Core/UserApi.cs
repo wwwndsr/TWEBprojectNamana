@@ -214,6 +214,19 @@ namespace webNamana.BusinessLogic.Core
             }
         }
 
+        public void UpdateUserLoginDataAction(string email, string ip)
+{
+    using (var db = new UserContext())
+    {
+        var user = db.Users.FirstOrDefault(u => u.Email == email);
+        if (user == null) return;
+
+        user.LastLogin = DateTime.Now;
+        user.LasIp = ip;
+        db.SaveChanges();
+    }
+}
+
         public UserAuthResult UpdateProfileAction(UDbTable data)
         {
             var result = new UserAuthResult();
@@ -345,6 +358,17 @@ namespace webNamana.BusinessLogic.Core
                 user.Password = LoginHelper.HashGen(newPassword);
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public bool ValidateUserCredentialsByEmailAction(string email, string password)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return false;
+
+                return user.Password == LoginHelper.HashGen(password);
             }
         }
 
