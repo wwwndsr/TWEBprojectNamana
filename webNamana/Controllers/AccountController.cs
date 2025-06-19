@@ -9,9 +9,10 @@ using webNamana.BusinessLogic.Services;
 using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 using webNamana.Helpers;
+using webNamana.Models;
+using webNamana.BusinessLogic.BLogic;
 
-
-namespace webNamana.Web.Controllers
+namespace webNamana.Controllers
 {
     public class AccountController : Controller
     {
@@ -34,23 +35,33 @@ namespace webNamana.Web.Controllers
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UDbTable model)
+        public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
             model.LasIp = Request.UserHostAddress;
 
-            if (!_user.ValidateUserCredentials(model.Email, model.Password))
+            // Проверка логина
+            if (!_user.ValidateUserCredentialsByEmail(model.Email, model.Password))
             {
                 ModelState.AddModelError("", "Неверный email или пароль.");
                 return View(model);
             }
 
+            // Получаем пользователя
             var user = _user.GetUserByEmail(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
 
-            // сохраняем в сессию
-            SessionHelper.SetUserSession(user.Email); // для тайм-аута
+            // Обновляем время входа и IP
+            _user.UpdateUserLoginData(model.Email, model.LasIp);
+
+            // Сохраняем пользователя в сессию
+            SessionHelper.SetUserSession(user.Email);
             SessionHelper.User = new UserMinimal
             {
                 Id = user.Id,
@@ -59,13 +70,14 @@ namespace webNamana.Web.Controllers
                 Level = user.Level
             };
 
-            // создаём куку через SessionBL
+            // Создаём куку через SessionBL
             var sessionBl = new SessionBL();
             var cookie = sessionBl.GenCookie(user.Email);
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index", "Home");
         }
+
 
 
 

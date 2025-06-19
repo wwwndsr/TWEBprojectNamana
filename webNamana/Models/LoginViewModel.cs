@@ -15,5 +15,6 @@ namespace webNamana.Models
         [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string LasIp { get; set; }
     }
 }
