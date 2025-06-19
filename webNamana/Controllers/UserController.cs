@@ -11,12 +11,12 @@ namespace webNamana.Controllers
     [UserOnly]
     public class UserController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IUserBL _userService;
 
         public UserController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _userService = bl.GetUserService();
+            _userService = bl.GetUserBL();
         }
 
         public new ActionResult Profile()

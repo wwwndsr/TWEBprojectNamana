@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using webNamana.BusinessLogic.DBModel;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.BusinessLogic.Services;
 using webNamana.Domain.Entities.Training;
+using webNamana.Helpers;
 using webNamana.Models;
 
 namespace webNamana.Web.Controllers
 {
     public class TrainingController : Controller
     {
-        private readonly ITrainingService _trainingService;
+        private readonly ITrainingBL _trainingService;
 
         public TrainingController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _trainingService = bl.GetTrainingService();
+            _trainingService = bl.GetTrainingBL();
         }
 
 
@@ -204,11 +206,17 @@ namespace webNamana.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(TrainingRegisterViewModel model, string TrainingDateTime)
         {
+            if (!SessionHelper.IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(TrainingDateTime) && DateTime.TryParse(TrainingDateTime, out var selectedDateTime))
+                    if (!string.IsNullOrEmpty(TrainingDateTime) &&
+                        DateTime.TryParse(TrainingDateTime, out var selectedDateTime))
                     {
                         model.RegistrationDate = selectedDateTime.Date;
                         model.TrainingTime = selectedDateTime.TimeOfDay;
@@ -217,12 +225,29 @@ namespace webNamana.Web.Controllers
                     model.CreatedAt = DateTime.Now;
                     model.IsConfirmed = false;
 
-                    TempData["SuccessMessage"] = "Your training registration has been received successfully!";
+                    // Сохраняем в базу
+                    using (var db = new TrainingContext())
+                    {
+                        var registration = new TrainingRegistrationEntity
+                        {
+                            Username = SessionHelper.User.Username,
+                            TrainingType = model.TrainingType,
+                            RegistrationDate = model.RegistrationDate,
+                            TrainingTime = model.TrainingTime,
+                            CreatedAt = model.CreatedAt,
+                            IsConfirmed = model.IsConfirmed
+                        };
+
+                        db.Registrations.Add(registration);
+                        db.SaveChanges();
+                    }
+
+                    TempData["SuccessMessage"] = "Вы успешно записались на тренировку!";
                     return RedirectToAction("Success");
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError("", "An error occurred while processing your registration.");
+                    ModelState.AddModelError("", "Произошла ошибка при регистрации.");
                 }
             }
 
@@ -231,6 +256,7 @@ namespace webNamana.Web.Controllers
 
             return View(model);
         }
+
 
         // GET: /Training/Success
         public ActionResult Success()

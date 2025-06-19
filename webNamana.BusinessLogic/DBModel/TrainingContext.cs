@@ -13,5 +13,6 @@ namespace webNamana.BusinessLogic.DBModel
         public TrainingContext() : base("name=webNamana") { }
 
         public DbSet<TrainingEntity> Trainings { get; set; }
+        public DbSet<TrainingRegistrationEntity> Registrations { get; set; }
     }
 }

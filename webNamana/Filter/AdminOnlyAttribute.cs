@@ -7,12 +7,12 @@ namespace webNamana.Filters
 {
     public class AdminOnlyAttribute : ActionFilterAttribute
     {
-        private readonly IUserService _userService;
+        private readonly IUserBL _userService;
 
         public AdminOnlyAttribute()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _userService = bl.GetUserService();
+            _userService = bl.GetUserBL();
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)

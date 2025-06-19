@@ -173,7 +173,7 @@
                         }
 
                         <div class="event" style="top:@(topPx)px;" data-color="@colorCode">
-                            <a href="@Url.Action("Register", "TrainingRegistration", new { training = training.TrainingName, time = training.StartTime.ToString(@"hh\:mm") })">
+                            <a href="@Url.Action("Register", "Training", new { training = training.TrainingName, time = training.StartTime.ToString(@"hh\:mm") })">
                                 @training.TrainingName
                             </a>
                         </div>

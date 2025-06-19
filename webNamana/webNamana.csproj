@@ -277,7 +277,6 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ProductListViewModel.cs" />
     <Compile Include="Models\SignUp.cs" />
-    <Compile Include="Models\TrainingRegistration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserDashboard.cs" />
     <Compile Include="Models\UserLogin.cs" />

@@ -11,9 +11,9 @@ namespace webNamana.BusinessLogic
             return new SessionBL();
         }
 
-        public IUserService GetUserService()
+        public IUserBL GetUserBL()
         {
-            return new UserService();
+            return new UserBL();
         }
 
         public IProductBL GetProductBL()
@@ -26,9 +26,9 @@ namespace webNamana.BusinessLogic
             return new AdminBL();
         }
 
-        public ITrainingService GetTrainingService()
+        public ITrainingBL GetTrainingBL()
         {
-            return new TrainingService(); 
+            return new TrainingBL(); 
         }
 
         public ICartBL GetCartBL()

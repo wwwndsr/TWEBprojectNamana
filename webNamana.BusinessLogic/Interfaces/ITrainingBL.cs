@@ -7,7 +7,7 @@ using webNamana.Domain.Entities.Training;
 
 namespace webNamana.BusinessLogic.Interfaces
 {
-    public interface ITrainingService
+    public interface ITrainingBL
     {
         TrainingEntity GetTrainingById(int id);
         List<TrainingEntity> GetAllTrainings();

@@ -8,7 +8,7 @@ using webNamana.BusinessLogic.Core;
 
 namespace webNamana.BusinessLogic.Services
 {
-    public class UserService : UserApi, IUserService
+    public class UserBL : UserApi, IUserBL
     {
         public UDbTable GetUserByUsername(string username)
         {

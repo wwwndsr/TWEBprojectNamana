@@ -1,146 +1,62 @@
-﻿@model webNamana.Models.TrainingRegistration
-
+﻿@model webNamana.Models.TrainingRegisterViewModel
 @{
-    ViewBag.Title = "Register for Training";
+    ViewBag.Title = "Запись на тренировку";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var availableTrainings = ViewBag.AvailableTrainings as List<string> ?? new List<string>();
+    var availableTimes = ViewBag.AvailableTimes as List<System.DateTime> ?? new List<System.DateTime>();
+    var selectedTraining = ViewBag.SelectedTraining as string ?? "";
+    var selectedDateTime = ViewBag.SelectedDateTime as string ?? "";
+
+    var isUserLoggedIn = Session["User"] != null;
+    var user = isUserLoggedIn ? (webNamana.Domain.Entities.User.UserMinimal)Session["User"] : null;
 }
-
 <div class="container mt-5">
-    <div class="card shadow-sm p-4" style="max-width: 600px; margin: 0 auto;">
-        <h2 class="text-center mb-4">Register for Training</h2>
+    <div class="card shadow-lg p-4" style="max-width: 650px; margin: 0 auto; border: 2px solid gold;">
+        <h2 class="text-center mb-4">Запись на тренировку</h2>
 
-        @using (Html.BeginForm())
-        {
+        <form method="post" action="@Url.Action("Register", "Training")">
             @Html.AntiForgeryToken()
 
-            <div class="mb-3">
-                <label class="form-label">Full Name</label>
-                @Html.TextBox("FullName", Model.FullName, new { @class = "form-control" })
-            </div>
+            @if (user != null)
+            {
+                <div class="alert alert-info text-center">
+                    Вы вошли как <strong>@user.Username</strong>
+                </div>
+            }
 
             <div class="mb-3">
-                <label class="form-label">Email</label>
-                @Html.TextBox("Email", Model.Email, new { @class = "form-control", type = "email" })
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Phone Number</label>
-                @Html.TextBox("PhoneNumber", Model.PhoneNumber, new { @class = "form-control" })
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Training Type</label>
-                <select name="TrainingType" id="TrainingType" class="form-control">
-                    <option value="">-- Select Training --</option>
-                    @foreach (var training in (List<string>)ViewBag.AvailableTrainings)
+                <label class="form-label">Тип тренировки</label>
+                <select name="TrainingType" class="form-control" required>
+                    <option value="">-- Выберите --</option>
+                    @foreach (var training in availableTrainings)
                     {
-                        <option value="@training" @(training == Model.TrainingType ? "selected" : "")>@training</option>
+                        var selected = training == Model.TrainingType ? "selected" : "";
+                        <option value="@training" @selected>@training</option>
                     }
                 </select>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Select Training Date & Time</label>
-                <select name="TrainingDateTime" id="TrainingDateTime" class="form-control">
-                    <option value="">-- Select Date & Time --</option>
-                    @foreach (var time in (List<DateTime>)ViewBag.AvailableTimes)
+                <label class="form-label">Дата и время</label>
+                <select name="TrainingDateTime" class="form-control" required>
+                    <option value="">-- Выберите --</option>
+                    @foreach (var time in availableTimes)
                     {
-                        var selectedTime = Model.RegistrationDate.Add(Model.TrainingTime);
-                        <option value="@time.ToString("yyyy-MM-ddTHH:mm")" @(time == selectedTime ? "selected" : "")>
+                        var formattedValue = time.ToString("yyyy-MM-ddTHH:mm");
+                        var isSelected = formattedValue == selectedDateTime ? "selected" : "";
+                        <option value="@formattedValue" @isSelected>
                             @time.ToString("dd.MM.yyyy HH:mm")
                         </option>
                     }
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Additional Notes</label>
-                @Html.TextArea("AdditionalNotes", Model.AdditionalNotes, new { @class = "form-control" })
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
-        }
+            <button type="submit" class="btn w-100 mt-3" style="background-color: gold; color: black; font-weight: bold;">
+                Подтвердить регистрацию
+            </button>
+        </form>
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function () {
-        var selectedTraining = '@ViewBag.SelectedTraining';
-        var selectedDateTime = '@ViewBag.SelectedDateTime';
-
-        if (selectedTraining) {
-            $('#TrainingType').val(selectedTraining);
-        }
-
-        if (selectedTraining) {
-            $.ajax({
-                url: '@Url.Action("GetAvailableTimes", "TrainingRegistration")',
-                data: { trainingType: selectedTraining },
-                success: function (times) {
-                    var $timeSelect = $('#TrainingDateTime');
-                    $timeSelect.empty();
-                    $timeSelect.append($('<option>', {
-                        value: '',
-                        text: '-- Select Date & Time --'
-                    }));
-
-                    if (times.length > 0) {
-                        $.each(times, function (index, time) {
-                            var formatted = new Date(time).toLocaleString('ru-RU', {
-                                day: '2-digit', month: '2-digit', year: 'numeric',
-                                hour: '2-digit', minute: '2-digit'
-                            });
-
-                            var option = $('<option>', {
-                                value: time,
-                                text: formatted
-                            });
-
-                            if (selectedDateTime && time.startsWith(selectedDateTime.substring(0, 16))) {
-                                option.prop('selected', true);
-                            }
-
-                            $timeSelect.append(option);
-                        });
-                    }
-                }
-            });
-        }
-
-        $('#TrainingType').change(function () {
-            var selectedTraining = $(this).val();
-            var $timeSelect = $('#TrainingDateTime');
-
-            $timeSelect.empty();
-            $timeSelect.append($('<option>', {
-                value: '',
-                text: '-- Select Date & Time --'
-            }));
-
-            if (selectedTraining) {
-                $.ajax({
-                    url: '@Url.Action("GetAvailableTimes", "TrainingRegistration")',
-                    data: { trainingType: selectedTraining },
-                    success: function (times) {
-                        if (times.length > 0) {
-                            $.each(times, function (index, time) {
-                                var formatted = new Date(time).toLocaleString('ru-RU', {
-                                    day: '2-digit', month: '2-digit', year: 'numeric',
-                                    hour: '2-digit', minute: '2-digit'
-                                });
-
-                                $timeSelect.append($('<option>', {
-                                    value: time,
-                                    text: formatted
-                                }));
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    });
-    </script>
-}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

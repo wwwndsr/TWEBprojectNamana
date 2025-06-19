@@ -14,12 +14,12 @@ namespace webNamana.Web.Controllers
     {
         private const string CookieName = "X-KEY";
 
-        private readonly IUserService _user;
+        private readonly IUserBL _user;
 
         public AccountController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _user = bl.GetUserService();  
+            _user = bl.GetUserBL();  
         }
 
         // GET: /Account/Login
