@@ -37,10 +37,11 @@ namespace webNamana.BusinessLogic.Services
         {
             return CreateUserAction(newUser);
         }
-        public bool GetUserByEmail(UDbTable newUser)
+        public UDbTable GetUserByEmail(string email)
         {
-            return CreateUserAction(newUser);
+            return GetUserByEmailAction(email);
         }
+
 
         public bool ValidateUserCredentialsByEmail(string email, string password)
             {

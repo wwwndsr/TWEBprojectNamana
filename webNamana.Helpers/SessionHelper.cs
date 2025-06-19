@@ -6,44 +6,40 @@ using System.Threading.Tasks;
 using System.Web;
 using webNamana.Domain.Entities.User;
 
-
 namespace webNamana.Helpers
 {
     public static class SessionHelper
     {
-        private const string USERNAME_KEY = "Username";
+        private const string USERNAME_KEY = "Username"; // Ключ не меняем
         private const string LAST_ACTIVITY_KEY = "LastActivity";
+        private const string USER_SESSION_KEY = "CurrentUser";
         private const int SESSION_TIMEOUT_MINUTES = 30;
 
-        public static void SetUserSession(string username)
+        public static void SetUserSession(string email)
         {
-            HttpContext.Current.Session[USERNAME_KEY] = username;
+            HttpContext.Current.Session[USERNAME_KEY] = email; // Сохраняем email
             HttpContext.Current.Session[LAST_ACTIVITY_KEY] = DateTime.UtcNow;
         }
 
         public static string GetCurrentUsername()
         {
-            return HttpContext.Current.Session[USERNAME_KEY]?.ToString();
+            return HttpContext.Current.Session[USERNAME_KEY]?.ToString(); // Вернёт email
         }
 
         public static bool IsUserLoggedIn()
         {
-            var username = GetCurrentUsername();
-            if (string.IsNullOrEmpty(username))
-                return false;
+            var email = GetCurrentUsername();
+            if (string.IsNullOrEmpty(email)) return false;
 
             var lastActivity = HttpContext.Current.Session[LAST_ACTIVITY_KEY] as DateTime?;
-            if (!lastActivity.HasValue)
-                return false;
+            if (!lastActivity.HasValue) return false;
 
-            // Check if session has expired
             if ((DateTime.UtcNow - lastActivity.Value).TotalMinutes > SESSION_TIMEOUT_MINUTES)
             {
                 ClearSession();
                 return false;
             }
 
-            // Update last activity
             HttpContext.Current.Session[LAST_ACTIVITY_KEY] = DateTime.UtcNow;
             return true;
         }
@@ -57,24 +53,13 @@ namespace webNamana.Helpers
         public static void RequireAuthentication()
         {
             if (!IsUserLoggedIn())
-            {
                 HttpContext.Current.Response.Redirect("~/Account/Login");
-            }
         }
-
-        private const string USER_SESSION_KEY = "CurrentUser";
 
         public static UserMinimal User
         {
-            get
-            {
-                return HttpContext.Current.Session[USER_SESSION_KEY] as UserMinimal;
-            }
-            set
-            {
-                HttpContext.Current.Session[USER_SESSION_KEY] = value;
-            }
+            get => HttpContext.Current.Session[USER_SESSION_KEY] as UserMinimal;
+            set => HttpContext.Current.Session[USER_SESSION_KEY] = value;
         }
-
     }
 }

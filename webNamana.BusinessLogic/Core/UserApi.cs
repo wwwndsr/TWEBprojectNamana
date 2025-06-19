@@ -141,6 +141,10 @@ namespace webNamana.BusinessLogic.Core
                 var validate = new EmailAddressAttribute();
                 if (validate.IsValid(email))
                 {
+                    var user = new UserContext().Users.FirstOrDefault(u => u.Email == email);
+                    if (user == null)
+                        throw new Exception("User not found for session.");
+
                     var current = db.Sessions.FirstOrDefault(s => s.Email == email);
 
                     if (current == null)
@@ -148,6 +152,7 @@ namespace webNamana.BusinessLogic.Core
                         current = new Session
                         {
                             Email = email,
+                            Username = user.Username, // фикс
                             CookieString = httpCookie.Value,
                             ExpireTime = DateTime.Now.AddDays(1)
                         };
@@ -157,6 +162,7 @@ namespace webNamana.BusinessLogic.Core
                     {
                         current.CookieString = httpCookie.Value;
                         current.ExpireTime = DateTime.Now.AddDays(1);
+                        current.Username = user.Username; // фикс
                         db.Sessions.AddOrUpdate(current);
                     }
 
@@ -167,8 +173,10 @@ namespace webNamana.BusinessLogic.Core
                     throw new Exception("Invalid email");
                 }
             }
+
             return httpCookie;
         }
+
 
         public bool SignOutAction(string cookie)
         {
@@ -382,13 +390,14 @@ namespace webNamana.BusinessLogic.Core
                 return user.Password == LoginHelper.HashGen(password);
             }
         }
-        public UDbTable GetUserByEmail(string email)
+        public UDbTable GetUserByEmailAction(string email)
         {
             using (var db = new UserContext())
             {
                 return db.Users.FirstOrDefault(u => u.Email == email);
             }
         }
+
 
 
 
