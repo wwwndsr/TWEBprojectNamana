@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 
 namespace webNamana.Models
 {
-    public class SignUp
+    public class SignUpViewModel
     {
         [Required]
         [StringLength(30, MinimumLength = 5)]

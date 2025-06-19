@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Data.Entity.Validation;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
-using webNamana.BusinessLogic.Services;
 using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 using webNamana.Helpers;
+using webNamana.Models;
 
 namespace webNamana.Web.Controllers
 {
     public class AccountController : Controller
     {
         private const string CookieName = "X-KEY";
-
         private readonly IUserService _user;
 
         public AccountController()
@@ -27,111 +24,134 @@ namespace webNamana.Web.Controllers
         // GET: /Account/Login
         public ActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UDbTable model)
+        public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.LasIp = Request.UserHostAddress;
-
-            if (!_user.ValidateUserCredentials(model.Username, model.Password))
+            if (!_user.ValidateUserCredentialsByEmail(model.Email, model.Password))
             {
-                ModelState.AddModelError("", "Неверный логин или пароль.");
+                ModelState.AddModelError("", "Неверный email или пароль.");
                 return View(model);
             }
 
-            var user = _user.GetUserByUsername(model.Username);
-
-            var cookie = new HttpCookie(CookieName, user.Username)
+            var user = _user.GetUserByEmail(model.Email);
+            if (user == null)
             {
-                Expires = DateTime.Now.AddDays(7)
-            };
-            Response.Cookies.Add(cookie);
+                ModelState.AddModelError("", "Пользователь не найден.");
+                return View(model);
+            }
 
+            _user.UpdateUserLoginData(user.Email, Request.ServerVariables["REMOTE_ADDR"]);
+
+            SetUserCookie(user.Username);
             return RedirectToAction("Index", "Home");
         }
 
         // GET: /Account/SignUp
         public ActionResult SignUp()
         {
-            return View();
+            return View(new SignUpViewModel());
         }
 
         // POST: /Account/SignUp
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignUp(UDbTable model)
+        public ActionResult SignUp(SignUpViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.RegisterTime = DateTime.Now;
-            model.LastLogin = DateTime.Now;
-            model.Password = LoginHelper.HashGen(model.Password);
-
-            bool created = _user.CreateUser(model);
-            if (!created)
+            if (_user.GetUserByEmail(model.Email) != null)
             {
-                ModelState.AddModelError("", "Ошибка при регистрации пользователя.");
+                ModelState.AddModelError("", "Email уже зарегистрирован.");
                 return View(model);
             }
 
-            var cookie = new HttpCookie(CookieName, model.Username)
+            if (_user.GetUserByUsername(model.Username) != null)
             {
-                Expires = DateTime.Now.AddDays(7)
-            };
-            Response.Cookies.Add(cookie);
+                ModelState.AddModelError("", "Имя пользователя занято.");
+                return View(model);
+            }
 
+            var newUser = new UDbTable
+            {
+                Username = model.Username,
+                Email = model.Email,
+                Password = LoginHelper.HashGen(model.Password),
+                RegisterTime = DateTime.Now,
+                LastLogin = DateTime.Now,
+                Level = URole.User,
+                LasIp = Request.ServerVariables["REMOTE_ADDR"]
+            };
+
+            if (!_user.CreateUser(newUser))
+            {
+                ModelState.AddModelError("", "Ошибка регистрации.");
+                return View(model);
+            }
+
+            SetUserCookie(newUser.Username);
             return RedirectToAction("Index", "Home");
         }
 
         // GET: /Account/Logout
         public ActionResult Logout()
         {
-            var cookie = Request.Cookies[CookieName];
-            if (cookie != null)
-            {
-                cookie.Expires = DateTime.Now.AddDays(-1);
-                cookie.Path = "/";
-                Response.Cookies.Add(cookie);
-            }
-
+            RemoveUserCookie();
             return RedirectToAction("Login");
         }
 
-        private UDbTable GetCurrentUser()
-        {
-            var cookie = Request.Cookies[CookieName];
-            if (cookie == null)
-                return null;
-
-            var username = cookie.Value;
-            return _user.GetUserByUsername(username);
-        }
+        // GET: /Account/GoToProfile
         public ActionResult GoToProfile()
         {
-            var cookie = Request.Cookies["X-KEY"];
-            if (cookie == null)
+            var username = GetUsernameFromCookie();
+            if (string.IsNullOrEmpty(username))
                 return RedirectToAction("Login", "Account");
 
-            var username = cookie.Value;
-
-            var user = _user.GetUserByUsername(username); // user — это UDbTable
-
+            var user = _user.GetUserByUsername(username);
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            if (user.Level == URole.Admin)
-                return RedirectToAction("AdminPage", "Admin");
-            else
-                return RedirectToAction("UserPage", "User");
+            return user.Level == URole.Admin
+                ? RedirectToAction("AdminPage", "Admin")
+                : RedirectToAction("UserPage", "User");
         }
 
+        // === Private helpers ===
+
+        private void SetUserCookie(string username)
+        {
+            var cookie = new HttpCookie(CookieName, username)
+            {
+                Expires = DateTime.Now.AddDays(7),
+                HttpOnly = true,
+                Secure = Request.IsSecureConnection,
+                Path = "/"
+            };
+            Response.Cookies.Add(cookie);
+        }
+
+        private void RemoveUserCookie()
+        {
+            var cookie = new HttpCookie(CookieName)
+            {
+                Expires = DateTime.Now.AddDays(-1),
+                Path = "/"
+            };
+            Response.Cookies.Add(cookie);
+        }
+
+        private string GetUsernameFromCookie()
+        {
+            var cookie = Request.Cookies[CookieName];
+            return cookie?.Value;
+        }
     }
 }

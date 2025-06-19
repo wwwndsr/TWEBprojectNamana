@@ -60,7 +60,7 @@ namespace webNamana.BusinessLogic.Core
                 data.Password = LoginHelper.HashGen(data.Password);
 
                 // роль по умолчанию
-                data.Level = URole.User;
+                data.Level = URole.User; 
 
                 db.Users.Add(data);
                 db.SaveChanges();
@@ -358,19 +358,74 @@ namespace webNamana.BusinessLogic.Core
                 return user.Password == LoginHelper.HashGen(password);
             }
         }
-       /* public List<string> GetOrdersByUsernameAction(string username)
+
+        public UDbTable GetUserByEmail(string email)
         {
             using (var db = new UserContext())
             {
-                var orders = db.Orders
-                    .Where(o => o.User.Username == username)
-                    .OrderByDescending(o => o.Date)
-                    .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
-                    .ToList();
-
-                return orders;
+                return db.Users.FirstOrDefault(u => u.Email == email);
             }
-        }*/
+        }
+
+        public bool ValidateUserCredentialsByEmail(string email, string password)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return false;
+
+                return user.Password == LoginHelper.HashGen(password);
+            }
+        }
+
+        public void UpdateUserLoginDataAction(string email, string ip)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return;
+
+                user.LastLogin = DateTime.Now;
+                user.LasIp = ip;
+
+                db.Users.AddOrUpdate(user);
+                db.SaveChanges();
+            }
+        }
+
+        public bool UpdateUser(UDbTable user)
+        {
+            using (var db = new UserContext())
+            {
+                var existingUser = db.Users.FirstOrDefault(u => u.Id == user.Id);
+                if (existingUser == null) return false;
+
+                existingUser.LastLogin = user.LastLogin;
+                existingUser.LasIp = user.LasIp;
+                // Можно обновить и другие поля, если нужно
+
+                db.Users.AddOrUpdate(existingUser);
+                db.SaveChanges();
+
+                return true;
+            }
+        }
+
+        /* public List<string> GetOrdersByUsernameAction(string username)
+         {
+             using (var db = new UserContext())
+             {
+                 var orders = db.Orders
+                     .Where(o => o.User.Username == username)
+                     .OrderByDescending(o => o.Date)
+                     .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
+                     .ToList();
+
+                 return orders;
+             }
+         }*/
 
     }
+
+
 }

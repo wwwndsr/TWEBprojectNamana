@@ -275,10 +275,10 @@
     <Compile Include="Models\ChangeRoleViewModel.cs" />
     <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Models\Training.cs" />
-    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\SignUp.cs" />
+    <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\TrainingRegistration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserDashboard.cs" />

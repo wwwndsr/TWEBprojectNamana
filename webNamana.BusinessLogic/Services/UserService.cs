@@ -14,8 +14,8 @@ namespace webNamana.BusinessLogic.Services
     {
         public UDbTable GetUserByUsername(string username)
         {
-            //return GetUserByUsernameAction(username);
-            // Костыльная реализация для теста
+            return GetUserByUsernameAction(username);
+            /* Костыльная реализация для теста
             if (username == "fakeAdmin")
             {
                 return new UDbTable
@@ -24,7 +24,7 @@ namespace webNamana.BusinessLogic.Services
                     Email = "admin@example.com",
                     Level = URole.Admin
                 };
-            }
+            } 
 
             if (username == "fakeUser")
             {
@@ -35,10 +35,13 @@ namespace webNamana.BusinessLogic.Services
                     Level = URole.User
                 };
             }
-
-            return null;
+         
+            return null;*/
         }
-
+        public void UpdateUserLoginData(string email, string ip)
+        {
+           UpdateUserLoginDataAction(email, ip);
+        }
         public bool UpdateUserProfile(string username, UDbTable updatedUser)
         {
             return UpdateUserProfileAction(username, updatedUser);

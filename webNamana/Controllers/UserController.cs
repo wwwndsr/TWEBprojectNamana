@@ -37,7 +37,7 @@ namespace webNamana.Controllers
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            var model = new UserDashboard
+            var model = new UserDashboard  
             {
                 Username = user.Username,
                 Email = user.Email,
