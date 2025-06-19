@@ -24,8 +24,8 @@ namespace webNamana.Filters
                 return;
             }
 
-            var email = cookie.Value;
-            var user = _userService.GetUserByUsername(email);
+            var username = cookie.Value;
+            var user = _userService.GetUserByUsername(username);
 
             // проверяем, что пользователь существует и что его роль user или аdmin (чтобы дать доступ)
             if (user == null || (user.Level != URole.User && user.Level != URole.Admin))
