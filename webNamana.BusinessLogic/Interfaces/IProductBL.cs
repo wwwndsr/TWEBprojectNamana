@@ -7,7 +7,7 @@ using webNamana.Domain.Entities.Product;
 
 namespace webNamana.BusinessLogic.Interfaces
 {
-    public interface IProductService
+    public interface IProductBL
     {
         ProductEntity GetProductById(int id);
         List<ProductEntity> GetAllProducts();

@@ -9,7 +9,7 @@ using webNamana.Domain.Entities.Training;
 
 namespace webNamana.BusinessLogic.Services
 {
-    public class TrainingService : TrainingApi, ITrainingService
+    public class TrainingBL : TrainingApi, ITrainingBL
     {
         public new TrainingEntity GetTrainingById(int id)
         {

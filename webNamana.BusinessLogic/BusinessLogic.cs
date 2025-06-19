@@ -12,24 +12,24 @@ namespace webNamana.BusinessLogic
             return new SessionBL();
         }
 
-        public IUserService GetUserService()
+        public IUserBL GetUserBL()
         {
-            return new UserService();
+            return new UserBL();
         }
 
-        public IProductService GetProductService()
+        public IProductBL GetProductBL()
         {
-            return new ProductService();
+            return new ProductBL();
         }
-
+        s
         public IAdminBL GetAdminBL()
         {
             return new AdminBL();
         }
 
-        public ITrainingService GetTrainingService()
+        public ITrainingBL GetTrainingBL()
         {
-            return new TrainingService(); // твоя реализация
+            return new TrainingBL(); 
         }
 
 

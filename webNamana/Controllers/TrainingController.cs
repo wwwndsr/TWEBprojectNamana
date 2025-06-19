@@ -10,7 +10,7 @@ namespace webNamana.Web.Controllers
 {
     public class TrainingController : Controller
     {
-        private readonly ITrainingService _trainingService;
+        private readonly ITrainingBL _trainingService;
 
         public TrainingController()
         {

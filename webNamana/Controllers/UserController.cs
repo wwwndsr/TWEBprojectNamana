@@ -16,7 +16,7 @@ namespace webNamana.Controllers
     [UserOnly]
     public class UserController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IUserBL _userService;
 
         public UserController()
         {

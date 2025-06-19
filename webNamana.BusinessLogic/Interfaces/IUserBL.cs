@@ -3,7 +3,7 @@ using webNamana.Domain.Entities.User;
 
 namespace webNamana.BusinessLogic.Interfaces
 {
-    public interface IUserService
+    public interface IUserBL
     {
         UDbTable GetUserByUsername(string username);
         bool UpdateUserProfile(string username, UDbTable updatedUser);

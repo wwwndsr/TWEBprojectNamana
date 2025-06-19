@@ -16,7 +16,7 @@ namespace webNamana.Controllers
     public class AccountController : Controller
     {
         private const string CookieName = "X-KEY";
-        private readonly IUserService _user;
+        private readonly IUserBL _user;
 
         public AccountController()
         {

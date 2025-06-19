@@ -11,7 +11,7 @@ using webNamana.Domain.Entities.Product;
 
 namespace webNamana.BusinessLogic.Services
 {
-    public class ProductService : ProductApi, IProductService
+    public class ProductBL : ProductApi, IProductBL
     {
         public new ProductEntity GetProductById(int id)
         {

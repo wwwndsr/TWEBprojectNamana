@@ -8,7 +8,7 @@ namespace webNamana.Filters
 {
     public class AdminOnlyAttribute : ActionFilterAttribute
     {
-        private readonly IUserService _userService;
+        private readonly IUserBL _userService;
 
         public AdminOnlyAttribute()
         {

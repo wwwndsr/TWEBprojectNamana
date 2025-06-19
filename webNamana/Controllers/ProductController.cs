@@ -17,7 +17,7 @@ namespace webNamana.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _product;
+        private readonly IProductBL _product;
         private readonly ProductApi _productApi = new ProductApi();
 
         public ProductController()
