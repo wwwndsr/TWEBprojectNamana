@@ -1,4 +1,5 @@
 @model webNamana.Models.LoginViewModel
+
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +9,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
     <style>
-      body {
+        body {
             font-family: 'Poppins', sans-serif;
             background-image: url('@Url.Content("~/Content/images/slider-bg.jpg")');
             background-size: cover;
@@ -53,18 +54,38 @@
             text-align: center;
             font-size: 14px;
         }
+
+        .text-danger p {
+            margin: 0;
+        }
     </style>
 }
 
 <div class="login-box">
     <h2>Login</h2>
+
     @using (Html.BeginForm("Login", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+
+        <!-- Скрытое поле для IP-адреса -->
+        <input type="hidden" name="LasIp" value="@Request.UserHostAddress" />
+
+        <!-- Общие ошибки (например, неверный пароль) -->
+        if (ViewData.ModelState[""]?.Errors.Count > 0)
+        {
+            <div class="text-danger mb-3">
+                @foreach (var error in ViewData.ModelState[""].Errors)
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+
+        <!-- Email -->
         <div class="form-group">
-            <input type="email" name="Email" class="form-control" placeholder="Email" required value="@(Model?.Email ?? "")"
- />
-            @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
+            <input type="email" name="Email" class="form-control" placeholder="Email" value="@(Model?.Email ?? "")" required />
+            @if (ViewData.ModelState.ContainsKey("Email") && ViewData.ModelState["Email"].Errors.Count > 0)
             {
                 <div class="text-danger">
                     @foreach (var error in ViewData.ModelState["Email"].Errors)
@@ -75,9 +96,10 @@
             }
         </div>
 
+        <!-- Password -->
         <div class="form-group">
             <input type="password" name="Password" class="form-control" placeholder="Password" required />
-            @if (ViewData.ModelState["Password"]?.Errors.Count > 0)
+            @if (ViewData.ModelState.ContainsKey("Password") && ViewData.ModelState["Password"].Errors.Count > 0)
             {
                 <div class="text-danger">
                     @foreach (var error in ViewData.ModelState["Password"].Errors)
@@ -88,9 +110,11 @@
             }
         </div>
 
+        <!-- Submit -->
         <button type="submit" class="btn btn-primary">Log In</button>
 
-        <div class="signup-link" style="text-align:center; margin-top:15px;">
+        <!-- Ссылка на регистрацию -->
+        <div class="signup-link">
             <a href="@Url.Action("SignUp", "Account")">Don't have an account? Sign up</a>
         </div>
     }
