@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using webNamana.Domain.Entities.User;
 
 namespace webNamana.BusinessLogic.Interfaces
@@ -9,5 +10,6 @@ namespace webNamana.BusinessLogic.Interfaces
         bool ChangePassword(string username, string currentPassword, string newPassword);
         bool ValidateUserCredentials(string username, string password);
         bool CreateUser(UDbTable newUser);
+
     }
 }

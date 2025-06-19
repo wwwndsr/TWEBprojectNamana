@@ -30,8 +30,14 @@ namespace webNamana.Controllers
         // GET: CartPage
         public ActionResult CartPage()
         {
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null)
+                return RedirectToAction("Login", "Account");
+
+            var username = cookie.Value;
             return View(CartItems);
         }
+
 
         // Метод для добавления товара в корзину
         [HttpPost]

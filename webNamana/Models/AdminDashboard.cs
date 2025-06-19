@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using webNamana.Domain.Enums;
 
 namespace webNamana.Models
 {
@@ -12,5 +13,6 @@ namespace webNamana.Models
         public int TotalProducts { get; set; }
         public int TotalOrders { get; set; }
         public List<string> RecentActivity { get; set; }
+        public URole Level { get; set; }
     }
 }

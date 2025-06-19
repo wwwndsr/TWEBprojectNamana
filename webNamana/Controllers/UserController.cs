@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using webNamana.BusinessLogic;
+using webNamana.BusinessLogic.BLogic;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using webNamana.Filters;
@@ -41,17 +43,24 @@ namespace webNamana.Controllers
                 Email = user.Email,
                 Level = user.Level,
 
+                // Просто пустой список, без фейковых данных
+                CartItems = new List<string>(),
             };
 
             return View("UserPage", model);
         }
 
-
+        [HttpGet]
         public ActionResult EditProfile()
         {
-            var user = SessionHelper.User;
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null) return RedirectToAction("Login", "Account");
 
-            var model = new UserMinimal
+            var username = cookie.Value;
+            var user = _userService.GetUserByUsername(username);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            var model = new EditProfileViewModel
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -62,78 +71,89 @@ namespace webNamana.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditProfile(UserMinimal model)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(EditProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                TempData["Message"] = "Некорректные данные.";
-                return View("Profile", model);
+                TempData["Message"] = "Некорректные данные";
+                TempData["AlertType"] = "warning";
+                return View(model);
             }
 
             var user = _userService.GetUserByUsername(model.Username);
             if (user == null)
             {
-                TempData["Message"] = "Пользователь не найден.";
-                return RedirectToAction("Profile");
+                TempData["Message"] = "Пользователь не найден";
+                TempData["AlertType"] = "danger";
+                return RedirectToAction("Login", "Account");
             }
 
-            user.Username = model.Username;
             user.Email = model.Email;
+            var success = _userService.UpdateUserProfile(user.Username, user);
 
-            var updateResult = _userService.UpdateUserProfile(user.Username, user);
-
-            if (updateResult)
+            if (!success)
             {
-                SessionHelper.User = new UserMinimal
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email
-                };
-
-                TempData["Message"] = "Данные обновлены.";
-            }
-            else
-            {
-                TempData["Message"] = "Ошибка при обновлении профиля.";
-            }
-
-            return RedirectToAction("Profile");
-        }
-        [HttpPost]
-         public ActionResult UploadAvatar(HttpPostedFileBase avatar)
-        {
-            var cookie = Request.Cookies["X-KEY"];
-            if (cookie == null || avatar == null || avatar.ContentLength == 0)
-            {
-                TempData["Message"] = "Не удалось загрузить изображение.";
+                TempData["Message"] = "Ошибка при обновлении профиля";
                 TempData["AlertType"] = "danger";
-                return RedirectToAction("UserPage");
+                return View(model);
             }
 
-            string username = cookie.Value;
-            string fileName = username + ".png"; 
-            string path = Server.MapPath("~/Content/Avatars/");
-
-            // Убедись, что папка существует
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            string fullPath = Path.Combine(path, fileName);
-
-            try
-            {
-                avatar.SaveAs(fullPath);
-                TempData["Message"] = "Аватар успешно обновлён.";
-                TempData["AlertType"] = "success";
-            }
-            catch (Exception ex)
-            {
-                TempData["Message"] = "Ошибка при сохранении файла: " + ex.Message;
-                TempData["AlertType"] = "danger";
-            }
-
+            TempData["Message"] = "Профиль обновлён";
+            TempData["AlertType"] = "success";
             return RedirectToAction("UserPage");
         }
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null)
+                return RedirectToAction("Login", "Account");
+
+            var username = cookie.Value;
+
+            // Проверка текущего пароля
+            if (!_userService.ValidateUserCredentials(username, model.CurrentPassword))
+            {
+                TempData["Message"] = "Текущий пароль неверен";
+                TempData["AlertType"] = "danger";
+                return View(model);
+            }
+
+            // Смена пароля
+            var success = _userService.ChangePassword(username, model.CurrentPassword, model.NewPassword);
+            if (!success)
+            {
+                TempData["Message"] = "Ошибка при смене пароля";
+                TempData["AlertType"] = "danger";
+                return View(model);
+            }
+
+            TempData["Message"] = "Пароль успешно изменён";
+            TempData["AlertType"] = "success";
+            return RedirectToAction("UserPage");
+        }
+
+        /* [HttpGet]
+         public ActionResult ViewOrders()
+         {
+             var cookie = Request.Cookies["X-KEY"];
+             if (cookie == null) return RedirectToAction("Login", "Account");
+
+             var username = cookie.Value;
+             var orders = _userService.GetOrdersByUsername(username);
+
+             return View(orders);
+         }*/
     }
 }

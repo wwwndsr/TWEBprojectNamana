@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Page Not Found";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-3 text-danger">404</h1>
+    <h2 class="mb-3">Страница не найдена</h2>
+    <p class="text-muted">Извините, такой страницы не существует или она была перемещена.</p>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Вернуться на главную</a>
+</div>

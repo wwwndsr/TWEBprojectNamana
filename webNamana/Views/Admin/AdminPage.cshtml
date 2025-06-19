@@ -1,4 +1,5 @@
-﻿@model webNamana.Domain.Entities.User.UDbTable
+﻿@model webNamana.Models.AdminDashboard
+
 
 @{
     ViewBag.Title = "Admin Dashboard";
@@ -56,6 +57,7 @@
                 <div class="card-body">
                     <a href="@Url.Action("ManageUsers", "Admin")" class="btn btn-primary mb-2">Manage Users</a>
                     <a href="@Url.Action("ManageProducts", "Admin")" class="btn btn-secondary mb-2">Manage Products</a>
+                    <a href="@Url.Action("Logout", "Account")" class="btn btn-danger mb-2">Logout</a>
                 </div>
             </div>
         </div>

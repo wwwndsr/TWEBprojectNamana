@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -357,5 +358,19 @@ namespace webNamana.BusinessLogic.Core
                 return user.Password == LoginHelper.HashGen(password);
             }
         }
+       /* public List<string> GetOrdersByUsernameAction(string username)
+        {
+            using (var db = new UserContext())
+            {
+                var orders = db.Orders
+                    .Where(o => o.User.Username == username)
+                    .OrderByDescending(o => o.Date)
+                    .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
+                    .ToList();
+
+                return orders;
+            }
+        }*/
+
     }
 }

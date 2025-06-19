@@ -214,6 +214,9 @@
     <Content Include="Views\Admin\ManageProducts.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Admin\ChangeRole.cshtml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Errors\Error.cshtml" />
+    <Content Include="Views\Errors\AccessDenied.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\About\about.cshtml" />
     <None Include="Views\Contact\contact.cshtml" />
@@ -240,6 +243,8 @@
     <Content Include="Views\User\UserPage.cshtml" />
     <Content Include="Views\UsersList\UsersList.cshtml" />
     <Content Include="Views\Training\Success.cshtml" />
+    <Content Include="Views\User\EditProfile.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +255,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartPageController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderDetails.cs" />
     <Compile Include="Controllers\OrdersList.cs" />
@@ -265,6 +271,7 @@
     </Compile>
     <Compile Include="Models\AdminDashboard.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ChangeRoleViewModel.cs" />
     <Compile Include="Models\EditProfileViewModel.cs" />
     <Compile Include="Models\Training.cs" />

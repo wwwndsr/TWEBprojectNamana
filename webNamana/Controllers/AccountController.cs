@@ -91,30 +91,6 @@ namespace webNamana.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Account/Profile
-
-
-        // POST: /Account/Profile
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult EditProfile(UDbTable model)
-        {
-            var currentUser = GetCurrentUser();
-            if (currentUser == null)
-                return RedirectToAction("Login");
-
-            bool updated = _user.UpdateUserProfile(currentUser.Username, model);
-            if (!updated)
-            {
-                ModelState.AddModelError("", "Ошибка при обновлении профиля.");
-                return View(currentUser);
-            }
-
-            ViewBag.SuccessMessage = "Профиль успешно обновлен.";
-            return View(_user.GetUserByUsername(currentUser.Username));
-        }
-
         // GET: /Account/Logout
         public ActionResult Logout()
         {
@@ -156,5 +132,6 @@ namespace webNamana.Web.Controllers
             else
                 return RedirectToAction("UserPage", "User");
         }
+
     }
 }

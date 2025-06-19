@@ -21,6 +21,31 @@ namespace webNamana.Controllers
             var bl = new BusinessLogic.BusinessLogic();
             _admin = bl.GetAdminBL();
         }
+        /*public ActionResult AdminPage()
+        {
+            var cookie = Request.Cookies["X-KEY"];
+            if (cookie == null)
+                return RedirectToAction("Login", "Account");
+
+            var username = cookie.Value;
+            var result = _admin.GetUserByUsername(username);
+            if (!result.Status || result.User == null)
+                return RedirectToAction("Login", "Account");
+
+            var user = result.User;
+
+            var model = new AdminDashboard
+            {
+                Username = user.Username,
+                Email = user.Email,
+                Level = user.Level,
+                LastLogin = user.LastLogin,
+                RegisterTime = user.RegisterTime
+            };
+
+            return View("AdminPage", model);
+        }
+        */
         public ActionResult AdminPage()
         {
             var cookie = Request.Cookies["X-KEY"];
@@ -34,18 +59,23 @@ namespace webNamana.Controllers
 
             var user = result.User;
 
-            var model = new UDbTable
+            var model = new AdminDashboard
             {
-                Id = user.Id,
                 Username = user.Username,
-                Email = user.Email,
-                Level = user.Level,
-                LastLogin = user.LastLogin,
-                RegisterTime = user.RegisterTime
+                TotalUsers = 100, // временные заглушки
+                TotalProducts = 50,
+                TotalOrders = 25,
+                RecentActivity = new List<string>
+        {
+            "User JohnDoe updated profile",
+            "Admin added new product",
+            "Order #1234 has been completed"
+        }
             };
 
             return View("AdminPage", model);
         }
+
 
 
 
