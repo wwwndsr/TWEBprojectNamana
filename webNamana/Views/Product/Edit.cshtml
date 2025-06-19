@@ -1,21 +1,21 @@
-@model webNamana.Models.ProductCreateViewModel
+﻿@model webNamana.Models.ProductEditViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Add product";
+    ViewBag.Title = "Edit Product";
 }
 
-<h2>Add Product</h2>
+<h2>Edit Product</h2>
 
 @if (TempData["Message"] != null)
 {
     <div style="color: green">@TempData["Message"]</div>
 }
 
-@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("Id", Model?.Id)
 
     <div>
         <label>Product Name</label><br />
@@ -36,11 +36,19 @@
     </div>
 
     <div>
-        <label>Image</label><br />
+        <label>Current Image</label><br />
+        @if (!string.IsNullOrEmpty(Model?.ExistingImage))
+        {
+            <img src="@Model.ExistingImage" style="max-height: 100px;" />
+        }
+    </div>
+
+    <div>
+        <label>Upload New Image</label><br />
         <input type="file" name="ProductImageFile" class="form-control" />
         <span class="text-danger">@Html.ValidationMessage("ProductImageFile")</span>
     </div>
 
     <br />
-    <input type="submit" value="Add" class="btn btn-primary" />
+    <input type="submit" value="Save" class="btn btn-success" />
 }

@@ -1,0 +1,150 @@
+﻿@model webNamana.Models.TrainingCreateViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Add Training";
+
+    var days = Enum.GetValues(typeof(System.DayOfWeek));
+}
+
+<style>
+    .form-container {
+        max-width: 450px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px 35px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: #222;
+        letter-spacing: 0.05em;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: #444;
+    }
+
+    input.form-control,
+    select.form-control {
+        width: 100%;
+        padding: 8px 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+        line-height: 1.5;
+        height: 38px;
+        vertical-align: middle;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+        select.form-control option {
+            padding: 5px 10px;
+            line-height: 1.5;
+            height: auto;
+        }
+
+        input.form-control:focus,
+        select.form-control:focus {
+            border-color: #f7b733;
+            outline: none;
+            box-shadow: 0 0 6px #f7b733aa;
+        }
+
+    .text-danger {
+        font-size: 13px;
+        color: #d9534f;
+        margin-top: -14px;
+        margin-bottom: 12px;
+        display: block;
+        font-weight: 600;
+    }
+
+    .btn-yellow {
+        background-color: #f7b733;
+        border: none;
+        padding: 12px 0;
+        font-size: 17px;
+        border-radius: 7px;
+        color: #3a2e0d;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 0 4px 10px rgba(247, 183, 51, 0.6);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        letter-spacing: 0.05em;
+    }
+
+        .btn-yellow:hover {
+            background-color: #e6a829;
+            box-shadow: 0 6px 18px rgba(230, 168, 41, 0.8);
+        }
+
+    .message-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        padding: 12px 18px;
+        color: #155724;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+</style>
+
+<div class="form-container">
+
+    <h2>Add Training</h2>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="message-success">@TempData["Message"]</div>
+    }
+
+    @using (Html.BeginForm("Create", "Training", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <label for="TrainingName">Training Name</label>
+        <input type="text" id="TrainingName" name="TrainingName" class="form-control" value="@(Model?.TrainingName ?? "")" />
+        <span class="text-danger">@Html.ValidationMessage("TrainingName")</span>
+
+        <label for="DayOfWeek">Day of Week</label>
+        <select id="DayOfWeek" name="DayOfWeek" class="form-control">
+            @foreach (var day in days)
+            {
+                var dayValue = (System.DayOfWeek)day;
+                <option value="@dayValue" @(Model != null && Model.DayOfWeek == dayValue ? "selected" : "")>@dayValue</option>
+            }
+        </select>
+        <span class="text-danger">@Html.ValidationMessage("DayOfWeek")</span>
+
+        <label for="StartTime">Start Time</label>
+        <input type="time" id="StartTime" name="StartTime" class="form-control"
+               value="@(Model != null ? Model.StartTime.ToString(@"hh\:mm") : "")" />
+        <span class="text-danger">@Html.ValidationMessage("StartTime")</span>
+
+        <input type="submit" value="Add" class="btn-yellow" />
+    }
+</div>

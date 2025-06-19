@@ -17,97 +17,109 @@ namespace webNamana.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _product;
+        private readonly IProductBL _product;
         private readonly ProductApi _productApi = new ProductApi();
 
         public ProductController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _product = bl.GetProductService(); // инициализация бизнес-логики
+            _product = bl.GetProductBL(); // инициализация бизнес-логики
         }
 
-        // GET: /Product
-        public ActionResult Index()
+        // GET: /AdminProductList
+        public ActionResult AdminProductList()
         {
             var products = _product.GetAllProducts();
-            return View(products);
+            var model = new List<ProductListViewModel>();
+
+            foreach (var p in products)
+            {
+                model.Add(new ProductListViewModel
+                {
+                    ProductId = p.Id,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    ProductImage = p.ProductImage
+                });
+            }
+
+            return View(model);
         }
 
-        // GET: /Product/Details/5
+        // GET: /Product/Details
         public ActionResult Details(int? id)
         {
-            // Проверяем, передан ли параметр id
             if (!id.HasValue)
-            {
-                // Возвращаем ошибку 400 - неправильный запрос, если id не передан
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest, "Product ID is required");
-            }
 
-            // Получаем продукт из бизнес-логики по id
-            var product = _product.GetProductById(id.Value);
-
-            // Если продукт не найден, возвращаем ошибку 404 - не найдено
-            if (product == null)
-            {
+            var productEntity = _product.GetProductById(id.Value);
+            if (productEntity == null)
                 return HttpNotFound($"Product with ID {id.Value} not found");
-            }
 
-            // Возвращаем представление с моделью продукта
-            return View(product);
+            // Создаем ViewModel из ProductEntity
+            var model = new ProductListViewModel
+            {
+                ProductId = productEntity.Id,
+                ProductName = productEntity.ProductName,
+                Description = productEntity.Description,
+                Price = productEntity.Price,
+                ProductImage = productEntity.ProductImage
+            };
+
+            return View(model);
         }
 
 
+        // GET: /Product/Create
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new ProductEntity());
+            return View(new ProductCreateViewModel());
         }
 
+        // POST: /Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductEntity model, HttpPostedFileBase ProductImageFile)
+        public ActionResult Create(ProductCreateViewModel model)
         {
-            if (ProductImageFile != null && ProductImageFile.ContentLength > 0)
-            {
-                var fileName = Path.GetFileName(ProductImageFile.FileName);
-                var uniqueFileName = Guid.NewGuid() + "_" + fileName;
-                var path = Server.MapPath("~/Uploads/Products/");
-
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                var fullPath = Path.Combine(path, uniqueFileName);
-                ProductImageFile.SaveAs(fullPath);
-
-                model.ProductImage = "/Uploads/Products/" + uniqueFileName;
-            }
-            else
-            {
-                ModelState.AddModelError("ProductImage", "Необходимо выбрать изображение.");
-                return View(model);
-            }
-
             if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.ProductImageFile == null || model.ProductImageFile.ContentLength == 0)
             {
+                ModelState.AddModelError("ProductImageFile", "Please upload a product image.");
                 return View(model);
             }
 
-            bool added = _productApi.AddProduct(model);
+            string uniqueFileName = Guid.NewGuid() + "_" + Path.GetFileName(model.ProductImageFile.FileName);
+            string uploadDir = Server.MapPath("~/Uploads/Products/");
+            if (!Directory.Exists(uploadDir))
+                Directory.CreateDirectory(uploadDir);
+
+            string fullPath = Path.Combine(uploadDir, uniqueFileName);
+            model.ProductImageFile.SaveAs(fullPath);
+
+            var productEntity = new ProductEntity
+            {
+                ProductName = model.ProductName,
+                Description = model.Description,
+                Price = model.Price,
+                ProductImage = "/Uploads/Products/" + uniqueFileName
+            };
+
+            bool added = _product.AddProduct(productEntity);
             if (added)
             {
-                TempData["Message"] = "Товар успешно добавлен.";
+                TempData["Message"] = "Product successfully added!";
                 return RedirectToAction("Create");
             }
-            else
-            {
-                ModelState.AddModelError("", "Ошибка при добавлении товара.");
-                return View(model);
-            }
+
+            ModelState.AddModelError("", "Failed to add product.");
+            return View(model);
         }
 
 
-
-        // GET: /Product/Edit/5
+        // GET: /Product/Edit
         public ActionResult Edit(int id)
         {
             var product = _product.GetProductById(id);
@@ -117,7 +129,7 @@ namespace webNamana.Web.Controllers
             return View(product);
         }
 
-        // POST: /Product/Edit/5
+        // POST: /Product/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, ProductEntity model)
@@ -128,14 +140,14 @@ namespace webNamana.Web.Controllers
             bool updated = _product.UpdateProduct(id, model);
             if (!updated)
             {
-                ModelState.AddModelError("", "Ошибка при обновлении продукта.");
+                ModelState.AddModelError("", "Failed to update product.");
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminProductList");
         }
 
-        // GET: /Product/Delete/5
+        // GET: /Product/Delete
         public ActionResult Delete(int id)
         {
             var product = _product.GetProductById(id);
@@ -145,7 +157,7 @@ namespace webNamana.Web.Controllers
             return View(product);
         }
 
-        // POST: /Product/Delete/5
+        // POST: /Product/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -153,11 +165,11 @@ namespace webNamana.Web.Controllers
             bool deleted = _product.DeleteProduct(id);
             if (!deleted)
             {
-                ModelState.AddModelError("", "Ошибка при удалении продукта.");
+                ModelState.AddModelError("", "Failed to delete product.");
                 return View(_product.GetProductById(id));
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminProductList");
         }
 
 
@@ -170,10 +182,10 @@ namespace webNamana.Web.Controllers
             {
                 // Пока нет товаров — можно вернуть пустую модель или ViewBag сообщение
                 ViewBag.Message = "There is no products";
-                return View(new List<ProductViewModel>());
+                return View(new List<ProductListViewModel>());
             }
 
-            var productViewModels = productEntities.Select(p => new ProductViewModel
+            var productViewModels = productEntities.Select(p => new ProductListViewModel
             {
                 ProductId = p.Id,
                 ProductName = p.ProductName,

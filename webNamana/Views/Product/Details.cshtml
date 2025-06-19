@@ -1,4 +1,4 @@
-﻿@model webNamana.Models.ProductViewModel
+﻿@model webNamana.Models.ProductListViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,28 +25,26 @@
             <p>Price: <span id="price" style="color:red; font-size:21px;">@Model.Price.ToString("C")</span></p>
         </div>
 
-        <div class="add-to-cart" style="margin-top:20px;">
-            @using (Html.BeginForm("AddToCart", "CartPage", FormMethod.Post))
-            {
-                @Html.Hidden("id", Model.ProductId)
-                @Html.Hidden("productName", Model.ProductName)
-                @Html.Hidden("productImage", Model.ProductImage)
-                @Html.Hidden("price", Model.Price)
+            <div class="add-to-cart" style="margin-top:20px;">
+                @using (Html.BeginForm("AddToCart", "CartPage", FormMethod.Post))
+                {
+                    @Html.Hidden("id", Model.ProductId)
+                    @Html.Hidden("productName", Model.ProductName)
+                    @Html.Hidden("productImage", Model.ProductImage)
+                    @Html.Hidden("price", Model.Price)
 
-                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
-            }
-        </div>
+                    <label>Size:</label><br />
+                    <select name="size" class="form-control" style="width:150px;">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>2XL</option>
+                    </select>
 
-        <div class="select-items" style="margin-top:30px;">
-            <div class="change-size">
-                <label><b>Size:</b></label><br />
-                <select class="form-control" style="width:150px;">
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                    <option>2XL</option>
-                </select>
+                    <br />
+                    <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+                }
             </div>
 
             <div class="description" style="margin-top:20px;">
@@ -54,5 +52,4 @@
                 <p>@Model.Description</p>
             </div>
         </div>
-    </div>
 </section>

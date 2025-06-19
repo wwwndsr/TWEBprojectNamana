@@ -1,4 +1,4 @@
-﻿@model List<webNamana.Domain.Entities.Training.TrainingEntity>
+﻿@model List<webNamana.Models.TrainingListViewModel>
 
 @{
     ViewBag.Title = "Training Schedule";
@@ -13,10 +13,12 @@
         DayOfWeek.Saturday,
         DayOfWeek.Sunday
             };
+
+    int hourHeight = 70;    // Высота одного часа в пикселях
+    int headerHeight = 50;  // Высота заголовка дня
 }
 
 <h2>Training Schedule</h2>
-
 
 <style>
     body {
@@ -38,10 +40,11 @@
     .timeline {
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 70px; /* Высота часа */
         padding-top: 50px;
         font-size: 14px;
         align-items: center;
+        user-select: none;
     }
 
     .days {
@@ -51,50 +54,54 @@
     }
 
     .day-column {
-        border-left: 1px solid #EAEAEA;
         position: relative;
-        padding-top: 50px;
+        padding-top: 50px; /* Отступ под заголовок */
+        height: 630px; /* 9 часов * 70px */
+        border-left: 1px solid #EAEAEA;
+        background: #fafafa;
+        box-sizing: border-box;
     }
 
     .day-header {
         position: absolute;
         top: 0;
+        height: 50px;
         width: 100%;
         text-align: center;
         background: #f7f7f7;
         padding: 10px 5px;
         border-bottom: 1px solid #EAEAEA;
         font-weight: bold;
+        line-height: 30px;
+        box-sizing: border-box;
     }
 
     .event {
         position: absolute;
         left: 10%;
         right: 10%;
-        background-color: #577F92;
         color: #fff;
-        padding: 10px;
+        padding: 8px 6px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         font-size: 14px;
         text-align: center;
+        cursor: pointer;
+        box-sizing: border-box;
     }
 
         .event[data-color="1"] {
             background-color: #577F92;
         }
-
+        /* default */
         .event[data-color="2"] {
-            background-color: #443453;
+            background-color: #f67e7d;
         }
-
+        /* Pilates - красный */
         .event[data-color="3"] {
-            background-color: #A2B9B2;
+            background-color: #7ac7c4;
         }
-
-        .event[data-color="4"] {
-            background-color: #f6b067;
-        }
+        /* Yoga - бирюзовый */
 
         .event a {
             color: white;
@@ -108,6 +115,7 @@
                 text-decoration: underline;
             }
 
+    /* Медиазапрос */
     @@media (max-width: 800px) {
         .schedule-container {
             grid-template-columns: 1fr;
@@ -146,9 +154,25 @@
                 {
                     if (training.DayOfWeek == day)
                     {
-                        int topPercent = (training.StartTime.Hours - 9) * 10 + (training.StartTime.Minutes * 10 / 60);
-                       <div class="event" style="top:@(topPercent)%" data-color="1">
+                        int topPx = headerHeight + (training.StartTime.Hours - 9) * hourHeight + (training.StartTime.Minutes * hourHeight / 60);
 
+                        string colorCode = "1"; // дефолтный цвет
+
+                        if (training.TrainingName != null)
+                        {
+                            var nameLower = training.TrainingName.ToLower();
+
+                            if (nameLower == "pilates")
+                            {
+                                colorCode = "2";
+                            }
+                            else if (nameLower == "yoga")
+                            {
+                                colorCode = "3";
+                            }
+                        }
+
+                        <div class="event" style="top:@(topPx)px;" data-color="@colorCode">
                             <a href="@Url.Action("Register", "TrainingRegistration", new { training = training.TrainingName, time = training.StartTime.ToString(@"hh\:mm") })">
                                 @training.TrainingName
                             </a>

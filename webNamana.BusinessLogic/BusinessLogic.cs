@@ -16,9 +16,9 @@ namespace webNamana.BusinessLogic
             return new UserService();
         }
 
-        public IProductService GetProductService()
+        public IProductBL GetProductBL()
         {
-            return new ProductService();
+            return new ProductBL();
         }
 
         public IAdminBL GetAdminBL()
@@ -28,9 +28,13 @@ namespace webNamana.BusinessLogic
 
         public ITrainingService GetTrainingService()
         {
-            return new TrainingService(); // твоя реализация
+            return new TrainingService(); 
         }
 
+        public ICartBL GetCartBL()
+        {
+            return new CartBL();
+        }
 
     }
 }

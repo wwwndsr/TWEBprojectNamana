@@ -1,0 +1,48 @@
+﻿@model List<webNamana.Models.TrainingListViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Admin Training List";
+}
+
+<h2>Training Management</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div style="margin-bottom: 20px;">
+    <a href="@Url.Action("Create", "Training")" class="btn btn-success">Add New Training</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Day of Week</th>
+            <th>Start Time</th>
+            <th style="width: 160px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var training in Model)
+        {
+            <tr>
+                <td>@training.TrainingName</td>
+                <td>@training.DayOfWeek</td>
+                <td>@training.StartTime.ToString(@"hh\:mm")</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Training", new { id = training.Id })" class="btn btn-primary btn-sm">Edit</a>
+
+                    @using (Html.BeginForm("Delete", "Training", FormMethod.Post, new { style = "display:inline;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", training.Id)
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this training?');">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

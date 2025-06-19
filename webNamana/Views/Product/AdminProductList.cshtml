@@ -1,0 +1,65 @@
+﻿@model List<webNamana.Models.ProductListViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Product Management";
+}
+
+<h2>Product Management</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div style="margin-bottom: 20px;">
+    <a href="@Url.Action("Create", "Product")" class="btn btn-success">Add Product</a>
+</div>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 80px;">Image</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th style="width: 100px;">Price</th>
+                <th style="width: 160px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ProductImage))
+                        {
+                            <img src="@item.ProductImage" style="width: 60px; height: auto;" alt="Product" />
+                        }
+                        else
+                        {
+                            <span>No image</span>
+                        }
+                    </td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price.ToString("0.00")</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Product", new { id = item.ProductId })" class="btn btn-sm btn-primary">Edit</a>
+                        @using (Html.BeginForm("Delete", "Product", FormMethod.Post, new { style = "display:inline;" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No products available.</p>
+}

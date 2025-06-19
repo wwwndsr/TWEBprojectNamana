@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.BusinessLogic.Services;
@@ -14,16 +15,44 @@ namespace webNamana.Web.Controllers
 
         public TrainingController()
         {
-            var bl = new BusinessLogic.BusinessLogic();  
-            _trainingService = bl.GetTrainingService();  
+            var bl = new BusinessLogic.BusinessLogic();
+            _trainingService = bl.GetTrainingService();
         }
 
 
-        // GET: /Training
-        public ActionResult Index()
+        // GET: /Training/AdminTrainingList
+        public ActionResult AdminTrainingList()
         {
             var trainings = _trainingService.GetAllTrainings();
-            return View(trainings);
+            var model = new List<TrainingListViewModel>();
+
+            foreach (var t in trainings)
+            {
+                model.Add(new TrainingListViewModel
+                {
+                    Id = t.Id,
+                    TrainingName = t.TrainingName,
+                    DayOfWeek = t.DayOfWeek,
+                    StartTime = t.StartTime
+                });
+            }
+
+            return View(model);
+        }
+
+        // GET: /Training/Schedule
+        public ActionResult Schedule()
+        {
+            var trainings = _trainingService.GetAllTrainings();
+            var dtoList = trainings.Select(t => new TrainingListViewModel
+            {
+                Id = t.Id,
+                TrainingName = t.TrainingName,
+                DayOfWeek = t.DayOfWeek,
+                StartTime = t.StartTime
+            }).ToList();
+
+            return View(dtoList);
         }
 
         // GET: /Training/Details/5
@@ -36,87 +65,107 @@ namespace webNamana.Web.Controllers
             if (training == null)
                 return HttpNotFound($"Training with ID {id.Value} not found");
 
-            return View(training);
+            var model = new TrainingEditViewModel
+            {
+                Id = training.Id,
+                TrainingName = training.TrainingName,
+                DayOfWeek = training.DayOfWeek,
+                StartTime = training.StartTime
+            };
+
+            return View(model);
         }
 
         // GET: /Training/Create
         public ActionResult Create()
         {
-            return View(new TrainingEntity());
+            return View(new TrainingCreateViewModel());
         }
 
         // POST: /Training/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TrainingEntity model)
+        public ActionResult Create(TrainingCreateViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            bool added = _trainingService.AddTraining(model);
+            var entity = new TrainingEntity
+            {
+                TrainingName = model.TrainingName,
+                DayOfWeek = model.DayOfWeek,
+                StartTime = model.StartTime
+            };
+
+            bool added = _trainingService.AddTraining(entity);
             if (added)
             {
-                TempData["Message"] = "Training successfully added.";
-                return RedirectToAction("Index");
+                TempData["Message"] = "Training successfully added!";
+                return RedirectToAction("AdminTrainingList");
             }
-            else
-            {
-                ModelState.AddModelError("", "Error adding training.");
-                return View(model);
-            }
+
+            ModelState.AddModelError("", "Error adding training.");
+            return View(model);
         }
 
-        // GET: /Training/Edit/5
+        // GET: Edit
         public ActionResult Edit(int id)
         {
             var training = _trainingService.GetTrainingById(id);
             if (training == null)
                 return HttpNotFound();
 
-            return View(training);
+            var model = new TrainingEditViewModel
+            {
+                Id = training.Id,
+                TrainingName = training.TrainingName,
+                DayOfWeek = training.DayOfWeek,
+                StartTime = training.StartTime
+            };
+            return View(model);
         }
 
-        // POST: /Training/Edit/5
+        // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, TrainingEntity model)
+        public ActionResult Edit(TrainingEditViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            bool updated = _trainingService.UpdateTraining(id, model);
-            if (!updated)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Error updating training.");
-                return View(model);
-            }
+                if (_trainingService == null)
+                    return new HttpStatusCodeResult(500, "Training service is not available.");
 
-            return RedirectToAction("Index");
+                var updatedEntity = new TrainingEntity
+                {
+                    Id = model.Id,
+                    TrainingName = model.TrainingName,
+                    DayOfWeek = model.DayOfWeek,
+                    StartTime = model.StartTime
+                };
+
+                bool updated = _trainingService.UpdateTraining(model.Id, updatedEntity);
+                if (updated)
+                {
+                    TempData["Message"] = "Training successfully updated";
+                    return RedirectToAction("AdminTrainingList");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Failed to update training");
+                }
+            }
+            return View(model);
         }
 
-        // GET: /Training/Delete/5
+
+        // POST: /Training/Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            var training = _trainingService.GetTrainingById(id);
-            if (training == null)
-                return HttpNotFound();
-
-            return View(training);
-        }
-
-        // POST: /Training/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            bool deleted = _trainingService.DeleteTraining(id);
-            if (!deleted)
-            {
-                ModelState.AddModelError("", "Error deleting training.");
-                return View(_trainingService.GetTrainingById(id));
-            }
-
-            return RedirectToAction("Index");
+            _trainingService.DeleteTraining(id);
+            TempData["Message"] = "Training successfully deleted";
+            return RedirectToAction("AdminTrainingList");
         }
 
 
@@ -125,7 +174,7 @@ namespace webNamana.Web.Controllers
         // GET: /Training/Register
         public ActionResult Register(string trainingName = "", string time = "")
         {
-            var model = new TrainingRegistration
+            var model = new TrainingRegisterViewModel
             {
                 TrainingType = trainingName,
                 CreatedAt = DateTime.Now
@@ -142,10 +191,8 @@ namespace webNamana.Web.Controllers
                 model.TrainingTime = DateTime.Now.TimeOfDay;
             }
 
-            // Для ViewBag можно использовать список названий тренировок из базы
             var trainings = _trainingService.GetAllTrainings();
             ViewBag.AvailableTrainings = trainings.ConvertAll(t => t.TrainingName);
-
             ViewBag.SelectedTraining = trainingName;
             ViewBag.SelectedDateTime = time;
 
@@ -155,7 +202,7 @@ namespace webNamana.Web.Controllers
         // POST: /Training/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(TrainingRegistration model, string TrainingDateTime)
+        public ActionResult Register(TrainingRegisterViewModel model, string TrainingDateTime)
         {
             if (ModelState.IsValid)
             {
@@ -175,7 +222,7 @@ namespace webNamana.Web.Controllers
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError("", "An error occurred while processing your registration. Please try again.");
+                    ModelState.AddModelError("", "An error occurred while processing your registration.");
                 }
             }
 
@@ -190,13 +237,5 @@ namespace webNamana.Web.Controllers
         {
             return View();
         }
-
-        // GET: /Training/Schedule
-        public ActionResult Schedule()
-        {
-            var trainings = _trainingService.GetAllTrainings();
-            return View(trainings);
-        }
-
     }
 }

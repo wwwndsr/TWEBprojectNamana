@@ -215,6 +215,8 @@
     <None Include="Views\Contact\contact.cshtml" />
     <Content Include="Views\OrdersList\OrdersList.cshtml" />
     <Content Include="Views\OrderDetails\OrderDetails.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Product\AdminProductList.cshtml" />
     <None Include="Views\Service\service.cshtml" />
     <None Include="Views\Account\login.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
@@ -236,6 +238,9 @@
     <Content Include="Views\User\UserPage.cshtml" />
     <Content Include="Views\UsersList\UsersList.cshtml" />
     <Content Include="Views\Training\Success.cshtml" />
+    <Content Include="Views\Training\Create.cshtml" />
+    <Content Include="Views\Training\AdminTrainingList.cshtml" />
+    <Content Include="Views\Training\Edit.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -260,12 +265,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDashboard.cs" />
-    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\EditProfileViewModel.cs" />
-    <Compile Include="Models\Training.cs" />
+    <Compile Include="Models\ProductCreateViewModel.cs" />
+    <Compile Include="Models\ProductEditViewModel.cs" />
+    <Compile Include="Models\TrainingCreateViewModel.cs" />
+    <Compile Include="Models\TrainingListViewModel.cs" />
+    <Compile Include="Models\TrainingRegisterViewModel.cs" />
+    <Compile Include="Models\TrainingEditViewModel.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ProductListViewModel.cs" />
     <Compile Include="Models\SignUp.cs" />
     <Compile Include="Models\TrainingRegistration.cs" />
     <Compile Include="Models\User.cs" />

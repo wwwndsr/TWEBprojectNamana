@@ -1,0 +1,47 @@
+﻿@model webNamana.Models.TrainingEditViewModel
+
+@{
+    ViewBag.Title = "Edit Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card p-4" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="text-center mb-4">Edit Training</h2>
+
+        @using (Html.BeginForm("Edit", "Training", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", Model.Id)
+
+            <div class="mb-3">
+                <label for="TrainingName" class="form-label">Training Name</label>
+                <input type="text" name="TrainingName" id="TrainingName" value="@Model.TrainingName" class="form-control" />
+                <span class="text-danger">@Html.ValidationMessage("TrainingName")</span>
+            </div>
+
+            <div class="mb-3">
+                <label for="DayOfWeek" class="form-label">Day of Week</label>
+                <select name="DayOfWeek" id="DayOfWeek" class="form-control">
+                    @{
+                        foreach (var value in Enum.GetValues(typeof(DayOfWeek)))
+                        {
+                            var selected = (DayOfWeek)value == Model.DayOfWeek ? "selected" : "";
+                            <option value="@value" @selected>@value</option>
+                        }
+                    }
+                </select>
+                <span class="text-danger">@Html.ValidationMessage("DayOfWeek")</span>
+            </div>
+
+            <div class="mb-3">
+                <label for="StartTime" class="form-label">Start Time</label>
+                <input type="time" name="StartTime" id="StartTime" class="form-control"
+                       value="@Model.StartTime.ToString(@"hh\:mm")" />
+                <span class="text-danger">@Html.ValidationMessage("StartTime")</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Update</button>
+        }
+    </div>
+</div>
