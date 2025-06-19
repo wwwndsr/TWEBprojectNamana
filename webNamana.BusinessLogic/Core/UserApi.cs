@@ -358,19 +358,29 @@ namespace webNamana.BusinessLogic.Core
                 return user.Password == LoginHelper.HashGen(password);
             }
         }
-       /* public List<string> GetOrdersByUsernameAction(string username)
+        public UDbTable GetUserByEmail(string email)
         {
             using (var db = new UserContext())
             {
-                var orders = db.Orders
-                    .Where(o => o.User.Username == username)
-                    .OrderByDescending(o => o.Date)
-                    .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
-                    .ToList();
-
-                return orders;
+                return db.Users.FirstOrDefault(u => u.Email == email);
             }
-        }*/
+        }
+
+
+
+        /* public List<string> GetOrdersByUsernameAction(string username)
+         {
+             using (var db = new UserContext())
+             {
+                 var orders = db.Orders
+                     .Where(o => o.User.Username == username)
+                     .OrderByDescending(o => o.Date)
+                     .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
+                     .ToList();
+
+                 return orders;
+             }
+         }*/
 
     }
 }

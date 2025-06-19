@@ -10,6 +10,7 @@ using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 using webNamana.Helpers;
 
+
 namespace webNamana.Web.Controllers
 {
     public class AccountController : Controller
@@ -40,22 +41,33 @@ namespace webNamana.Web.Controllers
 
             model.LasIp = Request.UserHostAddress;
 
-            if (!_user.ValidateUserCredentials(model.Username, model.Password))
+            if (!_user.ValidateUserCredentials(model.Email, model.Password))
             {
-                ModelState.AddModelError("", "Неверный логин или пароль.");
+                ModelState.AddModelError("", "Неверный email или пароль.");
                 return View(model);
             }
 
-            var user = _user.GetUserByUsername(model.Username);
+            var user = _user.GetUserByEmail(model.Email);
 
-            var cookie = new HttpCookie(CookieName, user.Username)
+            // сохраняем в сессию
+            SessionHelper.SetUserSession(user.Email); // для тайм-аута
+            SessionHelper.User = new UserMinimal
             {
-                Expires = DateTime.Now.AddDays(7)
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Level = user.Level
             };
+
+            // создаём куку через SessionBL
+            var sessionBl = new SessionBL();
+            var cookie = sessionBl.GenCookie(user.Email);
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
         // GET: /Account/SignUp
         public ActionResult SignUp()
@@ -63,7 +75,6 @@ namespace webNamana.Web.Controllers
             return View();
         }
 
-        // POST: /Account/SignUp
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SignUp(UDbTable model)
@@ -81,15 +92,25 @@ namespace webNamana.Web.Controllers
                 ModelState.AddModelError("", "Ошибка при регистрации пользователя.");
                 return View(model);
             }
-
-            var cookie = new HttpCookie(CookieName, model.Username)
+            SessionHelper.SetUserSession(model.Email);
+            SessionHelper.User = new UserMinimal
             {
-                Expires = DateTime.Now.AddDays(7)
+                Id = model.Id,
+                Username = model.Username,
+                Email = model.Email,
+                Level = model.Level
             };
+
+            var sessionBl = new SessionBL();
+            var cookie = sessionBl.GenCookie(model.Email);
             Response.Cookies.Add(cookie);
 
+
+            // Перенаправляем на главную страницу
             return RedirectToAction("Index", "Home");
         }
+
+
 
         // GET: /Account/Logout
         public ActionResult Logout()
@@ -97,13 +118,17 @@ namespace webNamana.Web.Controllers
             var cookie = Request.Cookies[CookieName];
             if (cookie != null)
             {
+                var sessionBl = new SessionBL();
+                sessionBl.SignOut(cookie.Value);
+
                 cookie.Expires = DateTime.Now.AddDays(-1);
-                cookie.Path = "/";
                 Response.Cookies.Add(cookie);
             }
 
+            SessionHelper.ClearSession();
             return RedirectToAction("Login");
         }
+
 
         private UDbTable GetCurrentUser()
         {
@@ -111,26 +136,19 @@ namespace webNamana.Web.Controllers
             if (cookie == null)
                 return null;
 
-            var username = cookie.Value;
-            return _user.GetUserByUsername(username);
+            var email = cookie.Value;
+            return _user.GetUserByEmail(email);
+
         }
         public ActionResult GoToProfile()
         {
-            var cookie = Request.Cookies["X-KEY"];
-            if (cookie == null)
-                return RedirectToAction("Login", "Account");
+            if (!SessionHelper.IsUserLoggedIn())
+                return RedirectToAction("Login");
 
-            var username = cookie.Value;
-
-            var user = _user.GetUserByUsername(username); // user — это UDbTable
-
-            if (user == null)
-                return RedirectToAction("Login", "Account");
-
-            if (user.Level == URole.Admin)
-                return RedirectToAction("AdminPage", "Admin");
-            else
-                return RedirectToAction("UserPage", "User");
+            var user = SessionHelper.User;
+            return user.Level == URole.Admin
+                ? RedirectToAction("AdminPage", "Admin")
+                : RedirectToAction("UserPage", "User");
         }
 
     }

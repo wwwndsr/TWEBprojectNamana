@@ -9,7 +9,7 @@ using System.Web;
 
 namespace webNamana.BusinessLogic
 {
-    class SessionBL : UserApi, ISession
+    public class SessionBL : UserApi, ISession
     {
         public UserAuthResult UserRegister(UDbTable data)
         {
