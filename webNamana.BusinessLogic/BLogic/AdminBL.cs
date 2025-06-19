@@ -39,6 +39,10 @@ namespace webNamana.BusinessLogic.BLogic
             return base.DeleteUserAction(id);
         }
 
+        public UDbTable GetUserByEmail(string email)
+        {
+            return GetUserByEmailAction(email);
+        }
         public AdminAuthResult ChangeUserRole(int id, URole newRole)
         {
             return base.ChangeUserRoleAction(id, newRole);

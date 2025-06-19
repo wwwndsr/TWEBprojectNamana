@@ -159,13 +159,32 @@ namespace webNamana.Controllers
 
         public ActionResult GoToProfile()
         {
+            System.Diagnostics.Debug.WriteLine("GoToProfile called");
+            System.Diagnostics.Debug.WriteLine($"SessionHelper.IsUserLoggedIn() = {SessionHelper.IsUserLoggedIn()}");
+            System.Diagnostics.Debug.WriteLine($"SessionHelper.User = {(SessionHelper.User == null ? "null" : SessionHelper.User.Username)}");
+
             if (!SessionHelper.IsUserLoggedIn())
                 return RedirectToAction("Login");
 
             var user = SessionHelper.User;
+            if (user == null)
+                return RedirectToAction("Login");
+
             return user.Level == URole.Admin
                 ? RedirectToAction("AdminPage", "Admin")
                 : RedirectToAction("UserPage", "User");
         }
+
+
+        /* public ActionResult GoToProfile()
+         {
+             if (!SessionHelper.IsUserLoggedIn())
+                 return RedirectToAction("Login");
+
+             var user = SessionHelper.User;
+             return user.Level == URole.Admin
+                 ? RedirectToAction("AdminPage", "Admin")
+                 : RedirectToAction("UserPage", "User");
+         }*/
     }
 }

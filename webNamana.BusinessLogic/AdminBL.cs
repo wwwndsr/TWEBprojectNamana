@@ -50,6 +50,11 @@ namespace webNamana.BusinessLogic
             };
         }
 
+        public UDbTable GetUserByEmail(string email)
+        {
+            return GetUserByEmailAction(email);
+        }
+
         public AdminAuthResult EditUser(UserMinimal user)
         {
             // Подготовим объект UDbTable для обновления

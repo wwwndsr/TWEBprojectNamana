@@ -6,8 +6,8 @@ using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 using webNamana.Filters;
+using webNamana.Helpers;
 using webNamana.Models;
-
 
 namespace webNamana.Controllers
 {
@@ -21,8 +21,65 @@ namespace webNamana.Controllers
             var bl = new BusinessLogic.BusinessLogic();
             _admin = bl.GetAdminBL();
         }
-     
-        // ========== USERS ==========
+
+        [AdminOnly]
+        public ActionResult AdminPage()
+        {
+            try
+            {
+                var encryptedCookie = Request.Cookies["X-KEY"]?.Value;
+                if (string.IsNullOrWhiteSpace(encryptedCookie))
+                    return RedirectToAction("Login", "Account");
+
+                string email;
+                try
+                {
+                    email = CookieGenerator.Validate(encryptedCookie);
+                }
+                catch
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                // Получаем пользователя через IUserService (как в фильтре)
+                var user = _admin.GetUserByEmail(email); // Добавь этот метод в IAdminBL, если его нет
+                if (user == null)
+                {
+                    TempData["Message"] = "Пользователь не найден";
+                    TempData["AlertType"] = "danger";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var allUsersResult = _admin.GetAllUsers();
+                int totalUsers = (allUsersResult.Status && allUsersResult.Users != null)
+                    ? allUsersResult.Users.Count
+                    : 0;
+
+                var model = new AdminDashboard
+                {
+                    Username = user.Username,
+                    RecentActivity = new List<string>
+            {
+                "Пользователь вошёл в систему",
+                "Отредактировал профиль",
+                "Изменил роль пользователя"
+            },
+                    TotalUsers = totalUsers,
+                    TotalProducts = 234,
+                    TotalOrders = 1234
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"Ошибка загрузки панели администратора: {ex.Message}";
+                TempData["AlertType"] = "danger";
+                return RedirectToAction("Clients");
+            }
+        }
+
+
 
         public ActionResult Clients()
         {
@@ -61,7 +118,6 @@ namespace webNamana.Controllers
 
                 var user = result.User;
 
-                // Преобразуем доменную модель в модель представления
                 var viewModel = new EditProfileViewModel
                 {
                     Id = user.Id,
@@ -92,7 +148,6 @@ namespace webNamana.Controllers
 
             try
             {
-                // Преобразуем модель представления обратно в доменную
                 var userToUpdate = new UserMinimal
                 {
                     Id = model.Id,
@@ -119,6 +174,7 @@ namespace webNamana.Controllers
                 return View(model);
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteUser(int id)
@@ -145,6 +201,7 @@ namespace webNamana.Controllers
 
             return RedirectToAction("Clients");
         }
+
         [HttpGet]
         public ActionResult ChangeRole(int id)
         {
@@ -160,8 +217,8 @@ namespace webNamana.Controllers
             {
                 Id = result.User.Id,
                 Username = result.User.Username,
-                CurrentRole = result.User.Level.ToString(), // ✅ преобразуем URole в string
-                AvailableRoles = Enum.GetNames(typeof(URole)).ToList() // ✅ список всех ролей
+                CurrentRole = result.User.Level.ToString(),
+                AvailableRoles = Enum.GetNames(typeof(URole)).ToList()
             };
 
             return View(model);
@@ -175,7 +232,7 @@ namespace webNamana.Controllers
             {
                 TempData["Message"] = "Данные некорректны";
                 TempData["AlertType"] = "warning";
-                model.AvailableRoles = Enum.GetNames(typeof(URole)).ToList(); // ⬅ добавляем для повторного отображения формы
+                model.AvailableRoles = Enum.GetNames(typeof(URole)).ToList();
                 return View("ChangeRole", model);
             }
 
@@ -200,6 +257,5 @@ namespace webNamana.Controllers
             TempData["AlertType"] = "success";
             return RedirectToAction("Clients");
         }
-
     }
 }

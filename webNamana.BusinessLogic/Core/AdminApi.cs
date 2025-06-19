@@ -125,7 +125,13 @@ namespace webNamana.BusinessLogic.Core
 
             return result;
         }
-
+        public UDbTable GetUserByEmailAction(string email)
+        {
+            using (var db = new UserContext())
+            {
+                return db.Users.FirstOrDefault(u => u.Email == email);
+            }
+        }
         internal AdminAuthResult DeleteUserAction(int userId)
         {
             var result = new AdminAuthResult();

@@ -2,6 +2,7 @@
 using webNamana.BusinessLogic;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Enums;
+using webNamana.Helpers;
 
 namespace webNamana.Filters
 {
@@ -24,10 +25,18 @@ namespace webNamana.Filters
                 return;
             }
 
-            var username = cookie.Value;
-            var user = _userService.GetUserByUsername(username);
+            string decryptedEmail;
+            try
+            {
+                decryptedEmail = CookieGenerator.Validate(cookie.Value);
+            }
+            catch
+            {
+                filterContext.Result = new RedirectResult("~/Account/Login");
+                return;
+            }
 
-            // проверяем, что пользователь существует и что его роль user или аdmin (чтобы дать доступ)
+            var user = _userService.GetUserByEmail(decryptedEmail);
             if (user == null || (user.Level != URole.User && user.Level != URole.Admin))
             {
                 filterContext.Result = new RedirectResult("~/Error/AccessDenied");
@@ -38,3 +47,4 @@ namespace webNamana.Filters
         }
     }
 }
+    

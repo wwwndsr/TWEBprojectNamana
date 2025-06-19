@@ -11,7 +11,6 @@ using webNamana.Filters;
 using webNamana.Helpers;
 using webNamana.Models;
 
-
 namespace webNamana.Controllers
 {
     [UserOnly]
@@ -25,26 +24,32 @@ namespace webNamana.Controllers
             _userService = bl.GetUserService();
         }
 
-        //[Authorize]
         public ActionResult UserPage()
         {
             var cookie = Request.Cookies["X-KEY"];
             if (cookie == null)
                 return RedirectToAction("Login", "Account");
 
-            var username = cookie.Value;
-            var user = _userService.GetUserByUsername(username);
+            string email;
+            try
+            {
+                email = CookieGenerator.Validate(cookie.Value);
+            }
+            catch
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = _userService.GetUserByEmail(email);
             if (user == null)
                 return RedirectToAction("Login", "Account");
 
-            var model = new UserDashboard  
+            var model = new UserDashboard
             {
                 Username = user.Username,
                 Email = user.Email,
                 Level = user.Level,
-
-                // Просто пустой список, без фейковых данных
-                CartItems = new List<string>(),
+                CartItems = new List<string>()
             };
 
             return View("UserPage", model);
@@ -56,8 +61,17 @@ namespace webNamana.Controllers
             var cookie = Request.Cookies["X-KEY"];
             if (cookie == null) return RedirectToAction("Login", "Account");
 
-            var username = cookie.Value;
-            var user = _userService.GetUserByUsername(username);
+            string email;
+            try
+            {
+                email = CookieGenerator.Validate(cookie.Value);
+            }
+            catch
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = _userService.GetUserByEmail(email);
             if (user == null) return RedirectToAction("Login", "Account");
 
             var model = new EditProfileViewModel
@@ -103,6 +117,7 @@ namespace webNamana.Controllers
             TempData["AlertType"] = "success";
             return RedirectToAction("UserPage");
         }
+
         [HttpGet]
         public ActionResult ChangePassword()
         {
@@ -120,18 +135,28 @@ namespace webNamana.Controllers
             if (cookie == null)
                 return RedirectToAction("Login", "Account");
 
-            var username = cookie.Value;
+            string email;
+            try
+            {
+                email = CookieGenerator.Validate(cookie.Value);
+            }
+            catch
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-            // Проверка текущего пароля
-            if (!_userService.ValidateUserCredentials(username, model.CurrentPassword))
+            var user = _userService.GetUserByEmail(email);
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            if (!_userService.ValidateUserCredentials(user.Username, model.CurrentPassword))
             {
                 TempData["Message"] = "Текущий пароль неверен";
                 TempData["AlertType"] = "danger";
                 return View(model);
             }
 
-            // Смена пароля
-            var success = _userService.ChangePassword(username, model.CurrentPassword, model.NewPassword);
+            var success = _userService.ChangePassword(user.Username, model.CurrentPassword, model.NewPassword);
             if (!success)
             {
                 TempData["Message"] = "Ошибка при смене пароля";
@@ -143,17 +168,5 @@ namespace webNamana.Controllers
             TempData["AlertType"] = "success";
             return RedirectToAction("UserPage");
         }
-
-        /* [HttpGet]
-         public ActionResult ViewOrders()
-         {
-             var cookie = Request.Cookies["X-KEY"];
-             if (cookie == null) return RedirectToAction("Login", "Account");
-
-             var username = cookie.Value;
-             var orders = _userService.GetOrdersByUsername(username);
-
-             return View(orders);
-         }*/
     }
 }
