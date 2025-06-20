@@ -283,6 +283,7 @@
     <Compile Include="Models\ProductCreateViewModel.cs" />
     <Compile Include="Models\ProductEditViewModel.cs" />
     <Compile Include="Models\TrainingCreateViewModel.cs" />
+    <Compile Include="Models\TrainingInfoViewModel.cs" />
     <Compile Include="Models\TrainingListViewModel.cs" />
     <Compile Include="Models\TrainingRegisterViewModel.cs" />
     <Compile Include="Models\TrainingEditViewModel.cs" />

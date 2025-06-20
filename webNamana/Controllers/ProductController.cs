@@ -174,15 +174,18 @@ namespace webNamana.Web.Controllers
 
 
         // GET: /Product/ProductPage
-        public ActionResult ProductPage()
+        public ActionResult ProductPage(string query = "")
         {
             var productEntities = _product.GetAllProducts();
 
-            if (productEntities == null || !productEntities.Any())
+            if (!string.IsNullOrEmpty(query))
             {
-                // Пока нет товаров — можно вернуть пустую модель или ViewBag сообщение
-                ViewBag.Message = "There is no products";
-                return View(new List<ProductListViewModel>());
+                string loweredQuery = query.ToLower();
+                productEntities = productEntities
+                    .Where(p =>
+                        (!string.IsNullOrEmpty(p.ProductName) && p.ProductName.ToLower().Contains(loweredQuery)) ||
+                        (!string.IsNullOrEmpty(p.Description) && p.Description.ToLower().Contains(loweredQuery)))
+                    .ToList();
             }
 
             var productViewModels = productEntities.Select(p => new ProductListViewModel
@@ -196,6 +199,7 @@ namespace webNamana.Web.Controllers
 
             return View(productViewModels);
         }
+
 
 
 

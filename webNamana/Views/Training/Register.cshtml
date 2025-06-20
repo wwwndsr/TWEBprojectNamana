@@ -1,62 +1,91 @@
 ﻿@model webNamana.Models.TrainingRegisterViewModel
+
 @{
-    ViewBag.Title = "Запись на тренировку";
+    ViewBag.Title = "Training Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var availableTrainings = ViewBag.AvailableTrainings as List<string> ?? new List<string>();
-    var availableTimes = ViewBag.AvailableTimes as List<System.DateTime> ?? new List<System.DateTime>();
-    var selectedTraining = ViewBag.SelectedTraining as string ?? "";
-    var selectedDateTime = ViewBag.SelectedDateTime as string ?? "";
+    var availableTrainings = ViewBag.AvailableTrainings as List<string>;
+    if (availableTrainings == null) { availableTrainings = new List<string>(); }
 
-    var isUserLoggedIn = Session["User"] != null;
-    var user = isUserLoggedIn ? (webNamana.Domain.Entities.User.UserMinimal)Session["User"] : null;
+    var availableTimes = ViewBag.AvailableTimes as List<System.DateTime>;
+    if (availableTimes == null) { availableTimes = new List<System.DateTime>(); }
+
+    var selectedTraining = ViewBag.SelectedTraining != null ? ViewBag.SelectedTraining.ToString() : "";
+    var selectedDateTime = ViewBag.SelectedDateTime != null ? ViewBag.SelectedDateTime.ToString() : "";
+
+    var user = Session["User"] as webNamana.Domain.Entities.User.UserMinimal;
 }
-<div class="container mt-5">
-    <div class="card shadow-lg p-4" style="max-width: 650px; margin: 0 auto; border: 2px solid gold;">
-        <h2 class="text-center mb-4">Запись на тренировку</h2>
 
-        <form method="post" action="@Url.Action("Register", "Training")">
-            @Html.AntiForgeryToken()
+<div class="container my-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 600px; border-radius: 12px; border: 1px solid #f0c040;">
+        <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4" style="color: #b8860b;">Training Registration</h2>
 
             @if (user != null)
             {
                 <div class="alert alert-info text-center">
-                    Вы вошли как <strong>@user.Username</strong>
+                    You are logged in as <strong>@user.Username</strong>
                 </div>
             }
 
-            <div class="mb-3">
-                <label class="form-label">Тип тренировки</label>
-                <select name="TrainingType" class="form-control" required>
-                    <option value="">-- Выберите --</option>
-                    @foreach (var training in availableTrainings)
-                    {
-                        var selected = training == Model.TrainingType ? "selected" : "";
-                        <option value="@training" @selected>@training</option>
-                    }
-                </select>
-            </div>
+            <form method="post" action="@Url.Action("Register", "Training")" novalidate>
+                @Html.AntiForgeryToken()
 
-            <div class="mb-3">
-                <label class="form-label">Дата и время</label>
-                <select name="TrainingDateTime" class="form-control" required>
-                    <option value="">-- Выберите --</option>
-                    @foreach (var time in availableTimes)
-                    {
-                        var formattedValue = time.ToString("yyyy-MM-ddTHH:mm");
-                        var isSelected = formattedValue == selectedDateTime ? "selected" : "";
-                        <option value="@formattedValue" @isSelected>
-                            @time.ToString("dd.MM.yyyy HH:mm")
-                        </option>
-                    }
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="trainingType" class="form-label fw-semibold">Training Type</label>
+                    <select id="trainingType" name="TrainingType" class="form-select" required>
+                        <option value="">-- Select Training --</option>
+                        @for (int i = 0; i < availableTrainings.Count; i++)
+                        {
+                            string training = availableTrainings[i];
+                            string selected = (training == Model.TrainingType) ? "selected" : "";
+                            <option value="@training" @selected>@training</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a training type.
+                    </div>
+                </div>
 
-            <button type="submit" class="btn w-100 mt-3" style="background-color: gold; color: black; font-weight: bold;">
-                Подтвердить регистрацию
-            </button>
-        </form>
+                <div class="mb-4">
+                    <label for="trainingDateTime" class="form-label fw-semibold">Date and Time</label>
+                    <select id="trainingDateTime" name="TrainingDateTime" class="form-select" required>
+                        <option value="">-- Select Date & Time --</option>
+                        @for (int i = 0; i < availableTimes.Count; i++)
+                        {
+                            var time = availableTimes[i];
+                            var formattedValue = time.ToString("yyyy-MM-ddTHH:mm");
+                            var isSelected = (formattedValue == selectedDateTime) ? "selected" : "";
+                            <option value="@formattedValue" @isSelected>@time.ToString("dd MMM yyyy, HH:mm")</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a date and time.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100 fw-bold text-dark" style="border-radius: 8px;">
+                    Confirm Registration
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section Scripts {
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('form');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            });
+        })();
+    </script>
+}

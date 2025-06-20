@@ -11,5 +11,7 @@ namespace webNamana.Models
         public string Email { get; set; }
         public List<string> CartItems { get; set; }
         public URole Level { get; set; }
+        public List<TrainingInfoViewModel> Trainings { get; set; }
+
     }
 }

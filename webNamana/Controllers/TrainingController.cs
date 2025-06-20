@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using webNamana.BusinessLogic.DBModel;
 using webNamana.BusinessLogic.Interfaces;
-using webNamana.BusinessLogic.Services;
 using webNamana.Domain.Entities.Training;
 using webNamana.Helpers;
 using webNamana.Models;
@@ -20,7 +19,6 @@ namespace webNamana.Web.Controllers
             var bl = new BusinessLogic.BusinessLogic();
             _trainingService = bl.GetTrainingBL();
         }
-
 
         // GET: /Training/AdminTrainingList
         public ActionResult AdminTrainingList()
@@ -171,11 +169,47 @@ namespace webNamana.Web.Controllers
         }
 
 
-        // --- Регистрация тренировки ---
 
         // GET: /Training/Register
         public ActionResult Register(string trainingName = "", string time = "")
         {
+            if (!SessionHelper.IsUserLoggedIn())
+                return RedirectToAction("Login", "Account");
+
+            var allTrainings = _trainingService.GetAllTrainings();
+            var today = DateTime.Today;
+            var availableInstances = new List<TrainingListViewModel>();
+
+            foreach (var t in allTrainings)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    var date = today.AddDays(i);
+                    if (date.DayOfWeek == t.DayOfWeek)
+                    {
+                        availableInstances.Add(new TrainingListViewModel
+                        {
+                            Id = t.Id,
+                            TrainingName = t.TrainingName,
+                            DayOfWeek = t.DayOfWeek,
+                            StartTime = t.StartTime
+                        });
+                    }
+                }
+            }
+
+            ViewBag.AvailableTrainings = availableInstances
+                .Select(t => t.TrainingName)
+                .Distinct()
+                .ToList();
+
+            ViewBag.AvailableTimes = availableInstances
+                .Select(t => t.StartDateTime)
+                .ToList();
+
+            ViewBag.SelectedTraining = trainingName;
+            ViewBag.SelectedDateTime = time;
+
             var model = new TrainingRegisterViewModel
             {
                 TrainingType = trainingName,
@@ -193,11 +227,6 @@ namespace webNamana.Web.Controllers
                 model.TrainingTime = DateTime.Now.TimeOfDay;
             }
 
-            var trainings = _trainingService.GetAllTrainings();
-            ViewBag.AvailableTrainings = trainings.ConvertAll(t => t.TrainingName);
-            ViewBag.SelectedTraining = trainingName;
-            ViewBag.SelectedDateTime = time;
-
             return View(model);
         }
 
@@ -207,16 +236,13 @@ namespace webNamana.Web.Controllers
         public ActionResult Register(TrainingRegisterViewModel model, string TrainingDateTime)
         {
             if (!SessionHelper.IsUserLoggedIn())
-            {
                 return RedirectToAction("Login", "Account");
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(TrainingDateTime) &&
-                        DateTime.TryParse(TrainingDateTime, out var selectedDateTime))
+                    if (!string.IsNullOrEmpty(TrainingDateTime) && DateTime.TryParse(TrainingDateTime, out var selectedDateTime))
                     {
                         model.RegistrationDate = selectedDateTime.Date;
                         model.TrainingTime = selectedDateTime.TimeOfDay;
@@ -225,7 +251,6 @@ namespace webNamana.Web.Controllers
                     model.CreatedAt = DateTime.Now;
                     model.IsConfirmed = false;
 
-                    // Сохраняем в базу
                     using (var db = new TrainingContext())
                     {
                         var registration = new TrainingRegistrationEntity
@@ -242,21 +267,48 @@ namespace webNamana.Web.Controllers
                         db.SaveChanges();
                     }
 
-                    TempData["SuccessMessage"] = "Вы успешно записались на тренировку!";
+                    TempData["SuccessMessage"] = "Successfully registered for training!";
                     return RedirectToAction("Success");
                 }
-                catch (Exception)
+                catch
                 {
-                    ModelState.AddModelError("", "Произошла ошибка при регистрации.");
+                    ModelState.AddModelError("", "An error occurred during registration.");
                 }
             }
 
             var trainings = _trainingService.GetAllTrainings();
-            ViewBag.AvailableTrainings = trainings.ConvertAll(t => t.TrainingName);
+            var today = DateTime.Today;
+            var trainingInstances = new List<TrainingListViewModel>();
+
+            foreach (var t in trainings)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    var date = today.AddDays(i);
+                    if (date.DayOfWeek == t.DayOfWeek)
+                    {
+                        trainingInstances.Add(new TrainingListViewModel
+                        {
+                            Id = t.Id,
+                            TrainingName = t.TrainingName,
+                            DayOfWeek = t.DayOfWeek,
+                            StartTime = t.StartTime
+                        });
+                    }
+                }
+            }
+
+            ViewBag.AvailableTrainings = trainingInstances
+                .Select(t => t.TrainingName)
+                .Distinct()
+                .ToList();
+
+            ViewBag.AvailableTimes = trainingInstances
+                .Select(t => t.StartDateTime)
+                .ToList();
 
             return View(model);
         }
-
 
         // GET: /Training/Success
         public ActionResult Success()

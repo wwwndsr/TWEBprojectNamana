@@ -4,19 +4,35 @@
     ViewBag.Title = "Products";
 }
 
-<h2>Products List</h2>
+<h2 class="text-center mb-4">Products</h2>
 
+<!-- Поисковая форма -->
+<form method="get" action="@Url.Action("ProductPage", "Product")" class="mb-4 text-center">
+    <input type="text" name="query" placeholder="Search for products..." class="form-control" style="width: 50%; display: inline-block;" />
+    <button type="submit" class="btn" style="background-color: gold; color: black; font-weight: bold; margin-left: 10px;">Search</button>
+</form>
+
+<!-- Вывод товаров -->
 <div class="row">
-    @foreach (var item in Model)
+    @if (Model == null || Model.Count == 0)
     {
-        <div class="col-md-4">
-            <div class="card" style="margin:10px; padding:10px; border:1px solid #ccc;">
-                <img src="@item.ProductImage" alt="@item.ProductName" style="width:100%; height:auto;" />
-                <h3>@item.ProductName</h3>
-                <p>@item.Description</p>
-                <p><strong>@item.Price.ToString("C")</strong></p>
-                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })" class="btn btn-primary">Details</a>
-            </div>
+        <div class="col-12 text-center">
+            <p>No products found.</p>
         </div>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card" style="margin:10px; padding:10px; border:1px solid #ccc; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+                    <img src="@item.ProductImage" alt="@item.ProductName" style="width:100%; height:auto;" />
+                    <h3 class="mt-2">@item.ProductName</h3>
+                    <p>@item.Description</p>
+                    <p><strong>@item.Price.ToString("C")</strong></p>
+                    <a href="@Url.Action("Details", "Product", new { id = item.ProductId })" class="btn" style="background-color: gold; color: black;">Details</a>
+                </div>
+            </div>
+        }
     }
 </div>

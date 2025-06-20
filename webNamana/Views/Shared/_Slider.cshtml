@@ -26,9 +26,19 @@
 
 
                         <!-- Кнопка поиска -->
-                        <a href="@Url.Action("ProductPage", "ProductPage")" class="search-link ml-5">
-                            <i class="fas fa-search"></i>
-                        </a>
+                        <div class="search-box ml-5 position-relative">
+                            <form id="searchForm" method="get" action="@Url.Action("ProductPage", "Product")" class="search-form position-relative">
+                                <div class="input-group">
+                                    <input type="text" id="searchInput" name="query" class="form-control" placeholder="Search..." />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-warning" id="searchButton">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
 
                         <!-- Кнопка корзины -->
                         <a href="@Url.Action("CartPage", "CartPage")" class="cart-link ml-lg-4">
@@ -60,6 +70,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
 <style>
+    /* Поле поиска — тонкое и округлое */
+    .search-form {
+        width: 230px;
+        max-width: 100%;
+    }
+
+        .search-form .form-control {
+            height: 34px;
+            padding: 4px 10px;
+            font-size: 14px;
+            border-radius: 25px 0 0 25px;
+            border: 1px solid #ccc;
+            box-shadow: none;
+        }
+
+        .search-form .btn-warning {
+            height: 34px;
+            padding: 4px 12px;
+            font-size: 14px;
+            border-radius: 0 25px 25px 0;
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        /* Чтобы кнопка не вылазила по высоте */
+        .search-form .input-group {
+            align-items: center;
+        }
+
     /* Цвет иконок */
     .nav-link i, .cart-link i, .search-link i, .user-link i, .login-link i {
         color: black;
@@ -98,3 +137,22 @@
         align-items: center; /* Выравнивание иконок по вертикали */
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+
+        searchForm.addEventListener("submit", function (e) {
+            const query = searchInput.value.trim();
+            if (query === "") {
+                // Перенаправляем на ProductPage без параметров
+                e.preventDefault();
+                window.location.href = '@Url.Action("ProductPage", "Product")';
+            }
+            // иначе — форма отправится с query
+        });
+    });
+</script>
+
+

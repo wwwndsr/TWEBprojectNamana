@@ -5,13 +5,13 @@
 
 <div class="container mt-5">
     <div class="alert alert-success text-center" style="border: 2px solid gold;">
-        <h2 class="mb-3">Успешная регистрация!</h2>
-        <p>@TempData["SuccessMessage"] ?? "Ваша заявка успешно отправлена."</p>
+        <h2 class="mb-3">Successful Registration!</h2>
+        <p>@TempData["SuccessMessage"]</p>
         <a href="@Url.Action("Register", "Training")" class="btn" style="background-color: gold; color: black; font-weight: bold; margin-right: 10px;">
-            Записаться еще
+            Register again
         </a>
         <a href="@Url.Action("Schedule", "Training")" class="btn btn-outline-dark">
-            Вернуться к расписанию
+            Back to Schedule
         </a>
     </div>
 </div>
