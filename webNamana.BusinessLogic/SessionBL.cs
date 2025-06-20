@@ -7,7 +7,7 @@ using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using System.Web;
 
-namespace webNamana.BusinessLogic.BLogic
+namespace webNamana.BusinessLogic
 {
     public class SessionBL : UserApi, ISession
     {

@@ -1,6 +1,5 @@
 ﻿using webNamana.BusinessLogic.Interfaces;
 using webNamana.BusinessLogic;
-using webNamana.BusinessLogic.BLogic;
 using webNamana.BusinessLogic.Services; 
 
 namespace webNamana.BusinessLogic

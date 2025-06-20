@@ -8,7 +8,6 @@ using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
 using webNamana.Helpers;
 using webNamana.Models;
-using webNamana.BusinessLogic.BLogic;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace webNamana.Controllers
