@@ -2,38 +2,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta tags and styles -->
+    <meta charset="utf-8" />
     <title>@ViewBag.Title - Energym</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     @Styles.Render("~/bundles/bootstrap/css")
     @Styles.Render("~/bundles/main/css")
     @RenderSection("Styles", required: false)
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
     <div>
-        <!-- Header -->
         @Html.Partial("_Header")
-        <!-- Slider -->
         @Html.Partial("_Slider")
     </div>
 
-    <!-- Main page content -->
-    <div class="container">
+    <div class="container mt-3">
+
         @RenderBody()
     </div>
 
-
-    <!-- Navigation -->
     @Html.Partial("_Navigation")
-    <!-- Footer -->
     @Html.Partial("_Footer")
+
     @Scripts.Render("~/bundles/jquery/js")
     @Scripts.Render("~/bundles/bootstrap/js")
     @RenderSection("Scripts", required: false)
-
 </body>
 </html>

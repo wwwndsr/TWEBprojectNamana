@@ -134,7 +134,6 @@ namespace webNamana.Controllers
             if (cookie == null)
                 return RedirectToAction("Login", "Account");
 
-
             string email;
             try
             {

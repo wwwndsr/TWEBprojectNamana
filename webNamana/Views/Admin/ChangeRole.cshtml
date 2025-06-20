@@ -1,0 +1,41 @@
+﻿@model webNamana.Models.ChangeRoleViewModel
+
+@{
+    ViewBag.Title = "Change User Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box">
+    <h2 class="text-center">Изменить роль пользователя</h2>
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="form-group">
+            <label for="Username">Имя пользователя</label>
+            <input id="Username" name="Username" type="text" class="form-control" value="@Model.Username" readonly />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="CurrentRole">Текущая роль</label>
+            <input id="CurrentRole" name="CurrentRole" type="text" class="form-control" value="@Model.CurrentRole" readonly />
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="NewRole">Новая роль</label>
+            <select id="NewRole" name="NewRole" class="form-control">
+                @foreach (var role in Model.AvailableRoles)
+                {
+                    var selected = role == Model.NewRole ? "selected" : "";
+                    <option value="@role" @selected>@role</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group text-center mt-3">
+            <button type="submit" class="btn-1">Сохранить</button>
+            <a href="@Url.Action("Clients", "Admin")" class="btn-1 btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>

@@ -125,7 +125,6 @@ namespace webNamana.Controllers
                     Email = user.Email
                 };
 
-
                 return View(viewModel);
             }
             catch (Exception ex)
@@ -244,7 +243,6 @@ namespace webNamana.Controllers
                 model.AvailableRoles = Enum.GetNames(typeof(URole)).ToList();
                 return View("ChangeRole", model);
             }
-
 
             var result = _admin.ChangeUserRole(model.Id, newRole);
             if (!result.Status)

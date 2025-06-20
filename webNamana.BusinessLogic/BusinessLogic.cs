@@ -20,7 +20,7 @@ namespace webNamana.BusinessLogic
         {
             return new ProductBL();
         }
-
+        
         public IAdminBL GetAdminBL()
         {
             return new AdminBL();

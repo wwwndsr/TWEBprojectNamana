@@ -224,17 +224,17 @@ namespace webNamana.BusinessLogic.Core
         }
 
         public void UpdateUserLoginDataAction(string email, string ip)
-        {
-            using (var db = new UserContext())
-            {
-                var user = db.Users.FirstOrDefault(u => u.Email == email);
-                if (user == null) return;
+{
+    using (var db = new UserContext())
+    {
+        var user = db.Users.FirstOrDefault(u => u.Email == email);
+        if (user == null) return;
 
-                user.LastLogin = DateTime.Now;
-                user.LasIp = ip;
-                db.SaveChanges();
-            }
-        }
+        user.LastLogin = DateTime.Now;
+        user.LasIp = ip;
+        db.SaveChanges();
+    }
+}
 
         public UserAuthResult UpdateProfileAction(UDbTable data)
         {

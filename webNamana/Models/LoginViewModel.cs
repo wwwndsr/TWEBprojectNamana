@@ -6,7 +6,7 @@ using System.Web;
 
 namespace webNamana.Models
 {
-	public class Login
+	public class LoginViewModel
 	{
         [Required(ErrorMessage = "Введите email")]
         [EmailAddress(ErrorMessage = "Некорректный email")]
@@ -15,5 +15,7 @@ namespace webNamana.Models
         [Required(ErrorMessage = "Введите пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string LasIp { get; set; }
+
     }
 }

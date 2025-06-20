@@ -129,7 +129,6 @@ namespace webNamana.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         // GET: /Account/Logout
         public ActionResult Logout()
         {

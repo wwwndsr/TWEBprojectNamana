@@ -44,17 +44,19 @@ namespace webNamana.BusinessLogic.Services
 
 
         public bool ValidateUserCredentialsByEmail(string email, string password)
-        {
-            return ValidateUserCredentialsByEmailAction(email, password);
-        }
+            {
+                return ValidateUserCredentialsByEmailAction(email, password);
+            }
 
         public void UpdateUserLoginData(string email, string ip)
-        {
-            UpdateUserLoginDataAction(email, ip);
+            {
+                UpdateUserLoginDataAction(email, ip);
+            }
+
+
         }
 
 
     }
 
 
-}
