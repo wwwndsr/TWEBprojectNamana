@@ -6,24 +6,24 @@
 }
 
 <div class="box">
-    <h2 class="text-center">Изменить роль пользователя</h2>
+    <h2 class="text-center">Change User Role</h2>
 
     <form method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" name="Id" value="@Model.Id" />
 
         <div class="form-group">
-            <label for="Username">Имя пользователя</label>
+            <label for="Username">Usernameя</label>
             <input id="Username" name="Username" type="text" class="form-control" value="@Model.Username" readonly />
         </div>
 
         <div class="form-group mt-2">
-            <label for="CurrentRole">Текущая роль</label>
+            <label for="CurrentRole">Current Role</label>
             <input id="CurrentRole" name="CurrentRole" type="text" class="form-control" value="@Model.CurrentRole" readonly />
         </div>
 
         <div class="form-group mt-2">
-            <label for="NewRole">Новая роль</label>
+            <label for="NewRole">New Role</label>
             <select id="NewRole" name="NewRole" class="form-control">
                 @foreach (var role in Model.AvailableRoles)
                 {
@@ -34,8 +34,8 @@
         </div>
 
         <div class="form-group text-center mt-3">
-            <button type="submit" class="btn-1">Сохранить</button>
-            <a href="@Url.Action("Clients", "Admin")" class="btn-1 btn-secondary">Отмена</a>
+            <button type="submit" class="btn-1">Save</button>
+            <a href="@Url.Action("Clients", "Admin")" class="btn-1 btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
