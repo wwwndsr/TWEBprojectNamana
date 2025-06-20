@@ -21,7 +21,7 @@ namespace webNamana.Controllers
         public UserController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _userService = bl.GetUserService();
+            _userService = bl.GetUserBL();
         }
 
         public ActionResult UserPage()

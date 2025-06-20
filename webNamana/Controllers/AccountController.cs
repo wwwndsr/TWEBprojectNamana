@@ -21,7 +21,7 @@ namespace webNamana.Controllers
         public AccountController()
         {
             var bl = new BusinessLogic.BusinessLogic();
-            _user = bl.GetUserService();
+            _user = bl.GetUserBL();
         }
 
         // GET: /Account/Login
