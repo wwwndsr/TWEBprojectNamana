@@ -24,11 +24,11 @@ namespace webNamana.Helpers
 
 
         /// <summary>
-		/// Encrypt the given string using AES.  The string can be decrypted using 
-		/// DecryptStringAES().  The sharedSecret parameters must match.
-		/// </summary>
-		/// <param name="plainText">The text to encrypt.</param>
-		/// <param name="sharedSecret">A password used to generate a key for encryption.</param>
+        /// Encrypt the given string using AES.  The string can be decrypted using 
+        /// DecryptStringAES().  The sharedSecret parameters must match.
+        /// </summary>
+        /// <param name="plainText">The text to encrypt.</param>
+        /// <param name="sharedSecret">A password used to generate a key for encryption.</param>
         private static string EncryptStringAes(string plainText, string sharedSecret)
         {
             if (string.IsNullOrEmpty(plainText))
@@ -76,6 +76,7 @@ namespace webNamana.Helpers
             // Return the encrypted bytes from the memory stream.
             return outStr;
         }
+
 
         /// <summary>
         /// Decrypt the given string.  Assumes the string was encrypted using 

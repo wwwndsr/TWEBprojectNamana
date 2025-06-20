@@ -1,4 +1,5 @@
-﻿using webNamana.BusinessLogic.Core;
+﻿using System;
+using webNamana.BusinessLogic.Core;
 using webNamana.BusinessLogic.Interfaces;
 using webNamana.Domain.Entities.User;
 using webNamana.Domain.Enums;
@@ -38,9 +39,17 @@ namespace webNamana.BusinessLogic
             return base.DeleteUserAction(id);
         }
 
+        public UDbTable GetUserByEmail(string email)
+        {
+            return GetUserByEmailAction(email);
+        }
         public AdminAuthResult ChangeUserRole(int id, URole newRole)
         {
             return base.ChangeUserRoleAction(id, newRole);
+        }
+        public AdminAuthResult GetUserByUsername(string username)
+        {
+            return base.GetUserByUsernameAction(username); // если такой метод есть в AdminApi
         }
     }
 }

@@ -12,6 +12,8 @@ namespace webNamana.BusinessLogic.Interfaces
     {
         AdminAuthResult GetAllUsers();
         AdminAuthResult GetUserById(int id);
+        AdminAuthResult GetUserByUsername(string username);
+        UDbTable GetUserByEmail(string email);
         AdminAuthResult EditUser(UserMinimal user);
         AdminAuthResult DeleteUser(int id);
         AdminAuthResult ChangeUserRole(int id, URole newRole);

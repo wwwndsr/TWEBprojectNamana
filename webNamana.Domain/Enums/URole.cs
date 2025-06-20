@@ -8,8 +8,8 @@ namespace webNamana.Domain.Enums
 {
     public enum URole
     {
-        User,
-        Moderator,
-        Admin
+        Guest = 1,
+        User = 10,
+        Admin = 100,
     }
 }

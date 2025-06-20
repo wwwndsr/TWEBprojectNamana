@@ -9,7 +9,7 @@ using System.Web;
 
 namespace webNamana.BusinessLogic
 {
-    class SessionBL : UserApi, ISession
+    public class SessionBL : UserApi, ISession
     {
         public UserAuthResult UserRegister(UDbTable data)
         {
@@ -62,7 +62,7 @@ namespace webNamana.BusinessLogic
         {
             var cookie = HttpContext.Current.Request.Cookies["WNCNN"];
             if (cookie == null) return false;
-            
+
             var user = GetUserByCookie(cookie.Value);
             return user != null;
         }

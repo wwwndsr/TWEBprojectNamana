@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -124,6 +125,7 @@ namespace webNamana.BusinessLogic.Core
             }
         }
 
+
         public HttpCookie Cookie(string email)
         {
             var httpCookie = new HttpCookie(CookieName)
@@ -140,6 +142,10 @@ namespace webNamana.BusinessLogic.Core
                 var validate = new EmailAddressAttribute();
                 if (validate.IsValid(email))
                 {
+                    var user = new UserContext().Users.FirstOrDefault(u => u.Email == email);
+                    if (user == null)
+                        throw new Exception("User not found for session.");
+
                     var current = db.Sessions.FirstOrDefault(s => s.Email == email);
 
                     if (current == null)
@@ -147,6 +153,7 @@ namespace webNamana.BusinessLogic.Core
                         current = new Session
                         {
                             Email = email,
+                            Username = user.Username, // фикс
                             CookieString = httpCookie.Value,
                             ExpireTime = DateTime.Now.AddDays(1)
                         };
@@ -156,6 +163,7 @@ namespace webNamana.BusinessLogic.Core
                     {
                         current.CookieString = httpCookie.Value;
                         current.ExpireTime = DateTime.Now.AddDays(1);
+                        current.Username = user.Username; // фикс
                         db.Sessions.AddOrUpdate(current);
                     }
 
@@ -166,8 +174,10 @@ namespace webNamana.BusinessLogic.Core
                     throw new Exception("Invalid email");
                 }
             }
+
             return httpCookie;
         }
+
 
         public bool SignOutAction(string cookie)
         {
@@ -213,6 +223,19 @@ namespace webNamana.BusinessLogic.Core
             }
         }
 
+        public void UpdateUserLoginDataAction(string email, string ip)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return;
+
+                user.LastLogin = DateTime.Now;
+                user.LasIp = ip;
+                db.SaveChanges();
+            }
+        }
+
         public UserAuthResult UpdateProfileAction(UDbTable data)
         {
             var result = new UserAuthResult();
@@ -226,6 +249,7 @@ namespace webNamana.BusinessLogic.Core
                     result.StatusMsg = "User not found";
                     return result;
                 }
+
 
                 if (!string.IsNullOrEmpty(data.Email))
                 {
@@ -341,9 +365,21 @@ namespace webNamana.BusinessLogic.Core
                 if (string.IsNullOrEmpty(newPassword) || newPassword.Length < 8)
                     return false;
 
+
                 user.Password = LoginHelper.HashGen(newPassword);
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public bool ValidateUserCredentialsByEmailAction(string email, string password)
+        {
+            using (var db = new UserContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return false;
+
+                return user.Password == LoginHelper.HashGen(password);
             }
         }
 
@@ -357,5 +393,30 @@ namespace webNamana.BusinessLogic.Core
                 return user.Password == LoginHelper.HashGen(password);
             }
         }
+        public UDbTable GetUserByEmailAction(string email)
+        {
+            using (var db = new UserContext())
+            {
+                return db.Users.FirstOrDefault(u => u.Email == email);
+            }
+        }
+
+
+
+
+        /* public List<string> GetOrdersByUsernameAction(string username)
+         {
+             using (var db = new UserContext())
+             {
+                 var orders = db.Orders
+                     .Where(o => o.User.Username == username)
+                     .OrderByDescending(o => o.Date)
+                     .Select(o => $"Order #{o.Id} - {o.Items.Count} items")
+                     .ToList();
+
+                 return orders;
+             }
+         }*/
+
     }
 }
