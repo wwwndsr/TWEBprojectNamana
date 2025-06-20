@@ -1,12 +1,12 @@
 ﻿@model webNamana.Models.EditProfileViewModel
 
 @{
-    ViewBag.Title = "Редактировать пользователя";
+    ViewBag.Title = "dit User Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container mt-5">
-    <h2>Редактировать профиль пользователя</h2>
+    <h2>Edit User Profile</h2>
 
     @if (TempData["Message"] != null)
     {
@@ -21,7 +21,7 @@
         <input type="hidden" name="Id" value="@Model.Id" />
 
         <div class="form-group">
-            <label for="Username">Имя пользователя</label>
+            <label for="Username">UserName</label>
             <input id="Username" name="Username" type="text" class="form-control" value="@Model.Username" />
         </div>
 
@@ -30,7 +30,7 @@
             <input id="Email" name="Email" type="email" class="form-control" value="@Model.Email" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        <a href="@Url.Action("Clients", "Admin")" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Clients", "Admin")" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

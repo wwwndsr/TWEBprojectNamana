@@ -4,16 +4,16 @@
     ViewBag.Title = "Manage Users";
 }
 
-<h2>Управление пользователями</h2>
+<h2>Manage Users</h2>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Имя пользователя</th>
+            <th>UserName</th>
             <th>Email</th>
-            <th>Роль</th>
-            <th>Действия</th>
+            <th>Role</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -25,8 +25,8 @@
                 <td>@user.Email</td>
                 <td>@user.Level</td>
                 <td>
-                    <a href="@Url.Action("EditUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-warning">Редактировать</a>
-                    <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-danger">Удалить</a>
+                    <a href="@Url.Action("EditUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
